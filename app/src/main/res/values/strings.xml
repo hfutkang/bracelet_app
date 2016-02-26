@@ -5,4 +5,27 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+
+    <string name="username_label">UserName:</string>
+    <string name="password_label">Password:</string>
+    <string name="confirm_password_label">&#160;&#160;Confirm:</string>
+    <string name="username_hint">Input your your phone number here</string>
+    <string name="password_hint">Input your password here</string>
+    <string name="confirm_password_hint">Input your password again</string>
+    <string name="forget_password_str">&lt;a href=\"http://www.baidu.com"&gt;默认的超链接样式&lt;/a&gt;</string>
+
+    <string name="sex_label">Please select your sex:</string>
+    <string name="age_label">Please select your age:</string>
+    <string name="height_label">Please select your height:</string>
+    <string name="weight_label">Please select your weight:</string>
+    <string name="save_label">Save</string>
+    <string name="name_error_msg">Should be a valid phone number</string>
+    <string name="password_error_msg">Not valid password</string>
+    <string name="register_error_exist">already exit!</string>
+    <string name="register_error_fail">Fail to register, try again later</string>
+    <string name="login_error_password">Username or password is wrong</string>
+
+    <string name="login_label">Login</string>
+    <string name="register_label">Register</string>
+
 </resources>

@@ -87,7 +87,7 @@ public class BluetoothLeManager {
 
     public void setCharacteristicListener(BluetoothLeService.OnCharacteristicChangedListener listener) {
         if(BleUtils.DEBUG) Log.e(TAG, "setCharacteristicListener");
-        mBluetoothLeService.setOnCharacteristicChangedListener(listener);
+            mBluetoothLeService.setOnCharacteristicChangedListener(listener);
     }
 
 }
