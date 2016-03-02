@@ -17,6 +17,11 @@ public class YsUser implements YsData{
 
     private final static String TAG = YsUser.class.getSimpleName();
 
+    private final static String SEX_DEFAULT = "Female";
+    private final static int AGE_DEFAULT = 18;
+    private final static int HEIGHT_DEFAULT = 175;
+    private final static int WEIGHT_DEFAULT = 120;
+
     private String name;
     private String password;
     private String sex;
@@ -45,10 +50,11 @@ public class YsUser implements YsData{
         SharedPreferences preferences = context.getSharedPreferences("user_info", Context.MODE_PRIVATE);
         name = preferences.getString("name", null);
         password = preferences.getString("pw", null);
-        sex = preferences.getString("sex", null);
-        age = preferences.getInt("age", 0);
-        height = preferences.getInt("height", 0);
-        weight = preferences.getInt("weight", 0);
+        sex = preferences.getString("sex", SEX_DEFAULT);
+        age = preferences.getInt("age", AGE_DEFAULT);
+        height = preferences.getInt("height", HEIGHT_DEFAULT);
+        weight = preferences.getInt("weight", WEIGHT_DEFAULT);
+
     }
 
     public boolean isLogined() {

@@ -4,6 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context="sctek.cn.ysbracelet.ui.WelcomeActivity">
+    tools:context="sctek.cn.ysbracelet.activitys.WelcomeActivity">
 
 </RelativeLayout>

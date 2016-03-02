@@ -1,4 +1,4 @@
-package sctek.cn.ysbracelet.ui;
+package sctek.cn.ysbracelet.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +10,11 @@ import android.widget.EditText;
 import sctek.cn.ysbracelet.R;
 import sctek.cn.ysbracelet.braceletdata.YsData;
 import sctek.cn.ysbracelet.http.HttpConnectionWorker;
+import sctek.cn.ysbracelet.http.XmlNodes;
 import sctek.cn.ysbracelet.user.UserManagerUtils;
 import sctek.cn.ysbracelet.user.YsUser;
 import sctek.cn.ysbracelet.utils.DialogUtils;
-import sctek.cn.ysbracelet.utils.TextUtils;
+import sctek.cn.ysbracelet.utils.YsTextUtils;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -52,13 +53,13 @@ public class RegisterActivity extends AppCompatActivity {
         final String password = passwordEt.getText().toString();
         String confirmPw = pwConfirmEt.getText().toString();
 
-        if(!TextUtils.isNameValid(name)) {
+        if(!YsTextUtils.isNameValid(name)) {
             String errorMsg = getResources().getText(R.string.name_error_msg).toString();
             userNameTl.setError(errorMsg);
             return;
         }
 
-        if(!TextUtils.isPasswordValid(password, confirmPw)) {
+        if(!YsTextUtils.isPasswordValid(password, confirmPw)) {
             String errorMsg = getResources().getText(R.string.password_error_msg).toString();
             passwordTl.setError(errorMsg);
             return;
@@ -68,17 +69,17 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void onWorkeDone(int resCode) {
-                if(resCode == 100) {
+                if(resCode == XmlNodes.RESPONSE_CODE_SUCCESS) {
                     YsUser.getInstance().setName(name);
                     YsUser.getInstance().setPassword(password);
                     startActivity(new Intent(RegisterActivity.this, SetUserInfoActivity.class));
                     return;
                 }
-                if(resCode == 400) {
+                if(resCode == XmlNodes.RESPONSE_CODE_OTHER) {
                     String msg = getString(R.string.register_error_exist);
                     userNameTl.setError(msg);
                 }
-                else if(resCode == 300) {
+                else if(resCode == XmlNodes.RESPONSE_CODE_FAIL) {
                     DialogUtils.makeToast(RegisterActivity.this, R.string.register_error_fail);
                 }
 

@@ -1,4 +1,4 @@
-package sctek.cn.ysbracelet.ui;
+package sctek.cn.ysbracelet.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 /**
  * Created by kang on 16-2-23.
  */
-public class TextUtils {
+public class YsTextUtils {
 
     public static boolean isNameValid(String name) {
         if(name == null || name.equals("") || name.length() > 20)

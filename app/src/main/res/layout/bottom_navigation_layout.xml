@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:id="@+id/bottome_navigation_rg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@color/beige">
+
+        <RadioButton
+            android:id="@+id/data_rb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:drawableTop="@drawable/navigation_data_selector"
+            android:text="@string/bracelet_data"/>
+
+        <RadioButton
+            android:id="@+id/location_rb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/navigation_location_selector"
+            android:text="@string/bracelet_location"
+            android:gravity="center"/>
+
+        <RadioButton
+            android:id="@+id/setting_rb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/navigation_settings_selector"
+            android:text="@string/bracelet_settings"
+            android:gravity="center"/>
+
+    </RadioGroup>
+
+</FrameLayout>

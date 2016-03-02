@@ -1,4 +1,4 @@
-package sctek.cn.ysbracelet.ui;
+package sctek.cn.ysbracelet.activitys;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,10 +13,11 @@ import android.widget.TextView;
 import sctek.cn.ysbracelet.R;
 import sctek.cn.ysbracelet.braceletdata.YsData;
 import sctek.cn.ysbracelet.http.HttpConnectionWorker;
+import sctek.cn.ysbracelet.http.XmlNodes;
 import sctek.cn.ysbracelet.user.UserManagerUtils;
 import sctek.cn.ysbracelet.user.YsUser;
 import sctek.cn.ysbracelet.utils.DialogUtils;
-import sctek.cn.ysbracelet.utils.TextUtils;
+import sctek.cn.ysbracelet.utils.YsTextUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -57,12 +58,12 @@ public class LoginActivity extends AppCompatActivity {
         String name = nameEt.getText().toString();
         String password = passwordEt.getText().toString();
 
-        if(!TextUtils.isPhoneNumber(name)) {
+        if(!YsTextUtils.isPhoneNumber(name)) {
             String msg = getString(R.string.name_error_msg);
             nameTl.setError(msg);
             return;
         }
-        if(!TextUtils.isPasswordValid(password)) {
+        if(!YsTextUtils.isPasswordValid(password)) {
             String msg = getString(R.string.password_error_msg);
             passwordTl.setError(msg);
             return;
@@ -71,10 +72,10 @@ public class LoginActivity extends AppCompatActivity {
         UserManagerUtils.login(name, password, new HttpConnectionWorker.ConnectionWorkeListener() {
             @Override
             public void onWorkeDone(int resCode) {
-                if(resCode == 100) {
+                if(resCode == XmlNodes.RESPONSE_CODE_SUCCESS) {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }
-                else if(resCode == 400) {
+                else if(resCode == XmlNodes.RESPONSE_CODE_OTHER) {
                     DialogUtils.makeToast(LoginActivity.this, R.string.login_error_password);
                 }
             }

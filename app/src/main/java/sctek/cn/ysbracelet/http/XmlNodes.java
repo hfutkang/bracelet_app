@@ -5,6 +5,10 @@ package sctek.cn.ysbracelet.http;
  */
 public class XmlNodes {
 
+    public final static int RESPONSE_CODE_SUCCESS = 100;
+    public final static int RESPONSE_CODE_FAIL = 300;
+    public final static int RESPONSE_CODE_OTHER = 400;
+
     public final static String NODE_POSITIONS = "positions";
 
     public final static String NODE_POSITION = "position";
