@@ -64,7 +64,13 @@ public class MyDeviceFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        addDefaultFragment();
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                addDefaultFragment();
+            }
+        });
+
     }
 
     @Override

@@ -13,6 +13,10 @@ public class SleepData implements YsData {
 
     public int quality;
 
+    public int total;
+    public int deep;
+    public int shallow;
+
     public Date startTime;
     public Date endTime;
 

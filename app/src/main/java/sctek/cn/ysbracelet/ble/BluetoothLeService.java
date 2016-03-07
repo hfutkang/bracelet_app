@@ -29,6 +29,9 @@ public class BluetoothLeService extends Service {
 
     private final IBinder mBinder = new MyBinder();
 
+    public final static String ACTION_CONNECTED = "sctek.cn.ysbracelet.ble.connected";
+    public final static String ACTION_DISCONNECTED = "sctek.cn.ysbracelet.ble.disconnected";
+
     private final static String SERVICE_UUID = "0000fee9-0000-1000-8000-00805f9b34fb";
     private final static String WRITE_CHARAC_UUID = "d44bc439-abfd-45a2-b575-925416129600";
     private final static String NOTIF_DESCRIPTOR_UUID = "00002902-0000-1000-8000-00805f9b34fb";
@@ -81,8 +84,10 @@ public class BluetoothLeService extends Service {
             switch (newState) {
                 case BluetoothProfile.STATE_CONNECTED:
                     gatt.discoverServices();
+                    sendBroadcast(new Intent(ACTION_CONNECTED));
                     break;
                 case BluetoothProfile.STATE_DISCONNECTED:
+                    sendBroadcast(new Intent(ACTION_DISCONNECTED));
                     break;
                 case BluetoothProfile.STATE_CONNECTING:
                     break;

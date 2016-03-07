@@ -11,7 +11,7 @@
         android:layout_marginLeft="5dp"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
-        android:text="@string/Sleep_title"/>
+        android:text="@string/sleep_title"/>
 
     <ImageView
         android:id="@+id/navigation_forward_iv"
@@ -48,7 +48,7 @@
                 android:id="@+id/total_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Sleep_unite"
+                android:text="@string/sleep_unit"
                 android:gravity="center"
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
@@ -71,7 +71,7 @@
                 android:id="@+id/deep_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Sleep_unite"
+                android:text="@string/sleep_unit"
                 android:gravity="center"
                 android:layout_centerInParent="true"/>
 
@@ -95,7 +95,7 @@
                 android:id="@+id/shallow_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/Sleep_unite"
+                android:text="@string/sleep_unit"
                 android:gravity="center"
                 android:layout_centerInParent="true"/>
 

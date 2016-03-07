@@ -1,5 +1,7 @@
 package sctek.cn.ysbracelet.Thread;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import sctek.cn.ysbracelet.ble.BleData;
@@ -18,33 +20,38 @@ public class BleDataSendThread extends Thread {
     private final static int SEND_INTERVAL_TIME = 40;
     private final static int REPEAT_INTERVAL_TIME = 1000;
 
+    public final static int FAIL_SEND_DATA = 0;
+    public final static int SUCCESS_SNED_DATA = 1;
+
     private BleData data;
 
     private volatile boolean needRepeat = true;
     private int repeatCount = 0;
 
     private DataSendStateListener mDataSendStateListener;
+    private Handler mHandler;
 
     public BleDataSendThread(BleData data, DataSendStateListener listener) {
         this.data = data;
         mDataSendStateListener = listener;
     }
 
+    public BleDataSendThread(BleData data, Handler handler) {
+        this.data = data;
+        this.mHandler = handler;
+    }
+
     @Override
     public void run() {
         super.run();
         if(BleUtils.DEBUG) Log.e(TAG, "run");
-        while(needRepeat && repeatCount < MAX_REPEAT_COUNT) {
-            repeatCount++;
-            sendData(data);
-            try {
-                Thread.sleep(REPEAT_INTERVAL_TIME);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            if(!sendData(data)) {
+                Message msg = mHandler.obtainMessage(data.getCmd(), FAIL_SEND_DATA, -1);
+                msg.sendToTarget();
+            } else {
+                Message msg = mHandler.obtainMessage(data.getCmd(), SUCCESS_SNED_DATA, -1);
+                msg.sendToTarget();
             }
-        }
-        if(repeatCount >= MAX_REPEAT_COUNT)
-            if(BleUtils.DEBUG) Log.e(TAG, "reach max repeat count");
     }
 
     public interface DataSendStateListener {

@@ -51,25 +51,32 @@
     <string name="step_unit">steps</string>
     <string name="run_steps_label">Run</string>
     <string name="calorie_label">Calories</string>
-    <string name="calorie">cal</string>
+    <string name="calorie_unit">cal</string>
 
     <string name="heart_rate_title">HRate</string>
-    <string name="heart_rate_unite">100bpm</string>
+    <string name="heart_rate_unit">100bpm</string>
     <string name="heart_rate_records_label">Records</string>
     <string name="max_label">Max</string>
     <string name="min_label">Min</string>
     <string name="average_label">Average</string>
     <string name="my_heart_rate_label">Rate</string>
 
-    <string name="Sleep_title">Sleep</string>
-    <string name="Sleep_unite">h</string>
+    <string name="sleep_title">Sleep</string>
+    <string name="sleep_unit">h</string>
     <string name="sleep_total_label">Total</string>
     <string name="deep_sleep_label">Deep</string>
     <string name="shallow_sleep_label">Shallow</string>
 
     <string name="loading_data">Loading data&#8230;</string>
-    <string name="fail_get_remote_data">Fail to get latest data</string>
+    <string name="fail_load_data">Fail to get latest data</string>
+    <string name="success_load_data">data is updated</string>
     <string name="ble_disconnected">Disconnected</string>
     <string name="ble_connected">Connected</string>
+    <string name="fail_get_sports_data">Fail to get sports data</string>
+    <string name="fail_get_heart_rate_data">Fail to get heart rate data</string>
+    <string name="fail_get_sleep_data">Fail to get sleep data</string>
+    <string name="timeout_get_sports_data">Time out to get sporst data</string>
+    <string name="timeout_get_heart_rate_data">Time out to get heart rate</string>
+    <string name="timeout_get_sleep_data">Time out to get sleep data</string>
 
 </resources>
