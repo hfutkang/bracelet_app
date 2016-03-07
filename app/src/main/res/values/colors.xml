@@ -5,7 +5,7 @@
     <color name="colorAccent">#FF4081</color>
 	<color name="dark_orange">#CD0000</color>
 	<color name="mwhite">#00FFFFFF</color>
-	<color name="white">#FFFFFF</color><!--白色 -->
+	<color name="white1">#FFFFFF</color><!--白色 -->
 	<color name="ivory">#FFFFF0</color><!--象牙色 -->
 	<color name="lightyellow">#FFFFE0</color><!--亮黄色 -->
 	<color name="yellow">#FFFF00</color><!--黄色 -->

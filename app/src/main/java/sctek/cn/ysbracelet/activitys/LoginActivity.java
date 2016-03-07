@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import sctek.cn.ysbracelet.R;
-import sctek.cn.ysbracelet.braceletdata.YsData;
-import sctek.cn.ysbracelet.http.HttpConnectionWorker;
+import sctek.cn.ysbracelet.devicedata.YsData;
+import sctek.cn.ysbracelet.Thread.HttpConnectionWorker;
 import sctek.cn.ysbracelet.http.XmlNodes;
 import sctek.cn.ysbracelet.user.UserManagerUtils;
 import sctek.cn.ysbracelet.user.YsUser;
@@ -34,7 +34,11 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        try {
+            setContentView(R.layout.activity_login);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         initElement();
     }
 
@@ -69,9 +73,9 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        UserManagerUtils.login(name, password, new HttpConnectionWorker.ConnectionWorkeListener() {
+        UserManagerUtils.login(name, password, new HttpConnectionWorker.ConnectionWorkListener() {
             @Override
-            public void onWorkeDone(int resCode) {
+            public void onWorkDone(int resCode) {
                 if(resCode == XmlNodes.RESPONSE_CODE_SUCCESS) {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 }

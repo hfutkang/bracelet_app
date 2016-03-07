@@ -4,10 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import sctek.cn.ysbracelet.Device.DeviceInformation;
-import sctek.cn.ysbracelet.Device.DevicesManager;
+import sctek.cn.ysbracelet.device.DeviceInformation;
+import sctek.cn.ysbracelet.device.DevicesManager;
 import sctek.cn.ysbracelet.ble.BleUtils;
-import sctek.cn.ysbracelet.braceletdata.YsData;
+import sctek.cn.ysbracelet.devicedata.YsData;
 import sctek.cn.ysbracelet.http.XmlNodes;
 
 /**

@@ -1,7 +1,10 @@
 package sctek.cn.ysbracelet.activitys;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -12,9 +15,11 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import sctek.cn.ysbracelet.R;
+import sctek.cn.ysbracelet.fragments.MyDeviceFragment;
+import sctek.cn.ysbracelet.fragments.OnFragmentInteractionLister;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionLister {
 
     private final static String TAG = MainActivity.class.getSimpleName();
 
@@ -24,14 +29,21 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e(TAG, "onCreate");
-        setContentView(R.layout.activity_mybracelet);
+        setContentView(R.layout.activity_main);
 
         initNavigationView();
+
+        initContentView();
     }
 
     private void initContentView() {
 
-        mViewPager = (ViewPager)findViewById(R.id.fragment_vp);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        MyDeviceFragment fragment = (MyDeviceFragment) fragmentManager.findFragmentByTag(MyDeviceFragment.TAG);
+        if(fragment == null)
+            fragment = new MyDeviceFragment();
+        transaction.replace(R.id.main_fragment_lo, fragment, MyDeviceFragment.TAG).commit();
 
     }
 
@@ -82,5 +94,10 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }

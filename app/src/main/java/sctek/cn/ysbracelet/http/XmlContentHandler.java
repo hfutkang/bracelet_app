@@ -6,12 +6,12 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import sctek.cn.ysbracelet.Device.DeviceInformation;
-import sctek.cn.ysbracelet.braceletdata.HeartRateData;
-import sctek.cn.ysbracelet.braceletdata.PositionData;
-import sctek.cn.ysbracelet.braceletdata.SleepData;
-import sctek.cn.ysbracelet.braceletdata.SportsData;
-import sctek.cn.ysbracelet.braceletdata.YsData;
+import sctek.cn.ysbracelet.device.DeviceInformation;
+import sctek.cn.ysbracelet.devicedata.HeartRateData;
+import sctek.cn.ysbracelet.devicedata.PositionData;
+import sctek.cn.ysbracelet.devicedata.SleepData;
+import sctek.cn.ysbracelet.devicedata.SportsData;
+import sctek.cn.ysbracelet.devicedata.YsData;
 import sctek.cn.ysbracelet.user.YsUser;
 
 public class XmlContentHandler extends DefaultHandler {

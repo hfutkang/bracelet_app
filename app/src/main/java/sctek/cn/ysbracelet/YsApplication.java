@@ -19,5 +19,12 @@ public class YsApplication extends Application{
         YsUser.getInstance().loadUserInfo(this);
         BluetoothLeManager.getInstance().initial(this);
 
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, Throwable ex) {
+                ex.printStackTrace();
+            }
+        });
+
     }
 }

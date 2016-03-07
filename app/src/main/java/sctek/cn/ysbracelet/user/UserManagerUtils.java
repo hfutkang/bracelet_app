@@ -3,8 +3,8 @@ package sctek.cn.ysbracelet.user;
 import android.util.Log;
 
 import sctek.cn.ysbracelet.ble.BleUtils;
-import sctek.cn.ysbracelet.http.HttpConnectionWorker;
-import sctek.cn.ysbracelet.http.HttpConnectionWorker.ConnectionWorkeListener;
+import sctek.cn.ysbracelet.Thread.HttpConnectionWorker;
+import sctek.cn.ysbracelet.Thread.HttpConnectionWorker.ConnectionWorkListener;
 import sctek.cn.ysbracelet.http.YsHttpConnection;
 import sctek.cn.ysbracelet.utils.UrlUtils;
 
@@ -15,7 +15,7 @@ public class UserManagerUtils {
 
     private final static String TAG = UserManagerUtils.class.getSimpleName();
 
-    public static void login(String name, String pw, ConnectionWorkeListener listener) {
+    public static void login(String name, String pw, ConnectionWorkListener listener) {
         if(BleUtils.DEBUG) Log.e(TAG, "login");
 
         String url = UrlUtils.compositeLoginUrl(name, pw);
@@ -25,7 +25,7 @@ public class UserManagerUtils {
 
     public static void logout() {}
 
-    public static void register(String name, String pw, ConnectionWorkeListener listener) {
+    public static void register(String name, String pw, ConnectionWorkListener listener) {
         if(BleUtils.DEBUG) Log.e(TAG, "register");
 
         String url = UrlUtils.compositeRegisterUrl(name, pw);
@@ -35,7 +35,7 @@ public class UserManagerUtils {
     }
 
     public static void updateUserInfo(String name, String sex, int age, int height, int weight
-            , ConnectionWorkeListener listener) {
+            , ConnectionWorkListener listener) {
         if(BleUtils.DEBUG) Log.e(TAG, "updateUserInfo");
 
         String url = UrlUtils.compositeUpdateUserInfoUrl(name, sex, age, height, weight);
@@ -43,7 +43,7 @@ public class UserManagerUtils {
         new HttpConnectionWorker(mConnection, listener).start();
     }
 
-    public static void addDevice(String uName, String sn, String name, ConnectionWorkeListener listener) {
+    public static void addDevice(String uName, String sn, String name, ConnectionWorkListener listener) {
         if(BleUtils.DEBUG) Log.e(TAG, "addDevice");
 
         String url = UrlUtils.compositeAddDeviceUrl(uName, sn, name);
@@ -51,7 +51,7 @@ public class UserManagerUtils {
         new HttpConnectionWorker(mConnection, listener).start();
     }
 
-    public static void delDevice(String uName, String sn, ConnectionWorkeListener listener) {
+    public static void delDevice(String uName, String sn, ConnectionWorkListener listener) {
         if(BleUtils.DEBUG) Log.e(TAG, "delDevice");
 
         String url = UrlUtils.compositeDeleteDeviceUrl(uName, sn);
@@ -59,7 +59,7 @@ public class UserManagerUtils {
         new HttpConnectionWorker(mConnection, listener).start();
     }
 
-    public static void getDeviceList(String uName, ConnectionWorkeListener listener) {
+    public static void getDeviceList(String uName, ConnectionWorkListener listener) {
         if(BleUtils.DEBUG) Log.e(TAG, "getDeviceList");
 
         String url = UrlUtils.compositeGetDevicesUrl(uName);

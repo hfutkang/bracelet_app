@@ -9,8 +9,8 @@ import android.widget.Spinner;
 
 import sctek.cn.ysbracelet.R;
 import sctek.cn.ysbracelet.ble.BleUtils;
-import sctek.cn.ysbracelet.braceletdata.YsData;
-import sctek.cn.ysbracelet.http.HttpConnectionWorker;
+import sctek.cn.ysbracelet.devicedata.YsData;
+import sctek.cn.ysbracelet.Thread.HttpConnectionWorker;
 import sctek.cn.ysbracelet.http.XmlNodes;
 import sctek.cn.ysbracelet.user.UserManagerUtils;
 import sctek.cn.ysbracelet.user.YsUser;
@@ -28,7 +28,11 @@ public class SetUserInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_userinfo);
+        try {
+            setContentView(R.layout.activity_set_userinfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         initElement();
 
     }
@@ -56,9 +60,9 @@ public class SetUserInfoActivity extends AppCompatActivity {
         int weight = getWeight(weightStr);
 
         UserManagerUtils.updateUserInfo(YsUser.getInstance().getName(), sex, age, height, weight
-                , new HttpConnectionWorker.ConnectionWorkeListener() {
+                , new HttpConnectionWorker.ConnectionWorkListener() {
             @Override
-            public void onWorkeDone(int resCode) {
+            public void onWorkDone(int resCode) {
 
                 if(resCode == XmlNodes.RESPONSE_CODE_FAIL) {
                     DialogUtils.makeToast(SetUserInfoActivity.this, R.string.update_userinfo_fail);

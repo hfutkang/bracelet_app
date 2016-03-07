@@ -46,7 +46,30 @@
     <string name="bracelet_location">Location</string>
     <string name="bracelet_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sports_title">Sports</string>
+    <string name="walk_steps_label">Walk</string>
+    <string name="step_unit">steps</string>
+    <string name="run_steps_label">Run</string>
+    <string name="calorie_label">Calories</string>
+    <string name="calorie">cal</string>
+
+    <string name="heart_rate_title">HRate</string>
+    <string name="heart_rate_unite">100bpm</string>
+    <string name="heart_rate_records_label">Records</string>
+    <string name="max_label">Max</string>
+    <string name="min_label">Min</string>
+    <string name="average_label">Average</string>
+    <string name="my_heart_rate_label">Rate</string>
+
+    <string name="Sleep_title">Sleep</string>
+    <string name="Sleep_unite">h</string>
+    <string name="sleep_total_label">Total</string>
+    <string name="deep_sleep_label">Deep</string>
+    <string name="shallow_sleep_label">Shallow</string>
+
+    <string name="loading_data">Loading data&#8230;</string>
+    <string name="fail_get_remote_data">Fail to get latest data</string>
+    <string name="ble_disconnected">Disconnected</string>
+    <string name="ble_connected">Connected</string>
 
 </resources>

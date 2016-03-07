@@ -1,0 +1,52 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="sctek.cn.ysbracelet.fragments.DataFragment">
+
+    <include layout="@layout/device_state_view"/>
+
+    <include layout="@layout/divide_line_view_horizontal"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <sctek.cn.ysbracelet.UIWidget.PullToRefreshScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/pull_to_refresh_sv" >
+
+            <include layout="@layout/sports_hrate_sleep_wrapper_view" />
+
+        </sctek.cn.ysbracelet.UIWidget.PullToRefreshScrollView>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:id="@+id/down_progress_lo">
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/left_pb"
+                android:layout_weight="1"
+                android:progress="100"
+                android:scaleX="-1.0"
+                android:scaleY="1.0"
+                android:layout_marginTop="-7dp" />
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/right_pb"
+                android:layout_weight="1"
+                android:progress="100"
+                android:minHeight="0dp"
+                android:layout_marginTop="-7dp" />
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

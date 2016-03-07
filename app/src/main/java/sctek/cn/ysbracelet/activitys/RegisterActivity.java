@@ -8,8 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 
 import sctek.cn.ysbracelet.R;
-import sctek.cn.ysbracelet.braceletdata.YsData;
-import sctek.cn.ysbracelet.http.HttpConnectionWorker;
+import sctek.cn.ysbracelet.devicedata.YsData;
+import sctek.cn.ysbracelet.Thread.HttpConnectionWorker;
 import sctek.cn.ysbracelet.http.XmlNodes;
 import sctek.cn.ysbracelet.user.UserManagerUtils;
 import sctek.cn.ysbracelet.user.YsUser;
@@ -65,10 +65,10 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        UserManagerUtils.register(name, password, new HttpConnectionWorker.ConnectionWorkeListener() {
+        UserManagerUtils.register(name, password, new HttpConnectionWorker.ConnectionWorkListener() {
 
             @Override
-            public void onWorkeDone(int resCode) {
+            public void onWorkDone(int resCode) {
                 if(resCode == XmlNodes.RESPONSE_CODE_SUCCESS) {
                     YsUser.getInstance().setName(name);
                     YsUser.getInstance().setPassword(password);
