@@ -6,7 +6,7 @@
 
     <include layout="@layout/sports_item_view"/>
 
-    <include layout="@layout/my_heart_rate_item_view"/>
+    <include layout="@layout/my_hrate_item_view"/>
 
     <include layout="@layout/divide_line_view_horizontal"/>
 

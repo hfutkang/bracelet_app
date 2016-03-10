@@ -10,13 +10,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 
 import sctek.cn.ysbracelet.R;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionLister} interface
+ * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link MyDeviceFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -32,7 +33,9 @@ public class MyDeviceFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionLister mListener;
+    private RadioGroup navRadioGroup;
+
+    private OnFragmentInteractionListener mListener;
 
     public MyDeviceFragment() {
         // Required empty public constructor
@@ -64,13 +67,7 @@ public class MyDeviceFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                addDefaultFragment();
-            }
-        });
-
+        addDefaultFragment();
     }
 
     @Override
@@ -78,7 +75,10 @@ public class MyDeviceFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.e(TAG, "onCreateView");
-        return inflater.inflate(R.layout.fragment_my_device, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_device, container, false);
+        navRadioGroup = (RadioGroup)view.findViewById(R.id.bottome_navigation_rg);
+        navRadioGroup.setOnCheckedChangeListener(onNavItemCheckedListener);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -93,8 +93,8 @@ public class MyDeviceFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.e(TAG, "onAttach");
-        if (context instanceof OnFragmentInteractionLister) {
-            mListener = (OnFragmentInteractionLister) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -107,6 +107,23 @@ public class MyDeviceFragment extends Fragment {
         mListener = null;
     }
 
+    private RadioGroup.OnCheckedChangeListener onNavItemCheckedListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            switch (checkedId) {
+                case R.id.data_rb:
+                    showFragment(new DataFragment());
+                    break;
+                case R.id.location_rb:
+                    showFragment(new LocationFragment());
+                    break;
+                case R.id.setting_rb:
+                    showFragment(new SettingsFragment());
+                    break;
+            }
+        }
+    };
+
     private void addDefaultFragment() {
         new Handler().post(new Runnable() {
             @Override
@@ -115,8 +132,13 @@ public class MyDeviceFragment extends Fragment {
                 DataFragment dataFragment = (DataFragment) fragmentManager.findFragmentByTag(DataFragment.TAG);
                 if(dataFragment == null)
                     dataFragment = new DataFragment();
-                fragmentManager.beginTransaction().add(R.id.fragment_fl, dataFragment, DataFragment.TAG).commit();
+                fragmentManager.beginTransaction().replace(R.id.fragment_fl, dataFragment, DataFragment.TAG).commit();
             }
         });
+    }
+
+    private void showFragment(Fragment fg) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.fragment_fl, fg, DataFragment.TAG).commit();
     }
 }

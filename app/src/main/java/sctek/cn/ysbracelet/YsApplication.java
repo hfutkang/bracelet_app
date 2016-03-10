@@ -2,6 +2,8 @@ package sctek.cn.ysbracelet;
 
 import android.app.Application;
 
+import com.baidu.mapapi.SDKInitializer;
+
 import sctek.cn.ysbracelet.ble.BluetoothLeManager;
 import sctek.cn.ysbracelet.user.YsUser;
 
@@ -18,6 +20,7 @@ public class YsApplication extends Application{
 
         YsUser.getInstance().loadUserInfo(this);
         BluetoothLeManager.getInstance().initial(this);
+        SDKInitializer.initialize(this);
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override

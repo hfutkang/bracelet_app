@@ -79,4 +79,7 @@
     <string name="timeout_get_heart_rate_data">Time out to get heart rate</string>
     <string name="timeout_get_sleep_data">Time out to get sleep data</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

@@ -16,7 +16,7 @@ public class PulltoRefreshLvAdapter extends BaseAdapter {
 
     private final static String TAG = PulltoRefreshLvAdapter.class.getSimpleName();
 
-    private static int itemsViewResId[] = new int[]{R.layout.sports_item_view, R.layout.my_heart_rate_item_view, R.layout.sleep_item_view};
+    private static int itemsViewResId[] = new int[]{R.layout.sports_item_view, R.layout.my_hrate_item_view, R.layout.sleep_item_view};
 
     private View[] itemsView = new View[3];
 

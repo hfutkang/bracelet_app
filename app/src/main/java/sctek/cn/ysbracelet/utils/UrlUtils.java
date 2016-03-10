@@ -65,5 +65,21 @@ public class UrlUtils {
                 + "&uname=" + uName;
     }
 
+    public static String compositeGetLatestLocationUrl(String deviceId) {
+        return URL_BASE
+                + "cmd=getPosition"
+                + "&ts=" + getCurrentMillis()
+                + "&id=" + deviceId;
+    }
+
+    public static String compositeGetFootStepsUrl(String deviceId, String start, String end) {
+        return URL_BASE
+                + "cmd=getPosition"
+                + "&ts=" + getCurrentMillis()
+                + "&id=" + deviceId
+                + "&start=" + start
+                + "&end=" + end;
+    }
+
     public static String getCurrentMillis() {return "" + System.currentTimeMillis();}
 }

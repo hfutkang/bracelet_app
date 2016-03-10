@@ -16,10 +16,10 @@ import android.view.MenuItem;
 
 import sctek.cn.ysbracelet.R;
 import sctek.cn.ysbracelet.fragments.MyDeviceFragment;
-import sctek.cn.ysbracelet.fragments.OnFragmentInteractionLister;
+import sctek.cn.ysbracelet.fragments.OnFragmentInteractionListener;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionLister {
+        implements NavigationView.OnNavigationItemSelectedListener, OnFragmentInteractionListener {
 
     private final static String TAG = MainActivity.class.getSimpleName();
 

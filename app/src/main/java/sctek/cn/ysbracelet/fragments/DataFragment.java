@@ -35,7 +35,7 @@ import sctek.cn.ysbracelet.devicedata.SportsData;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionLister} interface
+ * {@link OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link DataFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -59,7 +59,7 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionLister mListener;
+    private OnFragmentInteractionListener mListener;
 
     private ImageView deviceConnectedIv;
     private ImageView deviceBatteryIv;
@@ -113,6 +113,8 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        mBluetoothLeManager = BluetoothLeManager.getInstance();
 
         mBluetoothLeManager.setCharacteristicListener(this);
 
@@ -168,12 +170,15 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
         mPullToRefreshSv = (PullToRefreshScrollView)view.findViewById(R.id.pull_to_refresh_sv);
         mPullToRefreshSv.setOnScrollListener(this);
 
+        sportViewHolder = new SportViewHolder();
         sportViewHolder.walk = (TextView)view.findViewById(R.id.walk_steps_tv);
         sportViewHolder.run = (TextView)view.findViewById(R.id.run_steps_tv);
         sportViewHolder.calories = (TextView)view.findViewById(R.id.calories_tv);
 
+        hRateViewHolder = new HRateViewHolder();
         hRateViewHolder.rate = (TextView)view.findViewById(R.id.rate_tv);
 
+        sleepViewHolder = new SleepViewHolder();
         sleepViewHolder.total = (TextView)view.findViewById(R.id.total_tv);
         sleepViewHolder.deep = (TextView)view.findViewById(R.id.deep_tv);
         sleepViewHolder.shallow = (TextView)view.findViewById(R.id.shallow_tv);
@@ -200,8 +205,8 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
     public void onAttach(Context context) {
         super.onAttach(context);
         Log.e(TAG, "onAttach");
-        if (context instanceof OnFragmentInteractionLister) {
-            mListener = (OnFragmentInteractionLister) context;
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
         }
     }
 
@@ -211,6 +216,9 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
         mListener = null;
         BluetoothLeManager.getInstance().setCharacteristicListener(null);
         getActivity().unregisterReceiver(bleStateBroadcastReceiver);
+        getSleepDataThread.interrupt();
+        getSportsDataThread.interrupt();
+        getHRateDataThread.interrupt();
     }
 
     @Override
@@ -225,7 +233,7 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
 
     @Override
     public void onRefresh() {
-        deviceStateTv.setText(R.string.loading_data);
+        startLoadData();
     }
 
     @Override
@@ -250,6 +258,7 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
             showSleepData(sld);
             mHandler.removeMessages(TIMEOUT_GET_SLEEP_DATA);
             showMessage(R.string.success_load_data);
+            loading = false;
         }
     }
 
@@ -305,6 +314,7 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
 //                        showMessage(R.string.fail_get_sleep_data);
                         showMessage(R.string.fail_load_data);
                         mHandler.removeMessages(TIMEOUT_GET_SLEEP_DATA);
+                        loading = false;
                     }
                     break;
                 case TIMEOUT_GET_SPROTS_DATA:
@@ -320,6 +330,7 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
                 case TIMEOUT_GET_SLEEP_DATA:
 //                    showMessage(R.string.timeout_get_sleep_data);
                     showMessage(R.string.fail_load_data);
+                    loading = false;
                     break;
             }
         }
