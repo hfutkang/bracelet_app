@@ -1,52 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/heart_rate_title_tv"
+    <LinearLayout
+        android:id="@+id/date_ll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableTop="@drawable/ic_icon_stub"
-        android:layout_marginLeft="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:text="@string/heart_rate_title"/>
-
-    <ImageView
-        android:id="@+id/hrate_forward_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="5dp"
-        android:src="@drawable/ic_action_next_light" />
-
-    <include layout="@layout/divide_line_view_horizontal"/>
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+        <TextView
+            android:id="@+id/weekday_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"/>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:orientation="horizontal"
-        android:layout_toEndOf="@id/heart_rate_title_tv"
-        android:layout_toStartOf="@id/hrate_forward_iv"
-        android:weightSum="4"
+        android:layout_toEndOf="@id/date_ll"
         android:layout_centerVertical="true"
-        android:minHeight="100dp">
+        android:minHeight="100dp"
+        android:weightSum="3">
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/heart_rate_records_label"
+                android:text="@string/walk_steps_label"
                 android:gravity="center"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"/>
             <TextView
+                android:id="@+id/walk_steps_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@string/step_unit"
                 android:gravity="center"
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
@@ -61,37 +62,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/max_label"
+                android:text="@string/run_steps_label"
                 android:gravity="center"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"/>
             <TextView
+                android:id="@+id/run_steps_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/heart_rate_unit"
-                android:gravity="center"
-                android:layout_centerInParent="true"/>
-
-        </RelativeLayout>
-
-        <include layout="@layout/divide_line_view_vertical"/>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/min_label"
-                android:gravity="center"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/heart_rate_unit"
+                android:text="@string/step_unit"
                 android:gravity="center"
                 android:layout_centerInParent="true"/>
 
@@ -107,21 +86,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/average_label"
+                android:text="@string/calorie_label"
                 android:gravity="center"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"/>
             <TextView
+                android:id="@+id/calories_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/heart_rate_unit"
+                android:text="@string/calorie_unit"
                 android:gravity="center"
                 android:layout_centerInParent="true"/>
 
         </RelativeLayout>
-
         <include layout="@layout/divide_line_view_vertical"/>
-
     </LinearLayout>
 
 </RelativeLayout>

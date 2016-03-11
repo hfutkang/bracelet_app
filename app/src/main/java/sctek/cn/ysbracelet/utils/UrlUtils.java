@@ -81,5 +81,14 @@ public class UrlUtils {
                 + "&end=" + end;
     }
 
+    public static String compositeGetHRateRecordssUrl(String deviceId, String start, String end) {
+        return URL_BASE
+                + "cmd=getHR"
+                + "&ts=" + getCurrentMillis()
+                + "&id=" + deviceId
+                + "&start=" + start
+                + "&end=" + end;
+    }
+
     public static String getCurrentMillis() {return "" + System.currentTimeMillis();}
 }

@@ -14,7 +14,7 @@
         android:text="@string/heart_rate_title"/>
 
     <ImageView
-        android:id="@+id/navigation_forward_iv"
+        android:id="@+id/hrate_forward_iv"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
@@ -29,7 +29,7 @@
         android:layout_height="100dp"
         android:orientation="horizontal"
         android:layout_toEndOf="@id/heart_rate_title_tv"
-        android:layout_toStartOf="@id/navigation_forward_iv"
+        android:layout_toStartOf="@id/hrate_forward_iv"
         android:weightSum="1"
         android:layout_centerVertical="true"
         android:minHeight="100dp">

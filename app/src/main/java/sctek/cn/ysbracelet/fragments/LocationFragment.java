@@ -127,7 +127,7 @@ public class LocationFragment extends Fragment implements HttpConnectionWorker.C
 
         footSteps = new ArrayList<>();
 
-        mDateManager = new YsDateManager();
+        mDateManager = new YsDateManager(YsDateManager.DATE_FORMAT_SHOW1);
         currentDate = mDateManager.getCurrentDate();
         mDatePickerDialog = new DatePickerDialog(getContext(), onDateSetListener, 0, 0, 0);
         mDatePicker = mDatePickerDialog.getDatePicker();
@@ -212,6 +212,10 @@ public class LocationFragment extends Fragment implements HttpConnectionWorker.C
     public void onWorkDone(int resCode) {
 
         mFloatingActionsMenu.setEnabled(true);
+        preDateIb.setEnabled(true);
+        dateTv.setEnabled(true);
+        nextDateIb.setEnabled(true);
+
         if(currentState == LocationState.RUNTIEM)
             refreshFab.setEnabled(true);
 
@@ -220,9 +224,6 @@ public class LocationFragment extends Fragment implements HttpConnectionWorker.C
                 footStepPloyLine.setPoints(footSteps);
                 endMarker.setPosition(footSteps.get(footSteps.size() -1));
             }
-            preDateIb.setEnabled(true);
-            dateTv.setEnabled(true);
-            nextDateIb.setEnabled(true);
         }
         else if(resCode == XmlNodes.RESPONSE_CODE_FAIL) {
 
@@ -262,13 +263,19 @@ public class LocationFragment extends Fragment implements HttpConnectionWorker.C
             switch (v.getId()) {
                 case R.id.date_previous_ib:
                     currentShowDate = mDateManager.showPreviousDate(dateTv);
-                    getFootSteps(currentShowDate);
+                    mBaiduMap.clear();
+                    footSteps.clear();
+                    initOverly();
+                    getFootSteps(mDateManager.getHttpDate());
                     break;
                 case R.id.date_next_ib:
                     if(currentShowDate.equals(currentDate))
                         return;
+                    mBaiduMap.clear();
+                    footSteps.clear();
+                    initOverly();
                     currentShowDate = mDateManager.showNextDate(dateTv);
-                    getFootSteps(currentShowDate);
+                    getFootSteps(mDateManager.getHttpDate());
                     break;
                 case R.id.date_tv:
                     showDatePickerDialog();
@@ -299,7 +306,7 @@ public class LocationFragment extends Fragment implements HttpConnectionWorker.C
                         currentState = LocationState.FOOTSTEP;
                         datePickerView.setVisibility(View.VISIBLE);
                         refreshFab.setVisibility(View.GONE);
-                        getFootSteps(currentShowDate);
+                        getFootSteps(mDateManager.getHttpDate());
                     }
                     break;
                 case R.id.other_fab:
@@ -316,7 +323,7 @@ public class LocationFragment extends Fragment implements HttpConnectionWorker.C
         public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
             mDateManager.setDate(year, monthOfYear, dayOfMonth);
             currentShowDate = mDateManager.showCurrentDate(dateTv);
-            getFootSteps(currentShowDate);
+            getFootSteps(mDateManager.getHttpDate());
         }
     };
 

@@ -27,6 +27,8 @@ public class Commands {
 
     public static final byte CMD_SOS = (byte)0x80;
 
+    public static final byte CMD_MEASURE_HRATE = 0x00;
+
     public class MotorData {
 
         public static final byte START = 0x01;

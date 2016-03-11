@@ -171,5 +171,6 @@ public class BluetoothLeService extends Service {
     public interface OnCharacteristicChangedListener {
         void onReceiveData(BlePacket packet);
         void onReceiveRssi(int rssi);
+        void onDataValid();
     }
 }

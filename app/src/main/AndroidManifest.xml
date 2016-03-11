@@ -48,7 +48,8 @@
         <activity
             android:name=".activitys.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activitys.HRateStatisticsActivity"></activity>
+        <activity android:name=".activitys.HRateStatisticsActivity" />
+        <activity android:name=".activitys.SportsStatisticsActivity"></activity>
     </application>
 
 </manifest>

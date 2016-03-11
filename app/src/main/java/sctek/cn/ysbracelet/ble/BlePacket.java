@@ -45,8 +45,8 @@ public class BlePacket {
         data = Arrays.copyOfRange(packet, 3, 3+length);
     }
 
-    public static boolean checkPacket(byte[] pakcet) {
-        if(BleUtils.DEBUG) Log.e(TAG, "checkPacket");
+    public static boolean isValid(byte[] pakcet) {
+        if(BleUtils.DEBUG) Log.e(TAG, "isValid");
 
         byte temp = pakcet[0];
 
