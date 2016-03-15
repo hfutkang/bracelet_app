@@ -23,6 +23,7 @@ import sctek.cn.ysbracelet.Thread.BleDataSendThread;
 import sctek.cn.ysbracelet.UIWidget.PullDownProgressController;
 import sctek.cn.ysbracelet.UIWidget.PullToRefreshScrollView;
 import sctek.cn.ysbracelet.activitys.HRateStatisticsActivity;
+import sctek.cn.ysbracelet.activitys.SportsStatisticsActivity;
 import sctek.cn.ysbracelet.ble.BleData;
 import sctek.cn.ysbracelet.ble.BleDataParser;
 import sctek.cn.ysbracelet.ble.BlePacket;
@@ -371,6 +372,7 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.sports_forward_iv:
+                    startActivity(new Intent(getContext(), SportsStatisticsActivity.class));
                     break;
                 case R.id.hrate_forward_iv:
                     startActivity(new Intent(getContext(), HRateStatisticsActivity.class));

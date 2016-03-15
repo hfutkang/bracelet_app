@@ -1,5 +1,8 @@
 package sctek.cn.ysbracelet.devicedata;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import sctek.cn.ysbracelet.http.XmlNodes;
 
 /**
@@ -15,6 +18,24 @@ public class SportsData implements YsData {
     public int distance;//unit m
     public int type;
     public int calories;
+
+    public Date date;
+
+    public SportsData() {
+
+    }
+
+    public SportsData(int run, int walk, String date) {
+        runSteps = run;
+        walkSteps = walk;
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyMMdd");
+        try {
+            this.date = format.parse(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void setField(String field, String value) {

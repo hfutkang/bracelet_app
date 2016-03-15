@@ -86,6 +86,10 @@ public class YsDateManager {
         return mHttpDateFormat.format(calendar.getTime());
     }
 
+    public int getActualMaximumOfCurrentMonth() {
+        return mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+    }
+
 
     public int getYear() {
         return mCalendar.get(Calendar.YEAR);

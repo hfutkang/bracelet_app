@@ -244,7 +244,7 @@ public class HRateStatisticsActivity extends AppCompatActivity implements Blueto
             return;
         }
 
-        String url = UrlUtils.compositeGetHRateRecordssUrl(mDevice.getSerialNumber(),
+        String url = UrlUtils.compositeGetHRateRecordsUrl(mDevice.getSerialNumber(),
                 dateManager.getFirstDayOfCurrentMonth(), dateManager.getLastDayOfCurrentMonth());
         YsHttpConnection connection = new YsHttpConnection(url, YsHttpConnection.METHOD_GET, null);
         HttpConnectionWorker worker = new HttpConnectionWorker(connection, this);
@@ -269,10 +269,10 @@ public class HRateStatisticsActivity extends AppCompatActivity implements Blueto
             adapter.notifyDataSetChanged();
         }
 
-        adapter.notifyDataSetChanged();
         preDateIb.setEnabled(true);
         dateTv.setEnabled(true);
         nextDateIb.setEnabled(true);
+
         if(resCode == XmlNodes.RESPONSE_CODE_SUCCESS){
 
         }

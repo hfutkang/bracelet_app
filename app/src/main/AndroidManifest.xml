@@ -31,8 +31,8 @@
             android:value="DkaEMbpsspUyE1XTnRSrcwB3" />
 
         <activity
-            android:name=".activitys.SetUserInfoActivity"
-            android:label="@string/app_name">
+            android:name=".activitys.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,14 +42,14 @@
 
         <service android:name=".ble.BluetoothLeService" />
 
+        <activity android:name=".activitys.SportsStatisticsActivity" />
         <activity android:name=".activitys.LoginActivity" />
-        <activity android:name=".activitys.WelcomeActivity" />
         <activity android:name=".activitys.RegisterActivity" />
         <activity
-            android:name=".activitys.MainActivity"
+            android:name=".activitys.WelcomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activitys.HRateStatisticsActivity" />
-        <activity android:name=".activitys.SportsStatisticsActivity"></activity>
+        <activity android:name=".activitys.SetUserInfoActivity"></activity>
     </application>
 
 </manifest>

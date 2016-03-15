@@ -81,9 +81,18 @@ public class UrlUtils {
                 + "&end=" + end;
     }
 
-    public static String compositeGetHRateRecordssUrl(String deviceId, String start, String end) {
+    public static String compositeGetHRateRecordsUrl(String deviceId, String start, String end) {
         return URL_BASE
                 + "cmd=getHR"
+                + "&ts=" + getCurrentMillis()
+                + "&id=" + deviceId
+                + "&start=" + start
+                + "&end=" + end;
+    }
+
+    public static String compositeGetSportsRecordsUrl(String deviceId, String start, String end) {
+        return URL_BASE
+                + "cmd=getSport"
                 + "&ts=" + getCurrentMillis()
                 + "&id=" + deviceId
                 + "&start=" + start
