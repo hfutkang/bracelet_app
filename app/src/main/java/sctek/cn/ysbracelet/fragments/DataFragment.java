@@ -19,11 +19,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import sctek.cn.ysbracelet.R;
-import sctek.cn.ysbracelet.Thread.BleDataSendThread;
-import sctek.cn.ysbracelet.UIWidget.PullDownProgressController;
-import sctek.cn.ysbracelet.UIWidget.PullToRefreshScrollView;
-import sctek.cn.ysbracelet.activitys.HRateStatisticsActivity;
-import sctek.cn.ysbracelet.activitys.SportsStatisticsActivity;
+import sctek.cn.ysbracelet.thread.BleDataSendThread;
+import sctek.cn.ysbracelet.uiwidget.PullDownProgressController;
+import sctek.cn.ysbracelet.uiwidget.PullToRefreshScrollView;
+import sctek.cn.ysbracelet.activitys.HeartRateActivity;
 import sctek.cn.ysbracelet.ble.BleData;
 import sctek.cn.ysbracelet.ble.BleDataParser;
 import sctek.cn.ysbracelet.ble.BlePacket;
@@ -176,9 +175,7 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
         mPullToRefreshSv = (PullToRefreshScrollView)view.findViewById(R.id.pull_to_refresh_sv);
         mPullToRefreshSv.setOnScrollListener(this);
 
-        sportsForwardIv = (ImageView)view.findViewById(R.id.sports_forward_iv);
         hRateForwardIv = (ImageView)view.findViewById(R.id.hrate_forward_iv);
-        sleepForwardIv = (ImageView)view.findViewById(R.id.sleep_forward_iv);
         sportsForwardIv.setOnClickListener(onForwardViewClickedListener);
         hRateForwardIv.setOnClickListener(onForwardViewClickedListener);
         sleepForwardIv.setOnClickListener(onForwardViewClickedListener);
@@ -192,9 +189,6 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
         hRateViewHolder.rate = (TextView)view.findViewById(R.id.rate_tv);
 
         sleepViewHolder = new SleepViewHolder();
-        sleepViewHolder.total = (TextView)view.findViewById(R.id.total_tv);
-        sleepViewHolder.deep = (TextView)view.findViewById(R.id.deep_tv);
-        sleepViewHolder.shallow = (TextView)view.findViewById(R.id.shallow_tv);
 
         if(mBluetoothLeManager.isConnected())
             deviceStateTv.setText(R.string.ble_disconnected);
@@ -371,13 +365,8 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.sports_forward_iv:
-                    startActivity(new Intent(getContext(), SportsStatisticsActivity.class));
-                    break;
                 case R.id.hrate_forward_iv:
-                    startActivity(new Intent(getContext(), HRateStatisticsActivity.class));
-                    break;
-                case R.id.sleep_forward_iv:
+                    startActivity(new Intent(getContext(), HeartRateActivity.class));
                     break;
             }
         }

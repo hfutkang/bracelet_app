@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import sctek.cn.ysbracelet.R;
 import sctek.cn.ysbracelet.devicedata.YsData;
-import sctek.cn.ysbracelet.Thread.HttpConnectionWorker;
+import sctek.cn.ysbracelet.thread.HttpConnectionWorker;
 import sctek.cn.ysbracelet.http.XmlNodes;
 import sctek.cn.ysbracelet.user.UserManagerUtils;
 import sctek.cn.ysbracelet.user.YsUser;

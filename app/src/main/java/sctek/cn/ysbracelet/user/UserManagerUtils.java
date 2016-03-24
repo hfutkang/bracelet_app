@@ -3,8 +3,8 @@ package sctek.cn.ysbracelet.user;
 import android.util.Log;
 
 import sctek.cn.ysbracelet.ble.BleUtils;
-import sctek.cn.ysbracelet.Thread.HttpConnectionWorker;
-import sctek.cn.ysbracelet.Thread.HttpConnectionWorker.ConnectionWorkListener;
+import sctek.cn.ysbracelet.thread.HttpConnectionWorker;
+import sctek.cn.ysbracelet.thread.HttpConnectionWorker.ConnectionWorkListener;
 import sctek.cn.ysbracelet.http.YsHttpConnection;
 import sctek.cn.ysbracelet.utils.UrlUtils;
 

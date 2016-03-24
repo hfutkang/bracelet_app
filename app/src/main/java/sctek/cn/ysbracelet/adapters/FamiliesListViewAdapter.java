@@ -1,0 +1,86 @@
+package sctek.cn.ysbracelet.adapters;
+
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import sctek.cn.ysbracelet.R;
+import sctek.cn.ysbracelet.uiwidget.CircleImageView;
+
+/**
+ * Created by kang on 16-3-16.
+ */
+public class FamiliesListViewAdapter extends BaseAdapter {
+
+    private final static String TAG = FamiliesListViewAdapter.class.getSimpleName();
+
+    private boolean withAddButton;
+    private List<Object> fimalies;
+    private Context mContext;
+
+    public FamiliesListViewAdapter(Context context, boolean withAddBt) {
+        withAddButton = withAddBt;
+        fimalies = new ArrayList<>();
+        fimalies.add(new Object());
+        fimalies.add(new Object());
+        fimalies.add(new Object());
+        fimalies.add(new Object());
+        fimalies.add(new Object());
+        mContext = context;
+    }
+
+    @Override
+    public int getCount() {
+        return withAddButton ? fimalies.size() + 1 : fimalies.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        Log.e(TAG, "getView");
+        ViewHolder viewHolder = null;
+        if(convertView == null) {
+            viewHolder = new ViewHolder();
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.fimaly_member_item_view, null);
+            viewHolder.imageView = (CircleImageView)convertView.findViewById(R.id.face_cv);
+            convertView.setTag(viewHolder);
+        }
+        else {
+            viewHolder = (ViewHolder) convertView.getTag();
+        }
+
+        if(position + 1 > fimalies.size()) {
+            viewHolder.imageView.setBorderColor(Color.YELLOW);
+            viewHolder.imageView.setProgress(100);
+            viewHolder.imageView.setImageResource(R.drawable.add_bracelet);
+        }
+        else {
+            viewHolder.imageView.setProgress(90);
+            viewHolder.imageView.setImageResource(R.drawable.gravatar_stub);
+        }
+        return convertView;
+    }
+
+    private class ViewHolder {
+        CircleImageView imageView;
+    }
+}

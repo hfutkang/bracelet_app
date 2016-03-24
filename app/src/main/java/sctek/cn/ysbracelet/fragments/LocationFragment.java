@@ -30,7 +30,7 @@ import java.util.List;
 
 import sctek.cn.ysbracelet.DateManager.YsDateManager;
 import sctek.cn.ysbracelet.R;
-import sctek.cn.ysbracelet.Thread.HttpConnectionWorker;
+import sctek.cn.ysbracelet.thread.HttpConnectionWorker;
 import sctek.cn.ysbracelet.ble.BluetoothLeManager;
 import sctek.cn.ysbracelet.device.DeviceInformation;
 import sctek.cn.ysbracelet.devicedata.PositionData;
@@ -173,8 +173,8 @@ public class LocationFragment extends Fragment implements HttpConnectionWorker.C
 
         mFloatingActionsMenu = (FloatingActionsMenu)view.findViewById(R.id.location_fam);
         rtimeLocationFab = (FloatingActionButton)view.findViewById(R.id.runtime_fab);
-        fstepFab = (FloatingActionButton)view.findViewById(R.id.footstep_fab);
-        otherFab = (FloatingActionButton)view.findViewById(R.id.other_fab);
+        fstepFab = (FloatingActionButton)view.findViewById(R.id.trail_fab);
+        otherFab = (FloatingActionButton)view.findViewById(R.id.find_fab);
         refreshFab = (FloatingActionButton)view.findViewById(R.id.refresh_fab);
 
         rtimeLocationFab.setOnClickListener(onFlatingButtonClickedListener);
@@ -298,7 +298,7 @@ public class LocationFragment extends Fragment implements HttpConnectionWorker.C
                         getLatestLocation();
                     }
                     break;
-                case R.id.footstep_fab:
+                case R.id.trail_fab:
                     if(currentState == LocationState.RUNTIEM) {
                         mBaiduMap.clear();
                         footSteps.clear();
@@ -309,7 +309,7 @@ public class LocationFragment extends Fragment implements HttpConnectionWorker.C
                         getFootSteps(mDateManager.getHttpDate());
                     }
                     break;
-                case R.id.other_fab:
+                case R.id.find_fab:
                     break;
                 case R.id.refresh_fab:
                     getLatestLocation();

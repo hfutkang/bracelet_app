@@ -29,7 +29,7 @@ public class SportsData implements YsData {
         runSteps = run;
         walkSteps = walk;
 
-        SimpleDateFormat format = new SimpleDateFormat("yyyMMdd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
         try {
             this.date = format.parse(date);
         } catch (Exception e) {

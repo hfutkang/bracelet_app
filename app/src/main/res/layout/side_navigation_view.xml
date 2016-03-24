@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/side_navigation_ll"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/dimgrey">
+
+    <TextView
+        android:id="@+id/statistics_fimaly_sports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/family_sports"
+        android:text="@string/label_fimaly_sports"/>
+
+    <TextView
+        android:id="@+id/statistics_fimaly_hrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/family_hrate"
+        android:text="@string/label_fimaly_hrate"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/statistics_fimaly_sleep"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableTop="@drawable/family_sleep"
+        android:text="@string/label_fimaly_sleep"
+        android:layout_marginTop="15dp"/>
+
+</LinearLayout>

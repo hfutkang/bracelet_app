@@ -4,40 +4,56 @@
     android:layout_height="match_parent">
 
     <RadioGroup
-        android:id="@+id/bottome_navigation_rg"
+        android:id="@+id/bottom_navigation_rg"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:background="@color/beige">
 
         <RadioButton
-            android:id="@+id/data_rb"
+            android:id="@+id/null_rb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <RadioButton
+            android:id="@+id/home_rb"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:button="@null"
             android:layout_weight="1"
             android:gravity="center"
-            android:drawableTop="@drawable/navigation_data_selector"
-            android:text="@string/bracelet_data"/>
+            android:drawableTop="@drawable/home"
+            android:text="@string/label_home"/>
 
         <RadioButton
-            android:id="@+id/location_rb"
+            android:id="@+id/messages_rb"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:button="@null"
             android:layout_weight="1"
-            android:drawableTop="@drawable/navigation_location_selector"
-            android:text="@string/bracelet_location"
+            android:drawableTop="@drawable/messages"
+            android:text="@string/label_messages"
             android:gravity="center"/>
 
         <RadioButton
-            android:id="@+id/setting_rb"
+            android:id="@+id/settings_rb"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:button="@null"
             android:layout_weight="1"
-            android:drawableTop="@drawable/navigation_settings_selector"
-            android:text="@string/bracelet_settings"
+            android:drawableTop="@drawable/settings"
+            android:text="@string/label_settings"
+            android:gravity="center"/>
+
+        <RadioButton
+            android:id="@+id/statistics_rb"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:button="@null"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/statistics"
+            android:text="@string/label_statistics"
             android:gravity="center"/>
 
     </RadioGroup>

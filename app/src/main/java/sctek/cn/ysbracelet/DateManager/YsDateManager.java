@@ -90,6 +90,11 @@ public class YsDateManager {
         return mCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
     }
 
+    public int getMinuteOfDay() {
+        int hour = mCalendar.get(Calendar.HOUR_OF_DAY);
+        return hour*60 + mCalendar.get(Calendar.MINUTE);
+    }
+
 
     public int getYear() {
         return mCalendar.get(Calendar.YEAR);

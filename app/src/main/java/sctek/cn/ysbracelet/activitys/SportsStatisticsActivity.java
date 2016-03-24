@@ -21,9 +21,9 @@ import java.util.List;
 
 import sctek.cn.ysbracelet.DateManager.YsDateManager;
 import sctek.cn.ysbracelet.R;
-import sctek.cn.ysbracelet.Thread.HttpConnectionWorker;
-import sctek.cn.ysbracelet.UIWidget.MonthPickerDialog;
-import sctek.cn.ysbracelet.UIWidget.SportsListViewAdapter;
+import sctek.cn.ysbracelet.thread.HttpConnectionWorker;
+import sctek.cn.ysbracelet.uiwidget.MonthPickerDialog;
+import sctek.cn.ysbracelet.adapters.SportsListViewAdapter;
 import sctek.cn.ysbracelet.ble.BluetoothLeManager;
 import sctek.cn.ysbracelet.device.DeviceInformation;
 import sctek.cn.ysbracelet.devicedata.SportsData;
@@ -73,7 +73,7 @@ public class SportsStatisticsActivity extends AppCompatActivity implements HttpC
         });
 
         initViewElement();
-//        showDataWithCharBar();
+        showDataWithCharBar();
     }
 
     private void initViewElement() {

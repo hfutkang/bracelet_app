@@ -22,7 +22,7 @@
     <application
         android:name=".YsApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -48,8 +48,52 @@
         <activity
             android:name=".activitys.WelcomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activitys.HRateStatisticsActivity" />
-        <activity android:name=".activitys.SetUserInfoActivity"></activity>
+        <activity
+            android:name=".activitys.HeartRateActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activitys.SetUserInfoActivity" />
+        <activity
+            android:name=".activitys.PersonalHistoryHRateActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.PersonalSportsAcitvity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.PersonalHistorySportsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.PersonalSleepAcitvity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.PersonalHistorySleepActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.LocationAcitvity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.WarnActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.AlarmEditorActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.FenceActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.PersonalHRateStatisticsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.PersonalSportsStatisticsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.PersonalSleepStatisticsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activitys.FamilyHRateStatisticsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activitys.FamilySportsStatisticsActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".activitys.FamilySleepStatisticsActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

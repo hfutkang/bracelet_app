@@ -76,7 +76,7 @@ public class MyDeviceFragment extends Fragment {
         // Inflate the layout for this fragment
         Log.e(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_my_device, container, false);
-        navRadioGroup = (RadioGroup)view.findViewById(R.id.bottome_navigation_rg);
+        navRadioGroup = (RadioGroup)view.findViewById(R.id.bottom_navigation_rg);
         navRadioGroup.setOnCheckedChangeListener(onNavItemCheckedListener);
         return view;
     }
@@ -111,13 +111,13 @@ public class MyDeviceFragment extends Fragment {
         @Override
         public void onCheckedChanged(RadioGroup group, int checkedId) {
             switch (checkedId) {
-                case R.id.data_rb:
+                case R.id.home_rb:
                     showFragment(new DataFragment());
                     break;
-                case R.id.location_rb:
+                case R.id.messages_rb:
                     showFragment(new LocationFragment());
                     break;
-                case R.id.setting_rb:
+                case R.id.settings_rb:
                     showFragment(new SettingsFragment());
                     break;
             }

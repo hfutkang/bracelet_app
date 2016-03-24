@@ -16,14 +16,14 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <sctek.cn.ysbracelet.UIWidget.PullToRefreshScrollView
+        <sctek.cn.ysbracelet.uiwidget.PullToRefreshScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/pull_to_refresh_sv" >
 
             <include layout="@layout/sports_hrate_sleep_wrapper_view" />
 
-        </sctek.cn.ysbracelet.UIWidget.PullToRefreshScrollView>
+        </sctek.cn.ysbracelet.uiwidget.PullToRefreshScrollView>
 
         <LinearLayout
             android:orientation="horizontal"

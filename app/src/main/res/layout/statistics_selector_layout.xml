@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/divide_line_view_horizontal"/>
+
+    <RelativeLayout
+        android:id="@+id/hrate_statistics_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/hrate_statistics_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_icon_stub"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/hrate_statistics_iv"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:textSize="18dp"
+            android:text="@string/hrate_statistics_label"/>
+
+        <ImageView
+            android:id="@+id/hrate_down_arrow_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/up_arrow"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/hrate_sta_selector_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/personal_hrate_sta_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="@string/personal_hrate_statistics_label"
+            android:gravity="center"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/family_hrate_sta_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textSize="15dp"
+            android:text="@string/family_hrate_statistics_label"
+            android:gravity="center"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <include layout="@layout/divide_line_view_horizontal"/>
+
+    <RelativeLayout
+        android:id="@+id/sports_statistics_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/sports_statistics_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_icon_stub"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/sports_statistics_iv"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:textSize="18dp"
+            android:text="@string/sports_statistics_label"/>
+
+        <ImageView
+            android:id="@+id/sports_down_arrow_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/up_arrow"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/sports_sta_selector_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/personal_sports_sta_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="@string/personal_sports_statistics_label"
+            android:gravity="center"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/family_sports_sta_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textSize="15dp"
+            android:text="@string/family_sports_statistics_label"
+            android:gravity="center"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+    <include layout="@layout/divide_line_view_horizontal"/>
+
+    <RelativeLayout
+        android:id="@+id/sleep_statistics_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/sleep_statistics_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_icon_stub"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/sleep_statistics_iv"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:textSize="18dp"
+            android:text="@string/sleep_statistics_label"/>
+
+        <ImageView
+            android:id="@+id/sleep_down_arrow_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/up_arrow"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/sleep_sta_selector_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="5dp"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/personal_sleep_sta_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:text="@string/personal_sleep_statistics_label"
+            android:gravity="center"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:id="@+id/family_sleep_sta_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textSize="15dp"
+            android:text="@string/family_sleep_statistics_label"
+            android:gravity="center"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+</LinearLayout>

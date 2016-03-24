@@ -48,7 +48,7 @@
             fab:fab_size="mini" />
 
         <com.github.gfranks.fab.menu.FloatingActionButton
-            android:id="@+id/footstep_fab"
+            android:id="@+id/trail_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/colorAccent"
@@ -58,7 +58,7 @@
             fab:fab_size="mini" />
 
         <com.github.gfranks.fab.menu.FloatingActionButton
-            android:id="@+id/other_fab"
+            android:id="@+id/find_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/aqua"
