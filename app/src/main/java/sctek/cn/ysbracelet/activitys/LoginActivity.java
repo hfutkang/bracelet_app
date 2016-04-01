@@ -11,9 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import sctek.cn.ysbracelet.R;
+import sctek.cn.ysbracelet.device.DeviceInformation;
 import sctek.cn.ysbracelet.devicedata.YsData;
-import sctek.cn.ysbracelet.thread.HttpConnectionWorker;
 import sctek.cn.ysbracelet.http.XmlNodes;
+import sctek.cn.ysbracelet.thread.HttpConnectionWorker;
 import sctek.cn.ysbracelet.user.UserManagerUtils;
 import sctek.cn.ysbracelet.user.YsUser;
 import sctek.cn.ysbracelet.utils.DialogUtils;
@@ -78,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onWorkDone(int resCode) {
                 if(resCode == XmlNodes.RESPONSE_CODE_SUCCESS) {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    UserManagerUtils.createSyncAccount(getApplicationContext());
                 }
                 else if(resCode == XmlNodes.RESPONSE_CODE_OTHER) {
                     DialogUtils.makeToast(LoginActivity.this, R.string.login_error_password);
@@ -86,8 +88,13 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onResult(YsData result) {
+
                 if(result instanceof YsUser) {
-                    ((YsUser)result).updateUserInfo(LoginActivity.this);
+                    result.insert(getContentResolver());
+                }
+                if(result instanceof DeviceInformation) {
+                    YsUser.getInstance().addDevice((DeviceInformation)result);
+                    result.insert(getContentResolver());
                 }
             }
 
@@ -96,7 +103,6 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         });
-
     }
 
     public void onRegisterButtonClicked(View v) {

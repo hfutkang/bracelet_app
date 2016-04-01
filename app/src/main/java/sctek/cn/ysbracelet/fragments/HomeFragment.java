@@ -8,19 +8,24 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import sctek.cn.ysbracelet.R;
 import sctek.cn.ysbracelet.activitys.FenceActivity;
 import sctek.cn.ysbracelet.activitys.LocationAcitvity;
 import sctek.cn.ysbracelet.activitys.PersonalSleepAcitvity;
 import sctek.cn.ysbracelet.activitys.WarnActivity;
+import sctek.cn.ysbracelet.device.DeviceInformation;
 import sctek.cn.ysbracelet.uiwidget.CircleImageView;
 import sctek.cn.ysbracelet.adapters.FamiliesListViewAdapter;
 import sctek.cn.ysbracelet.uiwidget.HorizontalListView;
 import sctek.cn.ysbracelet.activitys.HeartRateActivity;
 import sctek.cn.ysbracelet.activitys.PersonalSportsAcitvity;
+import sctek.cn.ysbracelet.user.YsUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,6 +65,10 @@ public class HomeFragment extends Fragment {
     private TextView locationTv;
     private TextView fenceTv;
 
+    private YsUser mUser;
+    private DeviceInformation selectedDevcie;
+    private int currentPosition;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -89,6 +98,8 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        mUser = YsUser.getInstance();
     }
 
     private void initViewElement(View view) {
@@ -96,6 +107,26 @@ public class HomeFragment extends Fragment {
         fimaliesLv = (HorizontalListView)view.findViewById(R.id.families_hlv);
         FamiliesListViewAdapter adapter = new FamiliesListViewAdapter(getContext(), true);
         fimaliesLv.setAdapter(adapter);
+        fimaliesLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position >= mUser.getDeviceCount()) {
+
+                }
+                else {
+                    selectedDevcie = mUser.getDevice(position);
+                    ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv);
+                    gravatarCiv.setProgress(selectedDevcie.getPower());
+                    nameTv.setText(selectedDevcie.getName());
+                    ageTv.setText(selectedDevcie.getAge());
+                }
+            }
+        });
+
+        preIb = (ImageButton)view.findViewById(R.id.member_previous_ib);
+        nextIb = (ImageButton)view.findViewById(R.id.member_next_ib);
+        preIb.setOnClickListener(onViewClickedListener);
+        nextIb.setOnClickListener(onViewClickedListener);
 
         hRateTv = (TextView)view.findViewById(R.id.heart_rate_title_tv);
         sportsTv = (TextView)view.findViewById(R.id.sports_title_tv);
@@ -167,6 +198,10 @@ public class HomeFragment extends Fragment {
                     break;
                 case R.id.fence_title_tv:
                     startActivity(new Intent(getContext(), FenceActivity.class));
+                    break;
+                case R.id.member_next_ib:
+                    break;
+                case R.id.member_previous_ib:
                     break;
             }
 

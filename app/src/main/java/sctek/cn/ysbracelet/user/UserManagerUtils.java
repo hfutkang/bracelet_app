@@ -1,11 +1,18 @@
 package sctek.cn.ysbracelet.user;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.content.ContentResolver;
+import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 
 import sctek.cn.ysbracelet.ble.BleUtils;
+import sctek.cn.ysbracelet.http.YsHttpConnection;
+import sctek.cn.ysbracelet.sqlite.LocalDataContract;
+import sctek.cn.ysbracelet.sync.SyncAdapter;
 import sctek.cn.ysbracelet.thread.HttpConnectionWorker;
 import sctek.cn.ysbracelet.thread.HttpConnectionWorker.ConnectionWorkListener;
-import sctek.cn.ysbracelet.http.YsHttpConnection;
 import sctek.cn.ysbracelet.utils.UrlUtils;
 
 /**
@@ -19,6 +26,14 @@ public class UserManagerUtils {
         if(BleUtils.DEBUG) Log.e(TAG, "login");
 
         String url = UrlUtils.compositeLoginUrl(name, pw);
+        YsHttpConnection mConnection = new YsHttpConnection(url, YsHttpConnection.METHOD_GET, null);
+        new HttpConnectionWorker(mConnection, listener).start();
+    }
+
+    public static void sync(String userName, String startTime, ConnectionWorkListener listener) {
+        if(BleUtils.DEBUG) Log.e(TAG, "sync");
+
+        String url = UrlUtils.compositeSyncUrl(userName, startTime);
         YsHttpConnection mConnection = new YsHttpConnection(url, YsHttpConnection.METHOD_GET, null);
         new HttpConnectionWorker(mConnection, listener).start();
     }
@@ -65,6 +80,19 @@ public class UserManagerUtils {
         String url = UrlUtils.compositeGetDevicesUrl(uName);
         YsHttpConnection mConnection = new YsHttpConnection(url, YsHttpConnection.METHOD_GET, null);
         new HttpConnectionWorker(mConnection, listener).start();
+    }
+
+    public static void createSyncAccount(Context context) {
+
+        Account account = YsUser.getInstance().getAccount();
+        AccountManager accountManager = AccountManager.get(context);
+
+        if(accountManager.addAccountExplicitly(account, null, null)) {
+            Bundle bundle = new Bundle();
+            bundle.putInt(SyncAdapter.SYNC_EXTR_AUTO, SyncAdapter.SYNC_TYPE_AUTO);
+            ContentResolver.addPeriodicSync(account, LocalDataContract.AUTHORITY, bundle, SyncAdapter.SYNC_INTERVAL);
+            ContentResolver.requestSync(account, LocalDataContract.AUTHORITY, null);
+        }
     }
 
 

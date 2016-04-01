@@ -99,5 +99,13 @@ public class UrlUtils {
                 + "&end=" + end;
     }
 
+    public static String compositeSyncUrl(String userName, String startTime) {
+        return URL_BASE
+                + "cmd=sync"
+                + "&ts=" + getCurrentMillis()
+                + "&name=" + userName
+                + "&start=" + startTime;
+    }
+
     public static String getCurrentMillis() {return "" + System.currentTimeMillis();}
 }

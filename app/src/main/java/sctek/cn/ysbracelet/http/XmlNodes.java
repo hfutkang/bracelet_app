@@ -58,6 +58,10 @@ public class XmlNodes {
         public final static String NODE_TIME = "time";
 
         public final static String NODE_RATE = "HR";
+
+        public final static String NODE_DEVICE_ID = "device";
+
+        public final static String NODE_TYPE = "type";
     }
 
     public class SportNodes {
@@ -98,9 +102,23 @@ public class XmlNodes {
 
         public final static String NODE_ID = "id";
 
+        public final static String NODE_USER = "user";
+
         public final static String NODE_NAME = "name";
 
+        public final static String NODE_SEX = "sex";
+
+        public final static String NODE_AGE = "age";
+
         public final static String NODE_MAC = "mac";
+
+        public final static String NODE_POWER = "power";
+
+        public final static String NODE_WEIGHT = "weight";
+
+        public final static String NODE_HEIGHT = "height";
+
+        public final static String NODE_IMAGE = "image";
 
     }
 

@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import sctek.cn.ysbracelet.R;
 import sctek.cn.ysbracelet.uiwidget.CircleImageView;
+import sctek.cn.ysbracelet.user.YsUser;
 
 /**
  * Created by kang on 16-3-16.
@@ -24,23 +24,18 @@ public class FamiliesListViewAdapter extends BaseAdapter {
     private final static String TAG = FamiliesListViewAdapter.class.getSimpleName();
 
     private boolean withAddButton;
-    private List<Object> fimalies;
+    private YsUser user;
     private Context mContext;
 
     public FamiliesListViewAdapter(Context context, boolean withAddBt) {
         withAddButton = withAddBt;
-        fimalies = new ArrayList<>();
-        fimalies.add(new Object());
-        fimalies.add(new Object());
-        fimalies.add(new Object());
-        fimalies.add(new Object());
-        fimalies.add(new Object());
+        user = YsUser.getInstance();
         mContext = context;
     }
 
     @Override
     public int getCount() {
-        return withAddButton ? fimalies.size() + 1 : fimalies.size();
+        return withAddButton ? user.getDeviceCount() + 1 : user.getDeviceCount();
     }
 
     @Override
@@ -68,13 +63,14 @@ public class FamiliesListViewAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        if(position + 1 > fimalies.size()) {
+        if(position + 1 > user.getDeviceCount()) {
             viewHolder.imageView.setBorderColor(Color.YELLOW);
             viewHolder.imageView.setProgress(100);
             viewHolder.imageView.setImageResource(R.drawable.add_bracelet);
         }
         else {
-            viewHolder.imageView.setProgress(90);
+            viewHolder.imageView.setProgress(user.getDevice(position).getPower());
+            ImageLoader.getInstance().displayImage(user.getDevice(position).getImagePath(), viewHolder.imageView);
             viewHolder.imageView.setImageResource(R.drawable.gravatar_stub);
         }
         return convertView;
