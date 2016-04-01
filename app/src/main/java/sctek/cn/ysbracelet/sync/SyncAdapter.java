@@ -18,8 +18,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public static final int SYNC_TYPE_AUTO = 1;
     public static final int SYNC_TYPE_MANNUAL = 2;
 
-    public static final String SYNC_EXTR_AUTO = "auto";
-    public static final String SYNC_EXTR_MANNUAL = "mannual";
+    public static final String SYNC_EXTR = "cn.sctek.sync.extr";
 
     private ContentResolver mContentResolver;
 

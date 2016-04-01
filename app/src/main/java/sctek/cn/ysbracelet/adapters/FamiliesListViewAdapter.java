@@ -12,7 +12,10 @@ import android.widget.BaseAdapter;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.List;
+
 import sctek.cn.ysbracelet.R;
+import sctek.cn.ysbracelet.device.DeviceInformation;
 import sctek.cn.ysbracelet.uiwidget.CircleImageView;
 import sctek.cn.ysbracelet.user.YsUser;
 
@@ -24,18 +27,18 @@ public class FamiliesListViewAdapter extends BaseAdapter {
     private final static String TAG = FamiliesListViewAdapter.class.getSimpleName();
 
     private boolean withAddButton;
-    private YsUser user;
+    private List<DeviceInformation> devices;
     private Context mContext;
 
     public FamiliesListViewAdapter(Context context, boolean withAddBt) {
         withAddButton = withAddBt;
-        user = YsUser.getInstance();
+        devices = YsUser.getInstance().getDevices();
         mContext = context;
     }
 
     @Override
     public int getCount() {
-        return withAddButton ? user.getDeviceCount() + 1 : user.getDeviceCount();
+        return withAddButton ? devices.size() + 1 : devices.size();
     }
 
     @Override
@@ -63,14 +66,14 @@ public class FamiliesListViewAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        if(position + 1 > user.getDeviceCount()) {
+        if(position + 1 > devices.size()) {
             viewHolder.imageView.setBorderColor(Color.YELLOW);
             viewHolder.imageView.setProgress(100);
             viewHolder.imageView.setImageResource(R.drawable.add_bracelet);
         }
         else {
-            viewHolder.imageView.setProgress(user.getDevice(position).getPower());
-            ImageLoader.getInstance().displayImage(user.getDevice(position).getImagePath(), viewHolder.imageView);
+            viewHolder.imageView.setProgress(devices.get(position).getPower());
+            ImageLoader.getInstance().displayImage(devices.get(position).getImagePath(), viewHolder.imageView);
             viewHolder.imageView.setImageResource(R.drawable.gravatar_stub);
         }
         return convertView;

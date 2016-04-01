@@ -1,0 +1,32 @@
+<login>
+    <ts>123456789</ts>
+    <res>100</res>
+    <user>
+        <name>18588456080</name>
+        <password>123456</password>
+    </user>
+    <device>
+        <user>18588456080</user>
+        <id>sc201604011427</id>
+        <mac>0F:14:BC:8A:4E:CB</mac>
+        <name>Marry</name>
+        <age>13</age>
+        <sex>Female</sex>
+        <power>80</power>
+        <weight>40</weight>
+        <height>156</height>
+        <image>http://www.baidu.com</image>
+    </device>
+    <device>
+        <user>18588456080</user>
+        <id>sc201604011431</id>
+        <mac>0F:14:DD:8A:6F:CB</mac>
+        <name>Tom</name>
+        <age>9</age>
+        <sex>Male</sex>
+        <power>40</power>
+        <weight>20</weight>
+        <height>134</height>
+        <image>http://www.baidu.com</image>
+    </device>
+</login>

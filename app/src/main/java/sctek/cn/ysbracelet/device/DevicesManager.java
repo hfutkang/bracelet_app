@@ -2,6 +2,7 @@ package sctek.cn.ysbracelet.device;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by kang on 16-2-24.
@@ -44,6 +45,8 @@ public class DevicesManager {
     public DeviceInformation getDevice(int index) {
         return mDevices.get(index);
     }
+
+    public List<DeviceInformation> getDevices() { return mDevices; }
 
     public void clear() {
         mDevices.clear();

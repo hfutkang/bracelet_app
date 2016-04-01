@@ -43,6 +43,8 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    public static final String EXTR_DEVICE_ID = "deviceId";
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -98,7 +100,7 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
+        
         mUser = YsUser.getInstance();
     }
 
@@ -179,25 +181,34 @@ public class HomeFragment extends Fragment {
     private View.OnClickListener onViewClickedListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            Bundle bundle = new Bundle();
+            bundle.putString(EXTR_DEVICE_ID, selectedDevcie.getSerialNumber());
+            Intent intent = new Intent();
+            intent.putExtras(bundle);
             switch (v.getId()) {
                 case R.id.heart_rate_title_tv:
-                    startActivity(new Intent(getContext(), HeartRateActivity.class));
+                    intent.setClass(getContext(), HeartRateActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.sports_title_tv:
-                    startActivity(new Intent(getContext(), PersonalSportsAcitvity.class));
+                    intent.setClass(getContext(), PersonalSportsAcitvity.class);
+                    startActivity(intent);;
                     break;
                 case R.id.sleep_title_tv:
-                    startActivity(new Intent(getContext(), PersonalSleepAcitvity.class));
+                    intent.setClass(getContext(), PersonalSleepAcitvity.class);
+                    startActivity(intent);
                     break;
                 case R.id.location_title_tv:
-                    startActivity(new Intent(getContext(), LocationAcitvity.class));
+                    intent.setClass(getContext(), LocationAcitvity.class);
+                    startActivity(intent);
                     break;
                 case R.id.warning_title_tv:
-                    startActivity(new Intent(getContext(), WarnActivity.class));
+                    intent.setClass(getContext(), WarnActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.fence_title_tv:
-                    startActivity(new Intent(getContext(), FenceActivity.class));
+                    intent.setClass(getContext(), FenceActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.member_next_ib:
                     break;

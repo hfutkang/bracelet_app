@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onWorkDone(int resCode) {
                 if(resCode == XmlNodes.RESPONSE_CODE_SUCCESS) {
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    UserManagerUtils.createSyncAccount(getApplicationContext());
+                    UserManagerUtils.createSyncAccount(getApplicationContext());//登录成功，开始同步服务器数据
                 }
                 else if(resCode == XmlNodes.RESPONSE_CODE_OTHER) {
                     DialogUtils.makeToast(LoginActivity.this, R.string.login_error_password);
@@ -89,12 +89,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResult(YsData result) {
 
-                if(result instanceof YsUser) {
-                    result.insert(getContentResolver());
-                }
+                /*
+                * 登录成功后返回登录用户和该用户监护的设备，
+                * 下面将他们插入到本地数据库。
+                * */
+                result.insert(getContentResolver());
+
                 if(result instanceof DeviceInformation) {
                     YsUser.getInstance().addDevice((DeviceInformation)result);
-                    result.insert(getContentResolver());
                 }
             }
 

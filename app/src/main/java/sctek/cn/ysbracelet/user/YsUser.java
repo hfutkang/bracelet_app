@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import java.util.Date;
+import java.util.List;
 
 import sctek.cn.ysbracelet.ble.BleUtils;
 import sctek.cn.ysbracelet.device.DeviceInformation;
@@ -105,6 +106,8 @@ public class YsUser implements YsData{
     public int getDeviceCount() {
         return mDevicesManager.getCount();
     }
+
+    public List<DeviceInformation> getDevices() { return mDevicesManager.getDevices(); }
 
     public DeviceInformation getDevice(int index) {
         return mDevicesManager.getDevice(index);

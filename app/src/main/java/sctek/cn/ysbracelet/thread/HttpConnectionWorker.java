@@ -7,6 +7,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -43,7 +44,8 @@ public class HttpConnectionWorker extends Thread implements XmlContentHandler.Xm
         super.run();
         if(BleUtils.DEBUG) Log.e(TAG, "run");
         try {
-            InputStream inputStream = mConnection.doRequest();
+//            InputStream inputStream = mConnection.doRequest();
+            InputStream inputStream = new FileInputStream("/data/data/sctek.cn.ysbracelet/cache/login.xml");
             decodeInputStream(inputStream);
             inputStream.close();
         }catch (final Exception e) {

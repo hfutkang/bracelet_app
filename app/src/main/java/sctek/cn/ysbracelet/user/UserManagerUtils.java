@@ -89,9 +89,11 @@ public class UserManagerUtils {
 
         if(accountManager.addAccountExplicitly(account, null, null)) {
             Bundle bundle = new Bundle();
-            bundle.putInt(SyncAdapter.SYNC_EXTR_AUTO, SyncAdapter.SYNC_TYPE_AUTO);
+            bundle.putInt(SyncAdapter.SYNC_EXTR, SyncAdapter.SYNC_TYPE_AUTO);
             ContentResolver.addPeriodicSync(account, LocalDataContract.AUTHORITY, bundle, SyncAdapter.SYNC_INTERVAL);
-            ContentResolver.requestSync(account, LocalDataContract.AUTHORITY, null);
+
+            bundle.putInt(SyncAdapter.SYNC_EXTR, SyncAdapter.SYNC_TYPE_MANNUAL);
+            ContentResolver.requestSync(account, LocalDataContract.AUTHORITY, bundle);
         }
     }
 
