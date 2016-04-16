@@ -43,13 +43,32 @@ public class UrlUtils {
                 + "&uname=" + name;
     }
 
-    public static String compositeAddDeviceUrl(String uName, String id, String dName){
+    public static String compositeAddDeviceUrl(String uName, String id, String dName, String sex
+                            , int age, int height, int weight){
         return URL_BASE
                 + "cmd=addDevice"
                 + "&ts=" + getCurrentMillis()
                 + "&uname=" + uName
                 + "&id=" + id
-                + "&dname=" + dName;
+                + "&dname=" + dName
+                + "&sex=" + sex
+                + "&age=" + age
+                + "&height" + height
+                + "&weight" + weight;
+    }
+
+    public static String compositeUpdateDeviceUrl(String uName, String id, String dName, String sex
+            , int age, int height, int weight){
+        return URL_BASE
+                + "cmd=updateDevice"
+                + "&ts=" + getCurrentMillis()
+                + "&uname=" + uName
+                + "&id=" + id
+                + "&dname=" + dName
+                + "&sex=" + sex
+                + "&age=" + age
+                + "&height" + height
+                + "&weight" + weight;
     }
 
     public static String compositeDeleteDeviceUrl(String uName, String id) {
@@ -65,11 +84,18 @@ public class UrlUtils {
                 + "&uname=" + uName;
     }
 
-    public static String compositeGetLatestLocationUrl(String deviceId) {
+    public static String compositeGetLatestLocationForUserUrl(String userName) {
         return URL_BASE
-                + "cmd=getPosition"
+                + "cmd=getPositionForUser"
                 + "&ts=" + getCurrentMillis()
-                + "&id=" + deviceId;
+                + "&user=" + userName;
+    }
+
+    public static String compositeGetLatestLocationForDeviceUrl(String deviceId) {
+        return URL_BASE
+                + "cmd=getPositionForDevice"
+                + "&ts=" + getCurrentMillis()
+                + "&user=" + deviceId;
     }
 
     public static String compositeGetFootStepsUrl(String deviceId, String start, String end) {
@@ -105,6 +131,12 @@ public class UrlUtils {
                 + "&ts=" + getCurrentMillis()
                 + "&name=" + userName
                 + "&start=" + startTime;
+    }
+
+    public static String compositeMeasureHRateUrl(String sn) {
+        return URL_BASE
+                + "cmd=measure_heart_rate"
+                + "&ts=" + getCurrentMillis();
     }
 
     public static String getCurrentMillis() {return "" + System.currentTimeMillis();}

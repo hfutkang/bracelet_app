@@ -18,17 +18,18 @@ public class SleepData implements YsData {
 
     public int quality;
 
-    public int total;
+    public int total;//单位分
     public int deep;
     public int shallow;
-    public int awake;
+    public int wake;
 
     public String deviceId;
 
     public Date startTime;
     public Date endTime;
 
-    public String tempTime = "2016-03-29";
+    public String tempStartTime = "2016-03-29 23:01";
+    public String tempEndTime = "2016-03-30 08:00";
 
     @Override
     public void setField(String field, String value) {
@@ -37,6 +38,27 @@ public class SleepData implements YsData {
         }
         else if(XmlNodes.SleepNodes.NODE_TIME.equals(field)) {
 
+        }
+        else if(XmlNodes.SleepNodes.NODE_START.equals(field)) {
+            tempStartTime = value;
+        }
+        else if(XmlNodes.SleepNodes.NODE_END.equals(field)) {
+            tempEndTime = value;
+        }
+        else if(XmlNodes.SleepNodes.NODE_DEEP.equals(field)) {
+            deep = Integer.parseInt(value);
+        }
+        else if(XmlNodes.SleepNodes.NODE_SHALLOW.equals(field)) {
+            shallow = Integer.parseInt(value);
+        }
+        else if(XmlNodes.SleepNodes.NODE_WAKE.equals(field)) {
+            wake = Integer.parseInt(value);
+        }
+        else if(XmlNodes.SleepNodes.NODE_DEVICE_ID.equals(field)) {
+            deviceId = value;
+        }
+        else if(XmlNodes.SleepNodes.NODE_TOTAL.equals(field)) {
+            total = Integer.parseInt(value);
         }
     }
 
@@ -48,9 +70,9 @@ public class SleepData implements YsData {
         values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_TOTALE, total);
         values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_DEEP, deep);
         values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_SHALLOW, shallow);
-        values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_AWAKE, awake);
-        values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START, tempTime);
-        values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_END, tempTime);
+        values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_WAKE, wake);
+        values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START, tempStartTime);
+        values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_END, tempEndTime);
 
         return cr.insert(LocalDataContract.Sleep.CONTENT_URI, values);
     }
@@ -62,9 +84,9 @@ public class SleepData implements YsData {
         values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_TOTALE, total);
         values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_DEEP, deep);
         values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_SHALLOW, shallow);
-        values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_AWAKE, awake);
-        values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START, tempTime);
-        values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_END, tempTime);
+        values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_WAKE, wake);
+        values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START, tempStartTime);
+        values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_END, tempEndTime);
         return cr.update(LocalDataContract.Sleep.CONTENT_URI
                     , values
                     , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_DEVICE + "=" + deviceId

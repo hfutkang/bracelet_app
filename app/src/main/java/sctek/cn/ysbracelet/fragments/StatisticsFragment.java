@@ -8,8 +8,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import sctek.cn.ysbracelet.R;
 import sctek.cn.ysbracelet.activitys.FamilyHRateStatisticsActivity;
@@ -19,7 +22,10 @@ import sctek.cn.ysbracelet.activitys.PersonalHRateStatisticsActivity;
 import sctek.cn.ysbracelet.activitys.PersonalSleepStatisticsActivity;
 import sctek.cn.ysbracelet.activitys.PersonalSportsStatisticsActivity;
 import sctek.cn.ysbracelet.adapters.FamiliesListViewAdapter;
+import sctek.cn.ysbracelet.device.DeviceInformation;
+import sctek.cn.ysbracelet.uiwidget.CircleImageView;
 import sctek.cn.ysbracelet.uiwidget.HorizontalListView;
+import sctek.cn.ysbracelet.user.YsUser;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +65,14 @@ public class StatisticsFragment extends Fragment {
     private TextView personalSleepTv;
     private TextView familySleepTv;
 
+    private CircleImageView gravatarCiv;
+    private TextView nameTv;
+    private TextView sexTv;
+    private TextView ageTv;
+
+    private YsUser mUser;
+    private DeviceInformation selectedDevcie;
+
     public StatisticsFragment() {
         // Required empty public constructor
     }
@@ -88,6 +102,7 @@ public class StatisticsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mUser = YsUser.getInstance();
     }
 
     @Override
@@ -104,6 +119,21 @@ public class StatisticsFragment extends Fragment {
         fimaliesLv = (HorizontalListView)view.findViewById(R.id.families_hlv);
         FamiliesListViewAdapter adapter = new FamiliesListViewAdapter(getContext(), true);
         fimaliesLv.setAdapter(adapter);
+        fimaliesLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position >= mUser.getDeviceCount()) {
+
+                }
+                else {
+                    selectedDevcie = mUser.getDevice(position);
+                    ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv);
+                    gravatarCiv.setProgress(selectedDevcie.getPower());
+                    nameTv.setText(selectedDevcie.getName());
+                    ageTv.setText("" + selectedDevcie.getAge());
+                }
+            }
+        });
 
         hrateV = view.findViewById(R.id.hrate_statistics_rl);
         hrateSelectorV = view.findViewById(R.id.hrate_sta_selector_rl);
@@ -131,6 +161,17 @@ public class StatisticsFragment extends Fragment {
         familySportsTv = (TextView)view.findViewById(R.id.family_sports_sta_tv);
         personalSportsTv.setOnClickListener(onViewClickedListener);
         familySportsTv.setOnClickListener(onViewClickedListener);
+
+        selectedDevcie = mUser.getDevice(0);
+        gravatarCiv = (CircleImageView)view.findViewById(R.id.selected_member_cv);
+        nameTv = (TextView)view.findViewById(R.id.name_tv);
+        ageTv = (TextView)view.findViewById(R.id.age_tv);
+        sexTv = (TextView)view.findViewById(R.id.sex_tv);
+
+        ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv);
+        nameTv.setText(selectedDevcie.getName());
+        ageTv.setText("" + selectedDevcie.getAge());
+        sexTv.setText(selectedDevcie.getSex());
 
     }
 
@@ -161,6 +202,10 @@ public class StatisticsFragment extends Fragment {
     private View.OnClickListener onViewClickedListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Bundle bundle = new Bundle();
+            bundle.putString(HomeFragment.EXTR_DEVICE_ID, selectedDevcie.getSerialNumber());
+            Intent intent = new Intent();
+            intent.putExtras(bundle);
             switch (v.getId()) {
                 case R.id.hrate_statistics_rl:
                     toggleViewVisibility(hrateSelectorV);
@@ -172,22 +217,28 @@ public class StatisticsFragment extends Fragment {
                     toggleViewVisibility(sleepSelectorV);
                     break;
                 case R.id.personal_hrate_sta_tv:
-                    startActivity(new Intent(getContext(), PersonalHRateStatisticsActivity.class));
+                    intent.setClass(getContext(), PersonalHRateStatisticsActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.personal_sports_sta_tv:
-                    startActivity(new Intent(getContext(), PersonalSportsStatisticsActivity.class));
+                    intent.setClass(getContext(), PersonalSportsStatisticsActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.personal_sleep_sta_tv:
-                    startActivity(new Intent(getContext(), PersonalSleepStatisticsActivity.class));
+                    intent.setClass(getContext(), PersonalSleepStatisticsActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.family_hrate_sta_tv:
-                    startActivity(new Intent(getContext(), FamilyHRateStatisticsActivity.class));
+                    intent.setClass(getContext(), FamilyHRateStatisticsActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.family_sleep_sta_tv:
-                    startActivity(new Intent(getContext(), FamilySleepStatisticsActivity.class));
+                    intent.setClass(getContext(), FamilySleepStatisticsActivity.class);
+                    startActivity(intent);
                     break;
                 case R.id.family_sports_sta_tv:
-                    startActivity(new Intent(getContext(), FamilySportsStatisticsActivity.class));
+                    intent.setClass(getContext(), FamilySportsStatisticsActivity.class);
+                    startActivity(intent);
                     break;
             }
         }

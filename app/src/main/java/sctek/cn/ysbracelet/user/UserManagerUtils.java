@@ -27,7 +27,8 @@ public class UserManagerUtils {
 
         String url = UrlUtils.compositeLoginUrl(name, pw);
         YsHttpConnection mConnection = new YsHttpConnection(url, YsHttpConnection.METHOD_GET, null);
-        new HttpConnectionWorker(mConnection, listener).start();
+        new HttpConnectionWorker(mConnection, listener)
+                .setTestXmlFile("/storage/emulated/0/Android/data/sctek.cn.ysbracelet/cache/login.xml").start();
     }
 
     public static void sync(String userName, String startTime, ConnectionWorkListener listener) {
@@ -35,7 +36,8 @@ public class UserManagerUtils {
 
         String url = UrlUtils.compositeSyncUrl(userName, startTime);
         YsHttpConnection mConnection = new YsHttpConnection(url, YsHttpConnection.METHOD_GET, null);
-        new HttpConnectionWorker(mConnection, listener).start();
+        new HttpConnectionWorker(mConnection, listener)
+                .setTestXmlFile("/storage/emulated/0/Android/data/sctek.cn.ysbracelet/cache/syncdata.xml").start();
     }
 
     public static void logout() {}
@@ -58,10 +60,20 @@ public class UserManagerUtils {
         new HttpConnectionWorker(mConnection, listener).start();
     }
 
-    public static void addDevice(String uName, String sn, String name, ConnectionWorkListener listener) {
+    public static void addDevice(String uName, String sn, String name, String sex, int age
+                                 , int height, int weight, ConnectionWorkListener listener) {
         if(BleUtils.DEBUG) Log.e(TAG, "addDevice");
 
-        String url = UrlUtils.compositeAddDeviceUrl(uName, sn, name);
+        String url = UrlUtils.compositeAddDeviceUrl(uName, sn, name, sex, age, height, weight);
+        YsHttpConnection mConnection = new YsHttpConnection(url, YsHttpConnection.METHOD_GET, null);
+        new HttpConnectionWorker(mConnection, listener).start();
+    }
+
+    public static void updateDeviceInfo(String uName, String sn, String name, String sex, int age
+            , int height, int weight, ConnectionWorkListener listener) {
+        if(BleUtils.DEBUG) Log.e(TAG, "addDevice");
+
+        String url = UrlUtils.compositeUpdateDeviceUrl(uName, sn, name, sex, age, height, weight);
         YsHttpConnection mConnection = new YsHttpConnection(url, YsHttpConnection.METHOD_GET, null);
         new HttpConnectionWorker(mConnection, listener).start();
     }
@@ -82,19 +94,38 @@ public class UserManagerUtils {
         new HttpConnectionWorker(mConnection, listener).start();
     }
 
-    public static void createSyncAccount(Context context) {
+    public static void startMeasureHeartRate(String sn, ConnectionWorkListener listener) {
+        if(BleUtils.DEBUG) Log.e(TAG, "startMeasureHeartRate");
+        String url = UrlUtils.compositeMeasureHRateUrl(sn);
+        YsHttpConnection connection = new YsHttpConnection(url, YsHttpConnection.METHOD_GET, null);
+        new HttpConnectionWorker(connection, listener).setTestXmlFile("").start();
+    }
 
+    public static void createSyncAccount(Context context) {
+        if(BleUtils.DEBUG) Log.e(TAG, "createSyncAccount");
         Account account = YsUser.getInstance().getAccount();
         AccountManager accountManager = AccountManager.get(context);
 
         if(accountManager.addAccountExplicitly(account, null, null)) {
+            if(BleUtils.DEBUG) Log.e(TAG, "createSyncAccount add account ok");
             Bundle bundle = new Bundle();
             bundle.putInt(SyncAdapter.SYNC_EXTR, SyncAdapter.SYNC_TYPE_AUTO);
             ContentResolver.addPeriodicSync(account, LocalDataContract.AUTHORITY, bundle, SyncAdapter.SYNC_INTERVAL);
-
+            ContentResolver.setIsSyncable(account, LocalDataContract.AUTHORITY, 1);
+            ContentResolver.setSyncAutomatically(account, LocalDataContract.AUTHORITY, true);
             bundle.putInt(SyncAdapter.SYNC_EXTR, SyncAdapter.SYNC_TYPE_MANNUAL);
-            ContentResolver.requestSync(account, LocalDataContract.AUTHORITY, bundle);
+            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+            bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+            ContentResolver.requestSync(YsUser.getInstance().getAccount(), LocalDataContract.AUTHORITY, bundle);
         }
+    }
+
+    public static void getLatestPositionForUser(String name, ConnectionWorkListener listener) {
+        if(BleUtils.DEBUG) Log.e(TAG, "getLatestPosition");
+
+        String url = UrlUtils.compositeGetLatestLocationForUserUrl(name);
+        YsHttpConnection connection = new YsHttpConnection(url, YsHttpConnection.METHOD_GET, null);
+        new HttpConnectionWorker(connection, listener).setTestXmlFile("").start();
     }
 
 

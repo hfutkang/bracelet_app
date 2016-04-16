@@ -1,17 +1,15 @@
 package sctek.cn.ysbracelet.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import sctek.cn.ysbracelet.R;
-import sctek.cn.ysbracelet.adapters.FamilyHRateLvAdapter;
+import sctek.cn.ysbracelet.adapters.FamilyHRateDataMonthVpAdapter;
+import sctek.cn.ysbracelet.adapters.FamilyHRateDataWeekVpAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,94 +19,50 @@ import sctek.cn.ysbracelet.adapters.FamilyHRateLvAdapter;
  * Use the {@link FamilyHRateFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FamilyHRateFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    private ListView familyHRateLv;
-    private TextView emptyTv;
+public class FamilyHRateFragment extends FamilyDataBaseFragment {
 
     public FamilyHRateFragment() {
-        // Required empty public constructor
+        super();
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FamilyHRateFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static FamilyHRateFragment newInstance(String param1, String param2) {
         FamilyHRateFragment fragment = new FamilyHRateFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_family_hrate, container, false);
-        initViewElement(view);
-        return view;
-    }
-
-    private void initViewElement(View view) {
-
-        familyHRateLv = (ListView)view.findViewById(R.id.family_hrate_lv);
-        FamilyHRateLvAdapter adapter = new FamilyHRateLvAdapter(getContext(), null);
-        familyHRateLv.setAdapter(adapter);
-
-        emptyTv = (TextView)view.findViewById(R.id.empty_tv);
-        emptyTv.setVisibility(View.GONE);
-
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        return super.onCreateView(inflater,container,savedInstanceState);
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    protected View inflaterView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.fragment_family_hrate, container, false);
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    protected void initDataElement() {
+        super.initDataElement();
+        mAdapter = new FamilyHRateDataWeekVpAdapter(getContext());
     }
+
+    @Override
+    protected PagerAdapter constructAdapter(int mode) {
+        if(mode == MODE_WEEK) {
+            return new FamilyHRateDataWeekVpAdapter(getContext());
+        }
+        else if(mode == MODE_MONTH) {
+            return new FamilyHRateDataMonthVpAdapter(getContext());
+        }
+        return null;
+    }
+
+    protected void initViewElement(View view) {
+        super.initViewElement(view);
+
+    }
+
 
 }

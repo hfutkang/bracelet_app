@@ -2,61 +2,53 @@ package sctek.cn.ysbracelet.activitys;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.view.PagerAdapter;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import sctek.cn.ysbracelet.R;
-import sctek.cn.ysbracelet.adapters.FamilySportsStatisticsLvAdapter;
+import sctek.cn.ysbracelet.adapters.FamilySportsStatisticsMonthVpAdapter;
+import sctek.cn.ysbracelet.adapters.FamilySportsStatisticsWeekVpAdapter;
 
-public class FamilySportsStatisticsActivity extends AppCompatActivity {
-
-    private ListView recordsLv;
-    private TextView emptyTv;
-
-    private View actionBarV;
-    private TextView titleTv;
-    private ImageButton backIb;
-    private ImageButton actionIb;
+public class FamilySportsStatisticsActivity extends FamilyDataStatisticsBaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_family_sports_statistics);
-
-        initViewElement();
     }
 
-    private void initViewElement() {
+    @Override
+    protected void initDataElement() {
+        super.initDataElement();
+        statisticsMode = STATISTICS_MODE_WEEK;
+        adapter = new FamilySportsStatisticsWeekVpAdapter(this);
+    }
 
-        actionBarV = findViewById(R.id.action_bar_rl);
-        titleTv = (TextView)findViewById(R.id.title_tv);
-        backIb = (ImageButton)findViewById(R.id.nav_back_ib);
-        actionIb = (ImageButton)findViewById(R.id.action_ib);
+    @Override
+    protected void setContentView() {
+        setContentView(R.layout.activity_family_sports_statistics);
+    }
 
+    @Override
+    protected PagerAdapter constructAdapter(int mode) {
+        if(mode == STATISTICS_MODE_WEEK) {
+            return new FamilySportsStatisticsWeekVpAdapter(this);
+        }
+        else if(mode == STATISTICS_MODE_MONTH) {
+            return new FamilySportsStatisticsMonthVpAdapter(this);
+        }
+        return null;
+    }
+
+    protected void initViewElement() {
+        super.initViewElement();
         actionBarV.setBackgroundColor(Color.YELLOW);
         titleTv.setText(R.string.family_sports_title);
         actionIb.setVisibility(View.GONE);
 
-        recordsLv = (ListView)findViewById(R.id.data_lv);
-        FamilySportsStatisticsLvAdapter adapter = new FamilySportsStatisticsLvAdapter(this, null, 2000, 1);
-        recordsLv.setAdapter(adapter);
-        recordsLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FamilySportsStatisticsLvAdapter.ViewHolder viewHolder = (FamilySportsStatisticsLvAdapter.ViewHolder)view.getTag();
-                if(viewHolder.lineChart.getVisibility() == View.GONE) {
-                    viewHolder.lineChart.setVisibility(View.VISIBLE);
-                }
-                else {
-                    viewHolder.lineChart.setVisibility(View.GONE);
-                }
-            }
-        });
+        weekIv.setSelected(true);
+        monthIv.setSelected(false);
 
-        emptyTv = (TextView)findViewById(R.id.empty_tv);
+        weekIv.setOnClickListener(onImageViewClickedListener);
+        monthIv.setOnClickListener(onImageViewClickedListener);
     }
 }

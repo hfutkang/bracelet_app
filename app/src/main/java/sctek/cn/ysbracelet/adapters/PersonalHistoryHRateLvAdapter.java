@@ -11,6 +11,8 @@ import java.util.List;
 
 import sctek.cn.ysbracelet.DateManager.YsDateManager;
 import sctek.cn.ysbracelet.R;
+import sctek.cn.ysbracelet.devicedata.HeartRateData;
+import sctek.cn.ysbracelet.devicedata.YsData;
 
 /**
  * Created by kang on 16-3-17.
@@ -19,19 +21,19 @@ public class PersonalHistoryHRateLvAdapter extends BaseAdapter{
 
     private final static String TAG = PersonalHistoryHRateLvAdapter.class.getSimpleName();
 
-    private List<Object> records;
+    private List<YsData> mRecords;
     private Context mContext;
 
     private YsDateManager dateManager;
 
-    public PersonalHistoryHRateLvAdapter(Context context, List<Object> objects) {
-        records = objects;
+    public PersonalHistoryHRateLvAdapter(Context context, List<YsData> records) {
+        mRecords = records;
         mContext = context;
-        dateManager = new YsDateManager(YsDateManager.DATE_FORMAT_SHOW2);
+        dateManager = new YsDateManager(YsDateManager.DATE_FORMAT_SECOND);
     }
     @Override
     public int getCount() {
-        return 5;
+        return mRecords.size();
     }
 
     @Override
@@ -61,7 +63,11 @@ public class PersonalHistoryHRateLvAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        dateManager.showCurrentDate(viewHolder.time);
+        HeartRateData data = (HeartRateData)mRecords.get(position);
+        viewHolder.rate.setText("" + data.rate);
+        viewHolder.time.setText(data.tempTime);
+        viewHolder.type.setText(data.type);
+
         return convertView;
     }
 

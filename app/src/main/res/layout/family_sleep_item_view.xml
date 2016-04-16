@@ -50,7 +50,7 @@
                 android:text="@string/family_sleep_time_label" />
 
             <TextView
-                android:id="@+id/total_steps_tv"
+                android:id="@+id/total_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18dp"

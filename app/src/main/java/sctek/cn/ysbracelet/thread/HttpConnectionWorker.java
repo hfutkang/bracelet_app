@@ -45,7 +45,7 @@ public class HttpConnectionWorker extends Thread implements XmlContentHandler.Xm
         if(BleUtils.DEBUG) Log.e(TAG, "run");
         try {
 //            InputStream inputStream = mConnection.doRequest();
-            InputStream inputStream = new FileInputStream("/data/data/sctek.cn.ysbracelet/cache/login.xml");
+            InputStream inputStream = new FileInputStream(testXmlPath);
             decodeInputStream(inputStream);
             inputStream.close();
         }catch (final Exception e) {
@@ -76,11 +76,12 @@ public class HttpConnectionWorker extends Thread implements XmlContentHandler.Xm
     }
 
     @Override
-    public void onGetData(final YsData result) {
+    public void onGetData(YsData result) {
+        final YsData data = result;
         mHandler.post(new Runnable() {
             @Override
             public void run() {
-                mListener.onResult(result);
+                mListener.onResult(data);
             }
         });
     }
@@ -99,6 +100,12 @@ public class HttpConnectionWorker extends Thread implements XmlContentHandler.Xm
         public void onWorkDone(int resCode);
         public void onResult(YsData result);
         public void onError(Exception e);
+    }
+
+    private String testXmlPath;
+    public HttpConnectionWorker setTestXmlFile(String path) {
+        testXmlPath = path;
+        return this;
     }
 
 

@@ -20,7 +20,6 @@ public class SportsData implements YsData {
     public int runSteps;
     public int walkSteps;
 
-    public int distance;//unit m
     public String type;
     public int calories;
 
@@ -50,13 +49,16 @@ public class SportsData implements YsData {
     public void setField(String field, String value) {
 
         if(XmlNodes.SportNodes.NODE_RUN.equals(field)) {
-
+            runSteps = Integer.parseInt(value);
         }
         else if(XmlNodes.SportNodes.NODE_WALK.equals(field)) {
-
+            walkSteps = Integer.parseInt(value);
         }
         else if(XmlNodes.SportNodes.NODE_TIME.equals(field)) {
-
+            tempTime = value;
+        }
+        else if(XmlNodes.SportNodes.NODE_DEVICE_ID.equals(field)) {
+            deviceId = value;
         }
     }
 

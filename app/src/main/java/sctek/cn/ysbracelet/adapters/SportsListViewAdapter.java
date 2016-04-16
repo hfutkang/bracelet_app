@@ -27,7 +27,7 @@ public class SportsListViewAdapter extends BaseAdapter{
     public SportsListViewAdapter(Context context, List<SportsData> datas) {
         mContext = context;
         dataList = datas;
-        dateManager = new YsDateManager(YsDateManager.DATE_FORMAT_SHOW2);
+        dateManager = new YsDateManager(YsDateManager.DATE_FORMAT_SECOND);
     }
 
     @Override

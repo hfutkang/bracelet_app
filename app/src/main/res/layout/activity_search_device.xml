@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activitys.SetDeviceInfoActivity">
+
+    <include layout="@layout/action_bar_view"
+        android:id="@+id/action_bar_v"/>
+
+    <Button
+        android:id="@+id/search_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/search_device_title"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/yellow_button_selector"
+        android:onClick="onSearchButtonClicked"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/action_bar_v"
+        android:layout_above="@id/search_bt">
+
+        <ListView
+            android:id="@+id/devices_lv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:dividerHeight="1dp"
+            android:divider="@color/white1"></ListView>
+        <TextView
+            android:id="@+id/empty_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_device"
+            android:layout_gravity="center"
+            android:textSize="30dp"
+            android:visibility="gone"/>
+
+    </FrameLayout>
+
+</RelativeLayout>

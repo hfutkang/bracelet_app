@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activitys.SetDeviceInfoActivity">
+
+    <include layout="@layout/action_bar_view"
+        android:id="@+id/action_bar_v"/>
+
+    <TextView
+        android:id="@+id/name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="left|center_vertical"
+        android:text="@string/name_prompt"
+        android:layout_marginLeft="5dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_below="@id/action_bar_v"
+        android:background="@color/beige"/>
+
+    <EditText
+        android:id="@+id/name_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name_tv"
+        android:inputType="textPersonName"
+        android:layout_marginTop="10dp"></EditText>
+
+    <TextView
+        android:id="@+id/sex_tv"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="left|center_vertical"
+        android:text="@string/sex_prompt"
+        android:layout_marginLeft="5dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_below="@id/name_et"
+        android:background="@color/beige"/>
+
+    <Spinner
+        android:id="@+id/sex_sp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/sex_tv"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:entries="@array/sex"
+        android:spinnerMode="dialog"
+        android:prompt="@string/sex_prompt"></Spinner>
+
+    <TextView
+        android:id="@+id/age_tv"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/sex_sp"
+        android:gravity="left|center_vertical"
+        android:text="@string/age_prompt"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:background="@color/beige"/>
+
+    <Spinner
+        android:id="@+id/age_sp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/age_tv"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:entries="@array/age"
+        android:spinnerMode="dialog"
+        android:prompt="@string/age_prompt"></Spinner>
+
+    <TextView
+        android:id="@+id/height_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/age_sp"
+        android:gravity="left|center_vertical"
+        android:text="@string/height_prompt"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:background="@color/beige"/>
+
+    <Spinner
+        android:id="@+id/height_sp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/height_tv"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:entries="@array/height"
+        android:spinnerMode="dialog"
+        android:prompt="@string/height_prompt"></Spinner>
+
+    <TextView
+        android:id="@+id/weight_tv"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/height_sp"
+        android:gravity="left|center_vertical"
+        android:text="@string/weight_prompt"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:background="@color/beige"/>
+
+    <Spinner
+        android:id="@+id/weigth_sp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/weight_tv"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:entries="@array/weight"
+        android:spinnerMode="dialog"
+        android:prompt="@string/weight_prompt"></Spinner>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/save_label"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/yellow_button_selector"
+        android:onClick="onSaveButtonClicked"/>
+
+</RelativeLayout>

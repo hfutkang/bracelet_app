@@ -1,20 +1,38 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="sctek.cn.ysbracelet.fragments.FamilyHRateFragment">
 
+    <TextView
+        android:id="@+id/time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal"/>
+
+    <include layout="@layout/week_month_view"
+        android:id="@+id/time_picker_lo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"/>
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@id/time_picker_lo"
+        android:layout_below="@id/time_tv">
 
-        <ListView
-            android:id="@+id/family_hrate_lv"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/family_data_vp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:dividerHeight="5dp"
-            android:divider="@color/white1"></ListView>
+            android:layout_height="match_parent">
+
+        </android.support.v4.view.ViewPager>
         <TextView
             android:id="@+id/empty_tv"
             android:layout_width="wrap_content"
@@ -25,4 +43,4 @@
 
     </FrameLayout>
 
-</FrameLayout>
+</RelativeLayout>

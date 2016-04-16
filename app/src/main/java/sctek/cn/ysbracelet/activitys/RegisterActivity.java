@@ -41,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
     public void onRegisterButtonClicked(View v) {
 
         String url = null;
-        startActivity(new Intent(RegisterActivity.this, SetUserInfoActivity.class));
+        startActivity(new Intent(RegisterActivity.this, SetDeviceInfoActivity.class));
 
 //        final String name = userNameEt.getText().toString();
 //        final String password = passwordEt.getText().toString();
@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
 //                if(resCode == XmlNodes.RESPONSE_CODE_SUCCESS) {
 //                    YsUser.getInstance().setName(name);
 //                    YsUser.getInstance().setPassword(password);
-//                    startActivity(new Intent(RegisterActivity.this, SetUserInfoActivity.class));
+//                    startActivity(new Intent(RegisterActivity.this, SetDeviceInfoActivity.class));
 //                    return;
 //                }
 //                if(resCode == XmlNodes.RESPONSE_CODE_OTHER) {

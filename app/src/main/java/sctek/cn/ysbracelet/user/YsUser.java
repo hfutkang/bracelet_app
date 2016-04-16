@@ -11,6 +11,7 @@ import android.util.Log;
 import java.util.Date;
 import java.util.List;
 
+import sctek.cn.ysbracelet.DateManager.YsDateManager;
 import sctek.cn.ysbracelet.ble.BleUtils;
 import sctek.cn.ysbracelet.device.DeviceInformation;
 import sctek.cn.ysbracelet.device.DevicesManager;
@@ -25,7 +26,7 @@ public class YsUser implements YsData{
 
     private final static String TAG = YsUser.class.getSimpleName();
 
-    public static final String ACCOUNT_TYPE = "cn.sctek.account";
+    public static final String ACCOUNT_TYPE = "sctek.cn.ysbracelet";
 
     private final static String SEX_DEFAULT = "Female";
     private final static int AGE_DEFAULT = 18;
@@ -74,8 +75,43 @@ public class YsUser implements YsData{
             name = cursor.getString(nameIndex);
             password = cursor.getString(passwordIndex);
             lastSyncTime = cursor.getString(syncTimeIndex);
+            Log.e(TAG, lastSyncTime);
+
+            loadDevices(context);
         }
 
+    }
+
+    private void loadDevices(Context context) {
+        if(name == null)
+            return;
+        ContentResolver cr = context.getContentResolver();
+        Cursor cursor = cr.query(LocalDataContract.DeviceInfo.CONTENT_URI,
+                            null,null,null,null);
+        while (cursor.moveToNext()) {
+            DeviceInformation device = new DeviceInformation();
+            int serialNumberIndex = cursor.getColumnIndex(LocalDataContract.DeviceInfo.COLUMNS_NAME_SN);
+            int macIndex = cursor.getColumnIndex(LocalDataContract.DeviceInfo.COLUMNS_NAME_MAC);
+            int nameIndex = cursor.getColumnIndex(LocalDataContract.DeviceInfo.COLUMNS_NAME_NAME);
+            int ageIndex = cursor.getColumnIndex(LocalDataContract.DeviceInfo.COLUMNS_NAME_AGE);
+            int sexIndex = cursor.getColumnIndex(LocalDataContract.DeviceInfo.COLUMNS_NAME_SEX);
+            int heightIndex = cursor.getColumnIndex(LocalDataContract.DeviceInfo.COLUMNS_NAME_HEIGHT);
+            int weightIndex = cursor.getColumnIndex(LocalDataContract.DeviceInfo.COLUMNS_NAME_WEIGHT);
+            int powerIndex = cursor.getColumnIndex(LocalDataContract.DeviceInfo.COLUMNS_NAME_POWER);
+            int imagePathIndex = cursor.getColumnIndex(LocalDataContract.DeviceInfo.COLUMNS_NAME_IMAGE_PATH);
+
+            device.serialNumber = cursor.getString(serialNumberIndex);
+            device.mac = cursor.getString(macIndex);
+            device.name = cursor.getString(nameIndex);
+            device.age = cursor.getInt(ageIndex);
+            device.sex = cursor.getString(sexIndex);
+            device.height = cursor.getInt(heightIndex);
+            device.weight = cursor.getInt(weightIndex);
+            device.power = cursor.getInt(powerIndex);
+            device.imagePath = cursor.getString(imagePathIndex);
+
+            mDevicesManager.addDevice(device);
+        }
     }
 
     public Account getAccount() {
@@ -113,6 +149,12 @@ public class YsUser implements YsData{
         return mDevicesManager.getDevice(index);
     }
 
+    public DeviceInformation getDevice(String id) {
+        return mDevicesManager.getDevice(id);
+    }
+
+    public DeviceInformation getDeviceByMac(String mac) { return mDevicesManager.getDeviceByMac(mac);}
+
     public void clear() {
         mDevicesManager.clear();
     }
@@ -149,6 +191,8 @@ public class YsUser implements YsData{
 
     public int getWeight() { return  weight;}
 
+    public String getLastSyncTime() { return lastSyncTime; }
+
     @Override
     public void setField(String field, String value) {
         if(BleUtils.DEBUG) Log.e(TAG, "setField");
@@ -175,9 +219,11 @@ public class YsUser implements YsData{
 
     @Override
     public Uri insert(ContentResolver cr) {
+        Log.e(TAG, "insert");
         ContentValues values = new ContentValues();
         values.put(LocalDataContract.UserInfo.COLUMNS_NAME_NAME, name);
         values.put(LocalDataContract.UserInfo.COLUMNS_NAME_PASSWORD, password);
+        lastSyncTime = new YsDateManager(YsDateManager.DATE_FORMAT_SECOND).getCurrentDate();
         values.put(LocalDataContract.UserInfo.COLUMNS_NAME_LAST_SYNC_TIME, lastSyncTime);
         return cr.insert(LocalDataContract.UserInfo.CONTENT_URI, values);
     }
@@ -187,6 +233,7 @@ public class YsUser implements YsData{
         ContentValues values = new ContentValues();
         values.put(LocalDataContract.UserInfo.COLUMNS_NAME_NAME, name);
         values.put(LocalDataContract.UserInfo.COLUMNS_NAME_PASSWORD, password);
+        lastSyncTime = new YsDateManager(YsDateManager.DATE_FORMAT_SECOND).getCurrentDate();
         values.put(LocalDataContract.UserInfo.COLUMNS_NAME_LAST_SYNC_TIME, lastSyncTime);
         return cr.update(LocalDataContract.UserInfo.CONTENT_URI
                 , values

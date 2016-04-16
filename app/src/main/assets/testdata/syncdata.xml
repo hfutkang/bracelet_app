@@ -1,0 +1,258 @@
+<sync>
+    <heartrates>
+        <heartrate>
+            <time>2016-04-05 12:12</time>
+            <HR>85</HR>
+            <type>App</type>
+            <deviceId>sc201604011427</deviceId>
+        </heartrate>
+        <heartrate>
+            <time>2016-04-05 12:13</time>
+            <HR>85</HR>
+            <type>App</type>
+            <deviceId>sc201604011427</deviceId>
+        </heartrate>
+        <heartrate>
+            <time>2016-04-05 12:14</time>
+            <HR>85</HR>
+            <type>App</type>
+            <deviceId>sc201604011427</deviceId>
+        </heartrate>
+        <heartrate>
+            <time>2016-04-05 12:15</time>
+            <HR>85</HR>
+            <type>App</type>
+            <deviceId>sc201604011427</deviceId>
+        </heartrate>
+        <heartrate>
+            <time>2016-04-05 12:16</time>
+            <HR>85</HR>
+            <type>App</type>
+            <deviceId>sc201604011427</deviceId>
+        </heartrate>
+        <heartrate>
+            <time>2016-04-05 12:17</time>
+            <HR>85</HR>
+            <type>App</type>
+            <deviceId>sc201604011427</deviceId>
+        </heartrate>
+        <heartrate>
+            <time>2016-04-05 12:18</time>
+            <HR>85</HR>
+            <type>App</type>
+            <deviceId>sc201604011427</deviceId>
+        </heartrate>
+        <heartrate>
+            <time>2016-04-05 12:19</time>
+            <HR>85</HR>
+            <type>App</type>
+            <deviceId>sc201604011431</deviceId>
+        </heartrate>
+        <heartrate>
+            <time>2016-04-05 12:10</time>
+            <HR>85</HR>
+            <type>App</type>
+            <deviceId>sc201604011431</deviceId>
+        </heartrate>
+        <heartrate>
+            <time>2016-04-05 12:21</time>
+            <HR>85</HR>
+            <type>App</type>
+            <deviceId>sc201604011431</deviceId>
+        </heartrate>
+    </heartrates>
+
+    <sports>
+        <sport>
+            <time>2016-04-06 14:24</time>
+            <run>1240</run>
+            <walk>4201</walk>
+            <deviceId>sc201604011431</deviceId>
+        </sport>
+        <sport>
+            <time>2016-04-07 14:24</time>
+            <run>1240</run>
+            <walk>4201</walk>
+            <deviceId>sc201604011431</deviceId>
+        </sport>
+        <sport>
+            <time>2016-04-08 14:24</time>
+            <run>1240</run>
+            <walk>4201</walk>
+            <deviceId>sc201604011431</deviceId>
+        </sport>
+        <sport>
+            <time>2016-04-09 14:24</time>
+            <run>1240</run>
+            <walk>4201</walk>
+            <deviceId>sc201604011431</deviceId>
+        </sport>
+        <sport>
+            <time>2016-04-10 14:24</time>
+            <run>1240</run>
+            <walk>4201</walk>
+            <deviceId>sc201604011431</deviceId>
+        </sport>
+        <sport>
+            <time>2016-04-11 14:24</time>
+            <run>1240</run>
+            <walk>4201</walk>
+            <deviceId>sc201604011431</deviceId>
+        </sport>
+        <sport>
+            <time>2016-04-12 14:24</time>
+            <run>1240</run>
+            <walk>4201</walk>
+            <deviceId>sc201604011427</deviceId>
+        </sport>
+        <sport>
+            <time>2016-04-13 14:24</time>
+            <run>1240</run>
+            <walk>4201</walk>
+            <deviceId>sc201604011427</deviceId>
+        </sport>
+        <sport>
+            <time>2016-04-14 14:24</time>
+            <run>1240</run>
+            <walk>4201</walk>
+            <deviceId>sc201604011427</deviceId>
+        </sport>
+    </sports>
+
+    <sleeps>
+        <sleep>
+            <start>2016-04-14 23:21</start>
+            <end>2016-04-15 08:21</end>
+            <total>540</total>
+            <deep>134</deep>
+            <shallow>342</shallow>
+            <wake>4</wake>
+            <deviceId>sc201604011427</deviceId>
+        </sleep>
+        <sleep>
+            <start>2016-04-15 23:21</start>
+            <end>2016-04-16 08:21</end>
+            <total>540</total>
+            <deep>134</deep>
+            <shallow>342</shallow>
+            <wake>4</wake>
+            <deviceId>sc201604011427</deviceId>
+        </sleep>
+        <sleep>
+            <start>2016-04-17 23:21</start>
+            <end>2016-04-18 08:21</end>
+            <total>540</total>
+            <deep>134</deep>
+            <shallow>342</shallow>
+            <wake>4</wake>
+            <deviceId>sc201604011427</deviceId>
+        </sleep>
+        <sleep>
+            <start>2016-04-19 23:21</start>
+            <end>2016-04-20 08:21</end>
+            <total>540</total>
+            <deep>134</deep>
+            <shallow>342</shallow>
+            <wake>4</wake>
+            <deviceId>sc201604011427</deviceId>
+        </sleep>
+        <sleep>
+            <start>2016-04-20 23:21</start>
+            <end>2016-04-21 08:21</end>
+            <total>540</total>
+            <deep>134</deep>
+            <shallow>342</shallow>
+            <wake>4</wake>
+            <deviceId>sc201604011427</deviceId>
+        </sleep>
+        <sleep>
+            <start>2016-04-14 23:21</start>
+            <end>2016-04-15 08:21</end>
+            <total>540</total>
+            <deep>134</deep>
+            <shallow>342</shallow>
+            <wake>4</wake>
+            <deviceId>sc201604011431</deviceId>
+        </sleep>
+        <sleep>
+            <start>2016-04-15 23:21</start>
+            <end>2016-04-16 08:21</end>
+            <total>540</total>
+            <deep>134</deep>
+            <shallow>342</shallow>
+            <wake>4</wake>
+            <deviceId>sc201604011431</deviceId>
+        </sleep>
+        <sleep>
+            <start>2016-04-21 23:21</start>
+            <end>2016-04-22 08:21</end>
+            <total>540</total>
+            <deep>134</deep>
+            <shallow>342</shallow>
+            <wake>4</wake>
+            <deviceId>sc201604011427</deviceId>
+        </sleep>
+    </sleeps>
+    <positions>
+        <position>
+            <time>2016-04-07 12:21</time>
+            <deviceId>sc201604011427</deviceId>
+            <lat>22.559329</lat>
+            <lon>113.948409</lon>
+        </position>
+        <position>
+            <time>2016-04-07 12:22</time>
+            <deviceId>sc201604011427</deviceId>
+            <lat>22.560329</lat>
+            <lon>113.948409</lon>
+        </position>
+        <position>
+            <time>2016-04-07 12:23</time>
+            <deviceId>sc201604011427</deviceId>
+            <lat>22.561329</lat>
+            <lon>113.948409</lon>
+        </position>
+        <postion>
+            <time>2016-04-07 12:24</time>
+            <deviceId>sc201604011427</deviceId>
+            <lat>22.562329</lat>
+            <lon>113.948409</lon>
+        </postion>
+        <position>
+            <time>2016-04-07 12:25</time>
+            <deviceId>sc201604011427</deviceId>
+            <lat>22.563329</lat>
+            <lon>113.948409</lon>
+        </position>
+        <position>
+            <time>2016-04-07 12:26</time>
+            <deviceId>sc201604011427</deviceId>
+            <lat>22.564329</lat>
+            <lon>113.948409</lon>
+        </position>
+        <position>
+            <time>2016-04-07 12:27</time>
+            <deviceId>sc201604011427</deviceId>
+            <lat>22.565329</lat>
+            <lon>113.948409</lon>
+        </position>
+        <position>
+            <time>2016-04-07 12:28</time>
+            <deviceId>sc201604011427</deviceId>
+            <lat>22.566329</lat>
+            <lon>113.948409</lon>
+        </position>
+        <position>
+            <time>2016-04-07 12:29</time>
+            <deviceId>sc201604011427</deviceId>
+            <lat>22.567329</lat>
+            <lon>113.948409</lon>
+        </position>
+        <position>
+            <time>2016-04-07 12:30</time>
+            <deviceId>sc201604011427</deviceId>
+            <lat>22.568329</lat>
+            <lon>113.948409</lon>
+        </position>
+    </positions>
+</sync>

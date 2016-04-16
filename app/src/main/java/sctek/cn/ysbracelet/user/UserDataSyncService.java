@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.os.IBinder;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import sctek.cn.ysbracelet.devicedata.YsData;
 import sctek.cn.ysbracelet.sqlite.LocalDataContract;
@@ -30,6 +31,7 @@ public class UserDataSyncService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
+        Log.e(TAG, "onBind");
         return mSyncAdapter.getSyncAdapterBinder();
     }
 

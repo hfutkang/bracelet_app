@@ -18,7 +18,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -50,7 +49,7 @@ public class ChartViewPagerAdapter extends PagerAdapter {
 
     public ChartViewPagerAdapter(Context context, int r, int l) {
         mContext = context;
-        dateManager = new YsDateManager(YsDateManager.DATE_FORMAT_SHOW3);
+        dateManager = new YsDateManager(YsDateManager.DATE_FORMAT_MONTH);
         randomdigital = r;
         lineNumber = l;
         limitLines = new ArrayList<>();
@@ -76,9 +75,9 @@ public class ChartViewPagerAdapter extends PagerAdapter {
         Log.e(TAG, "instantianteItem");
         View view = LayoutInflater.from(mContext).inflate(R.layout.chart_viewpager_item_view, null);
         LineChart lineChart = (LineChart)view.findViewById(R.id.data_lc);
-        lineChart.setData(getData());
-        addLimitLine(lineChart);
-        initLineChart(lineChart);
+//        lineChart.setData(getData());
+//        addLimitLine(lineChart);
+//        initLineChart(lineChart);
         container.addView(view);
         return view;
     }
@@ -152,12 +151,12 @@ public class ChartViewPagerAdapter extends PagerAdapter {
 
         ArrayList<Entry> runBars = new ArrayList<>();
 
-        Iterator<SportsData> iterator = datas.iterator();
-        while (iterator.hasNext()) {
-            SportsData data = iterator.next();
-            dateManager.setDate(data.date);
-            runBars.add(new Entry(data.runSteps, dateManager.getDayOfMonth()));
-        }
+//        Iterator<SportsData> iterator = datas.iterator();
+//        while (iterator.hasNext()) {
+//            SportsData data = iterator.next();
+//            dateManager.setDate(data.date);
+//            runBars.add(new Entry(data.runSteps, dateManager.getDayOfMonth()));
+//        }
 
         LineDataSet runSet = new LineDataSet(runBars, "data");
         runSet.setDrawValues(false);

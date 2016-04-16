@@ -31,9 +31,9 @@ public final class LocalDataContract {
 
         public static final String CREATE_TABLE_USERINFO =
                 "create table " + TABLE_NAME + " ("
-                        + COLUMNS_NAME_NAME + " not null primary key "
-                        + COLUMNS_NAME_PASSWORD + " not null char(20) "
-                        + COLUMNS_NAME_LAST_SYNC_TIME + " datetime "
+                        + COLUMNS_NAME_NAME + " not null primary key,"
+                        + COLUMNS_NAME_PASSWORD + " char(20) not null,"
+                        + COLUMNS_NAME_LAST_SYNC_TIME + " timestamp"
                         + ");";
     }
 
@@ -55,16 +55,16 @@ public final class LocalDataContract {
 
         public static final String CREATE_TABLE_DEVICEINFO =
                 "create table " + TABLE_NAME + " ("
-                        + _ID + " integer not null auto_increment unique "
-                        + COLUMNS_NAME_SN + " not null primary key "
-                        + COLUMNS_NAME_MAC + " not null char(20) "
-                        + COLUMNS_NAME_NAME + " char(20) default 'yousong' "
-                        + COLUMNS_NAME_SEX + " char(10) default 'male' "
-                        + COLUMNS_NAME_AGE + " int(3) default '18' "
-                        + COLUMNS_NAME_WEIGHT + " integer default '50' "
-                        + COLUMNS_NAME_HEIGHT + " integer default '170' "
-                        + COLUMNS_NAME_POWER + " integer default '0' "
-                        + COLUMNS_NAME_IMAGE_PATH + " char(256) "
+                        + _ID + " integer auto_increment,"
+                        + COLUMNS_NAME_SN + " primary key not null,"
+                        + COLUMNS_NAME_MAC + " varchar(20) not null,"
+                        + COLUMNS_NAME_NAME + " varchar(20) default 'yoyo',"
+                        + COLUMNS_NAME_SEX + " varchar(10) default 'male',"
+                        + COLUMNS_NAME_AGE + " int(3) default '18',"
+                        + COLUMNS_NAME_WEIGHT + " integer default '50',"
+                        + COLUMNS_NAME_HEIGHT + " integer default '170',"
+                        + COLUMNS_NAME_POWER + " integer default '0',"
+                        + COLUMNS_NAME_IMAGE_PATH + " varchar(256)"
                         + ");";
     }
 
@@ -81,11 +81,11 @@ public final class LocalDataContract {
 
         public static final String CREATE_TABLE_MESSAGE =
                 "create table " + TABLE_NAME + " ("
-                        + _ID + " integer not null primary key auto_increment "
-                        + COLUMNS_NAME_DEVICE + " not null "
-                        + COLUMNS_NAME_TIME + " datetime "
-                        + COLUMNS_NAME_TYPE + " char(10) "
-                        + COLUMNS_NAME_MESSAGE + " text "
+                        + _ID + " integer auto_increment primary key,"
+                        + COLUMNS_NAME_DEVICE + " not null,"
+                        + COLUMNS_NAME_TIME + " timestamp,"
+                        + COLUMNS_NAME_TYPE + " varchar(10),"
+                        + COLUMNS_NAME_MESSAGE + " text"
                         + ");";
     }
 
@@ -102,11 +102,11 @@ public final class LocalDataContract {
 
         public static final String CREATE_TABLE_HEARTRATE =
                 "create table " + TABLE_NAME + " ("
-                        + _ID + " integer not null primary key auto_increment "
-                        + COLUMNS_NAME_DEVICE + " not null "
-                        + COLUMNS_NAME_RATE + " int(3) "
-                        + COLUMNS_NAME_TIME + " datetime "
-                        + COLUMNS_NAME_TYPE + " char(10) default 'device' "
+                        + _ID + " integer auto_increment primary key,"
+                        + COLUMNS_NAME_DEVICE + " not null,"
+                        + COLUMNS_NAME_RATE + " int(3),"
+                        + COLUMNS_NAME_TIME + " timestamp,"
+                        + COLUMNS_NAME_TYPE + " varchar(10) default 'device'"
                         + ");";
 
     }
@@ -129,16 +129,16 @@ public final class LocalDataContract {
 
         public static final String CREATE_TABLE_LOCATION =
                 "create table " + TABLE_NAME + " ("
-                        + _ID + " integer not null primary key auto_increment "
-                        + COLUMNS_NAME_LOCATION_DEVICE + " not null "
-                        + COLUMNS_NAME_LOCATION_LATITUDE + " double "
-                        + COLUMNS_NAME_LOCATION_LONGITUDE + " double "
-                        + COLUMNS_NAME_LOCATION_MCC + " int(3) "
-                        + COLUMNS_NAME_LOCATION_MNC + " int(3) "
-                        + COLUMNS_NAME_LOCATION_LAC + " int(3) "
-                        + COLUMNS_NAME_LOCATION_CID + " int(3) "
-                        + COLUMNS_NAME_LOCATION_TIME + " datetime "
-                        + COLUMNS_NAME_LOCATION_TYPE + " char(10) default 'gps' "
+                        + _ID + " integer auto_increment primary key,"
+                        + COLUMNS_NAME_LOCATION_DEVICE + " not null,"
+                        + COLUMNS_NAME_LOCATION_LATITUDE + " double,"
+                        + COLUMNS_NAME_LOCATION_LONGITUDE + " double,"
+                        + COLUMNS_NAME_LOCATION_MCC + " int(3),"
+                        + COLUMNS_NAME_LOCATION_MNC + " int(3),"
+                        + COLUMNS_NAME_LOCATION_LAC + " int(3),"
+                        + COLUMNS_NAME_LOCATION_CID + " int(3),"
+                        + COLUMNS_NAME_LOCATION_TIME + " timestamp,"
+                        + COLUMNS_NAME_LOCATION_TYPE + " varchar(10) default 'gps'"
                         + ");";
     }
 
@@ -157,13 +157,13 @@ public final class LocalDataContract {
 
         public static final String CREATE_TABLE_SPORTS =
                 "create table " + TABLE_NAME + " ("
-                        + _ID + " integer not null primary key auto_increment "
-                        + COLUMNS_NAME_SPORTS_DEVICE + " not null "
-                        + COLUMNS_NAME_SPORTS_RUN + " integer "
-                        + COLUMNS_NAME_SPORTS_WALK + " integer "
-                        + COLUMNS_NAME_SPORTS_CALORIES + " calories "
-                        + COLUMNS_NAME_SPORTS_TIME + " datetime "
-                        + COLUMNS_NAME_SPORTS_TYPE + " char(10) "
+                        + _ID + " integer auto_increment primary key,"
+                        + COLUMNS_NAME_SPORTS_DEVICE + " not null,"
+                        + COLUMNS_NAME_SPORTS_RUN + " integer,"
+                        + COLUMNS_NAME_SPORTS_WALK + " integer,"
+                        + COLUMNS_NAME_SPORTS_CALORIES + " calories,"
+                        + COLUMNS_NAME_SPORTS_TIME + " timestamp,"
+                        + COLUMNS_NAME_SPORTS_TYPE + " varchar(10)"
                         + ");";
     }
 
@@ -173,24 +173,24 @@ public final class LocalDataContract {
                 Uri.parse("content://" + AUTHORITY + "/sleeps");
 
         public static final String TABLE_NAME = "sleep";
-        public static final String COLUMNS_NAME_SLEEP_TOTALE = "totale";
+        public static final String COLUMNS_NAME_SLEEP_TOTALE = "total";
         public static final String COLUMNS_NAME_SLEEP_DEEP = "deep";
         public static final String COLUMNS_NAME_SLEEP_SHALLOW = "shallow";
         public static final String COLUMNS_NAME_SLEEP_DEVICE = "device";
         public static final String COLUMNS_NAME_SLEEP_START = "start";
         public static final String COLUMNS_NAME_SLEEP_END = "end";
-        public static final String COLUMNS_NAME_SLEEP_AWAKE = "awake";
+        public static final String COLUMNS_NAME_SLEEP_WAKE = "wake";
 
-        public static final String CREATE_TABLE_SPORTS =
+        public static final String CREATE_TABLE_SLEEP =
                 "create table " + TABLE_NAME + " ("
-                        + _ID + " integer not null primary key auto_increment "
-                        + COLUMNS_NAME_SLEEP_DEVICE + " not null "
-                        + COLUMNS_NAME_SLEEP_TOTALE + " integer "
-                        + COLUMNS_NAME_SLEEP_DEEP + " integer "
-                        + COLUMNS_NAME_SLEEP_SHALLOW + " integer "
-                        + COLUMNS_NAME_SLEEP_START + " datetime "
-                        + COLUMNS_NAME_SLEEP_END + " datetime "
-                        + COLUMNS_NAME_SLEEP_AWAKE + " integer "
+                        + _ID + " integer auto_increment primary key,"
+                        + COLUMNS_NAME_SLEEP_DEVICE + " not null,"
+                        + COLUMNS_NAME_SLEEP_TOTALE + " integer,"
+                        + COLUMNS_NAME_SLEEP_DEEP + " integer,"
+                        + COLUMNS_NAME_SLEEP_SHALLOW + " integer,"
+                        + COLUMNS_NAME_SLEEP_START + " timestamp,"
+                        + COLUMNS_NAME_SLEEP_END + " timestamp,"
+                        + COLUMNS_NAME_SLEEP_WAKE + " integer"
                         + ");";
     }
 

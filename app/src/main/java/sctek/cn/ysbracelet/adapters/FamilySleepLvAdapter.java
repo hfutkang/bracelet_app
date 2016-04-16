@@ -27,7 +27,7 @@ public class FamilySleepLvAdapter extends BaseAdapter{
     public FamilySleepLvAdapter(Context context, List<Object> objects) {
         records = objects;
         mContext = context;
-        dateManager = new YsDateManager(YsDateManager.DATE_FORMAT_SHOW2);
+        dateManager = new YsDateManager(YsDateManager.DATE_FORMAT_SECOND);
     }
     @Override
     public int getCount() {

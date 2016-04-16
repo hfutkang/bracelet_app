@@ -30,7 +30,7 @@ public class HRateListViewAdapter extends BaseAdapter{
         mContext = context;
         dataList = data;
         weekDays = mContext.getResources().getStringArray(R.array.weekdays);
-        dateManager = new YsDateManager(YsDateManager.DATE_FORMAT_SHOW2);
+        dateManager = new YsDateManager(YsDateManager.DATE_FORMAT_SECOND);
     }
 
     @Override

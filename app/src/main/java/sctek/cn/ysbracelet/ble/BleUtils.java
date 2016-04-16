@@ -1,8 +1,10 @@
 package sctek.cn.ysbracelet.ble;
 
+import android.annotation.TargetApi;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
+import android.os.Build;
 import android.util.Log;
 
 import java.util.UUID;
@@ -18,6 +20,7 @@ public class BleUtils {
 
     public final static boolean DEBUG = true;
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static boolean setCharacteristicNotification(BluetoothGatt bluetoothGatt, BluetoothGattCharacteristic characteristic
             , boolean enabled, String descriptorUuid) {
         if(BleUtils.DEBUG) Log.e(TAG, "setCharacteristicNotification");

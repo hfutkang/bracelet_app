@@ -2,7 +2,7 @@
 <sync-adapter
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:contentAuthority="sctek.cn.ysbracelet.sqlite.LocalDataProvider"
-    android:accountType="cn.sctek.account"
+    android:accountType="sctek.cn.ysbracelet"
     android:userVisible="true"
     android:supportsUploading="true"
     android:allowParallelSyncs="false"

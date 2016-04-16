@@ -1,10 +1,10 @@
 <login>
     <ts>123456789</ts>
     <res>100</res>
-    <user>
+    <userinfo>
         <name>18588456080</name>
         <password>123456</password>
-    </user>
+    </userinfo>
     <device>
         <user>18588456080</user>
         <id>sc201604011427</id>
@@ -15,7 +15,7 @@
         <power>80</power>
         <weight>40</weight>
         <height>156</height>
-        <image>http://www.baidu.com</image>
+        <image>http://radiotray.sourceforge.net/radio.png</image>
     </device>
     <device>
         <user>18588456080</user>
@@ -27,6 +27,6 @@
         <power>40</power>
         <weight>20</weight>
         <height>134</height>
-        <image>http://www.baidu.com</image>
+        <image>http://c.wrzuta.pl/wm16596/a32f1a47002ab3a949afeb4f</image>
     </device>
 </login>

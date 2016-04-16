@@ -33,7 +33,7 @@ public class XmlNodes {
 
     public final static String NODE_USERINFO = "userinfo";
 
-    public final static String NODE_DEVICE = "devcie";
+    public final static String NODE_DEVICE = "device";
 
     public final static String NODE_DEVICES = "devices";
 
@@ -51,6 +51,8 @@ public class XmlNodes {
 
         public final static String NODE_LATITUDE = "lat";
 
+        public final static String NODE_DEVICE_ID = "deviceId";
+
     }
 
     public class HeartRateNodes {
@@ -59,7 +61,7 @@ public class XmlNodes {
 
         public final static String NODE_RATE = "HR";
 
-        public final static String NODE_DEVICE_ID = "device";
+        public final static String NODE_DEVICE_ID = "deviceId";
 
         public final static String NODE_TYPE = "type";
     }
@@ -72,6 +74,8 @@ public class XmlNodes {
 
         public final static String NODE_RUN = "run";
 
+        public final static String NODE_DEVICE_ID = "deviceId";
+
     }
 
     public class SleepNodes {
@@ -79,6 +83,20 @@ public class XmlNodes {
         public final static String NODE_TIME = "time";
 
         public final static String NODE_QUALITY = "quality";
+
+        public final static String NODE_DEVICE_ID = "deviceId";
+
+        public final static String NODE_TOTAL = "total";
+
+        public final static String NODE_DEEP = "deep";
+
+        public final static String NODE_SHALLOW = "shallow";
+
+        public final static String NODE_WAKE = "wake";
+
+        public final static String NODE_START = "start";
+
+        public final static String NODE_END = "end";
 
     }
 

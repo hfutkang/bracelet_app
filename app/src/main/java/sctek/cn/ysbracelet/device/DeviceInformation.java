@@ -17,23 +17,23 @@ public class DeviceInformation implements YsData{
 
     private final static String TAG = DeviceInformation.class.getSimpleName();
 
-    private String serialNumber;
+    public String serialNumber;
 
-    private String name;
+    public String name;
 
-    private String mac;
+    public String mac;
 
-    private String imagePath;
+    public String imagePath;
 
-    private String sex;
+    public String sex;
 
-    private int age;
+    public int age;
 
-    private int weight;
+    public int weight;
 
-    private int height;
+    public int height;
 
-    private int power;
+    public int power;
 
     public DeviceInformation() {
         serialNumber = null;
@@ -118,6 +118,7 @@ public class DeviceInformation implements YsData{
 
     @Override
     public Uri insert(ContentResolver cr) {
+        Log.e(TAG, "insert:" + serialNumber);
         ContentValues values = new ContentValues();
         values.put(LocalDataContract.DeviceInfo.COLUMNS_NAME_SN, serialNumber);
         values.put(LocalDataContract.DeviceInfo.COLUMNS_NAME_MAC, mac);

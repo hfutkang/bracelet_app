@@ -60,4 +60,5 @@ public class YsApplication extends Application{
 
         ImageLoader.getInstance().init(config);
     }
+
 }

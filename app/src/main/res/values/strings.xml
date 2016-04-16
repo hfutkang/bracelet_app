@@ -32,17 +32,21 @@
     <string name="confirm_password_hint">Input your password again</string>
     <string name="forget_password_str">&lt;a href=\"http://www.baidu.com"&gt;默认的超链接样式&lt;/a&gt;</string>
 
-    <string name="sex_label">Choose your sex:</string>
-    <string name="age_label">Choose your age:</string>
-    <string name="height_label">Choose your height:</string>
-    <string name="weight_label">Choose your weight:</string>
+    <string name="name_label">Enter a name for it:</string>
+    <string name="sex_label">Choose sex for it:</string>
+    <string name="age_label">Choose age for it:</string>
+    <string name="height_label">Choose height for it:</string>
+    <string name="weight_label">Choose weight for it:</string>
 
-    <string name="sex_prompt">Your sex</string>
-    <string name="age_prompt">Your age:</string>
-    <string name="height_prompt">Your height:</string>
-    <string name="weight_prompt">Your weight:</string>
+    <string name="name_prompt">Name:</string>
+    <string name="sex_prompt">Sex:</string>
+    <string name="age_prompt">Age:</string>
+    <string name="height_prompt">Height:</string>
+    <string name="weight_prompt">Weight:</string>
 
     <string name="update_userinfo_fail">Update information fail,set to default.</string>
+    <string name="add_device_fail">Add new device fail,Try again later</string>
+    <string name="update_deviceinfo_fail">Update device information fail</string>
 
     <string name="save_label">Save</string>
     <string name="name_error_msg">Should be a valid phone number</string>
@@ -50,6 +54,7 @@
     <string name="register_error_exist">already exit!</string>
     <string name="register_error_fail">Fail to register, try again later</string>
     <string name="login_error_password">Username or password is wrong</string>
+    <string name="name_too_long">Name should be shorter than 20</string>
 
     <string name="login_label">Login</string>
     <string name="register_label">Register</string>
@@ -79,6 +84,8 @@
     <string name="sleep_total_label">Total</string>
     <string name="deep_sleep_label">Deep</string>
     <string name="shallow_sleep_label">Shallow</string>
+    <string name="hour">hour</string>
+    <string name="minute">min</string>
 
     <string name="loading_data">Loading data&#8230;</string>
     <string name="fail_load_data">Fail to get latest data</string>
@@ -98,8 +105,11 @@
     <string name="measure_fail">Fail</string>
     <string name="select_month">Month selector</string>
     <string name="ok_label">OK</string>
+    <string name="send_measure_command_success">Command has sent,result may be reliable in 5 minutes</string>
+    <string name="send_measure_command_fail">Fail to send measure command,please check you network</string>
 
     <string name="empty_data">No data</string>
+    <string name="no_device">No device found</string>
 
     <string name="trail_title">Trail</string>
     <string name='find_title'>Find</string>
@@ -144,6 +154,23 @@
 
     <string name="start">Start</string>
     <string name="goal">Goal</string>
+
+    <string name="turn_location_on_hint">Please turn on runtime location at settings when look for runtime position</string>
+    <string name="nerver_show">No longer display</string>
+    <string name="i_know">Got it</string>
+    <string name="no_position_data">No position data,Click refresh button to check</string>
+    <string name="no_trail_data">No trail</string>
+
+    <string name="turn_on_bluetooth_title">Enable Bluetooth</string>
+    <string name="turn_on_bluetooth_message">Use Fence function should enable bluetooth</string>
+    <string name="turn_on_now">Enable now</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="label_device_info">Device Information</string>
+
+    <string name="search_device_title">Search</string>
+    <string name="add">Add</string>
+    <string name="added">Already add</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

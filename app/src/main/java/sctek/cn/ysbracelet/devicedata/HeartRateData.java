@@ -20,22 +20,23 @@ public class HeartRateData implements YsData {
     public String deviceId;
     public String type;
 
-    private String tempTime = "2016-03-29";
+
+    public String tempTime = "2016-03-29 32:01";
 
     @Override
     public void setField(String field, String value) {
 
         if(XmlNodes.HeartRateNodes.NODE_RATE.equals(field)) {
-
+            rate = Integer.parseInt(value);
         }
         else if(XmlNodes.HeartRateNodes.NODE_TIME.equals(field)) {
-
+            tempTime = value;
         }
         else if(XmlNodes.HeartRateNodes.NODE_TYPE.equals(field)) {
-
+            type = value;
         }
         else if(XmlNodes.HeartRateNodes.NODE_DEVICE_ID.equals(field)) {
-
+            deviceId = value;
         }
 
     }

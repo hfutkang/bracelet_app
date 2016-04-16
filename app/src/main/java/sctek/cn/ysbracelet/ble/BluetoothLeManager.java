@@ -7,7 +7,6 @@ import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Build;
 import android.os.IBinder;
@@ -57,10 +56,31 @@ public class BluetoothLeManager {
         mContext = context;
         mBluetoothManager = (BluetoothManager)context.getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = mBluetoothManager.getAdapter();
-        loadBindedDevice();
 
-        Intent intent = new Intent(mContext, BluetoothLeService.class);
-        mContext.bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+        if(mBluetoothAdapter != null && !mBluetoothAdapter.isEnabled()) {
+            mBluetoothAdapter.enable();
+        }
+
+//        Intent intent = new Intent(mContext, BluetoothLeService.class);
+//        mContext.bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    public boolean isBluetoothEnabled() {
+        if(mBluetoothAdapter == null)
+            return false;
+        return mBluetoothAdapter.isEnabled();
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public void startBleScanl(BluetoothAdapter.LeScanCallback callback) {
+        if(mBluetoothAdapter != null&&mBluetoothAdapter.isEnabled()) {
+            mBluetoothAdapter.startLeScan(callback);
+        }
+    }
+
+    public void stopBleScan(BluetoothAdapter.LeScanCallback callback) {
+        if(mBluetoothAdapter != null)
+            mBluetoothAdapter.stopLeScan(callback);
     }
 
     private void loadBindedDevice() {
@@ -79,6 +99,7 @@ public class BluetoothLeManager {
         return mBluetoothLeService.connect(mContext, mBlAddress, mBluetoothAdapter, mBluetoothManager);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public boolean isConnected() {
         if(BleUtils.DEBUG) Log.e(TAG, "isConnected");
         if(mBlAddress == null)

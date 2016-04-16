@@ -2,60 +2,46 @@ package sctek.cn.ysbracelet.activitys;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.view.PagerAdapter;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import sctek.cn.ysbracelet.R;
-import sctek.cn.ysbracelet.adapters.FamilyHRateStatisticsLvAdapter;
+import sctek.cn.ysbracelet.adapters.FamilyHRateStatisticsDayVpAdapter;
 
-public class FamilyHRateStatisticsActivity extends AppCompatActivity {
+public class FamilyHRateStatisticsActivity extends FamilyDataStatisticsBaseActivity {
 
-    private ListView recordsLv;
-    private TextView emptyTv;
-
-    private View actionBarV;
-    private TextView titleTv;
-    private ImageButton backIb;
-    private ImageButton actionIb;
+    private final static String TAG = FamilyHRateStatisticsActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_family_hrate_statistics);
-        initViewElement();
     }
 
-    private void initViewElement() {
+    @Override
+    protected void initDataElement() {
+        super.initDataElement();
+        statisticsMode = STATISTICS_MODE_DAY;
+        adapter = new FamilyHRateStatisticsDayVpAdapter(this);
+    }
 
-        actionBarV = findViewById(R.id.action_bar_rl);
-        titleTv = (TextView)findViewById(R.id.title_tv);
-        backIb = (ImageButton)findViewById(R.id.nav_back_ib);
-        actionIb = (ImageButton)findViewById(R.id.action_ib);
+    @Override
+    protected void setContentView() {
+        setContentView(R.layout.activity_family_hrate_statistics);
+    }
+
+    @Override
+    protected PagerAdapter constructAdapter(int mode) {
+        return null;
+    }
+
+    protected void initViewElement() {
+        super.initViewElement();
 
         actionBarV.setBackgroundColor(Color.RED);
-        titleTv.setText(R.string.family_sleep_title);
+        titleTv.setText(R.string.family_hrate_title);
         actionIb.setVisibility(View.GONE);
 
-        recordsLv = (ListView)findViewById(R.id.data_lv);
-        FamilyHRateStatisticsLvAdapter adapter = new FamilyHRateStatisticsLvAdapter(this, null, 180, 1);
-        recordsLv.setAdapter(adapter);
-        recordsLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                FamilyHRateStatisticsLvAdapter.ViewHolder viewHolder = (FamilyHRateStatisticsLvAdapter.ViewHolder)view.getTag();
-                if(viewHolder.lineChart.getVisibility() == View.GONE) {
-                    viewHolder.lineChart.setVisibility(View.VISIBLE);
-                }
-                else {
-                    viewHolder.lineChart.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        emptyTv = (TextView)findViewById(R.id.empty_tv);
+        dayIv.setOnClickListener(onImageViewClickedListener);
+        dayIv.setSelected(true);
     }
 }

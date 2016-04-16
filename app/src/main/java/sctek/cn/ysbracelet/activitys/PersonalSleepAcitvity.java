@@ -1,59 +1,116 @@
 package sctek.cn.ysbracelet.activitys;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import sctek.cn.ysbracelet.R;
+import sctek.cn.ysbracelet.fragments.HomeFragment;
+import sctek.cn.ysbracelet.sqlite.LocalDataContract;
+import sctek.cn.ysbracelet.utils.YsTextUtils;
 
-public class PersonalSleepAcitvity extends AppCompatActivity {
+public class PersonalSleepAcitvity extends PersonalLatestDataBaseActivity {
 
     private final static String TAG = PersonalSleepAcitvity.class.getSimpleName();
-
-    private View actionBarV;
-    private TextView titleTv;
-    private ImageButton backIb;
-    private ImageButton historyIb;
-
-    private View summaryV;
-    private View detailV;
 
     private TextView startTv;
     private TextView endTv;
     private TextView dayTv;
     private TextView totalTimeTv;
     private TextView goalTv;
+    private TextView deepTv;
+    private TextView shallowTv;
+    private TextView fallingSleepTv;
+    private TextView lieTimeTv;
+    private TextView awakeTv;
+    private TextView wakeTimesTv;
 
     private Button goalIb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_sleep);
-        initElementView();
     }
 
-    private void initElementView() {
+    @Override
+    protected void setContentView() {
+        setContentView(R.layout.activity_personal_sleep);
+    }
 
-        actionBarV = findViewById(R.id.action_bar_rl);
+    @Override
+    protected void loadLatestRecord() {
+        if(deviceId == null) {
+            return;
+        }
+
+        String[] projection = new String[] {LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_TOTALE
+                , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_DEEP
+                , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_SHALLOW
+                , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_WAKE
+                , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START
+                , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_END };
+
+        ContentResolver cr = getContentResolver();
+        Cursor cursor = cr.query(LocalDataContract.Sleep.CONTENT_URI
+                , projection
+                , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_DEVICE + "=" + "'" + deviceId + "'"
+                , null
+                , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START + " desc limit 1");
+
+        if(cursor.moveToFirst()) {
+
+            String tempStart = cursor.getString(4);
+            String tempEnd = cursor.getString(5);
+            String[] tempS = tempStart.split(" ");
+            String[] tempE = tempEnd.split(" ");
+
+            startTv.setText(tempS[1]);
+            dayTv.setText(tempE[0]);
+            endTv.setText(tempE[1]);
+
+            int total = cursor.getInt(0);
+            int deep = cursor.getInt(1);
+            int shallow = cursor.getInt(2);
+            int wake = cursor.getInt(3);
+
+            wakeTimesTv.setText(wake + "");
+            totalTimeTv.setText(YsTextUtils.paserHourForMinute(this, total));
+            deepTv.setText(YsTextUtils.paserHourForMinute(this, deep));
+            shallowTv.setText(YsTextUtils.paserHourForMinute(this, shallow));
+
+
+        }
+
+        cursor.close();
+    }
+
+    protected void initViewElement() {
+        super.initViewElement();
+
         actionBarV.setBackgroundColor(Color.BLUE);
-        titleTv = (TextView)findViewById(R.id.title_tv);
         titleTv.setText(R.string.sleep_title);
-        historyIb = (ImageButton)findViewById(R.id.action_ib);
-        historyIb.setOnClickListener(onViewClickedListener);
-
-        backIb = (ImageButton)findViewById(R.id.nav_back_ib);
-
-        summaryV = findViewById(R.id.sleep_summary_rl);
-        detailV = findViewById(R.id.sleep_detail_ll);
+        actionIb.setOnClickListener(onViewClickedListener);
+        backIb.setOnClickListener(onViewClickedListener);
 
         goalIb = (Button) findViewById(R.id.goal_ib);
         goalIb.setOnClickListener(onViewClickedListener);
+
+        startTv = (TextView)findViewById(R.id.start_tv);
+        endTv = (TextView)findViewById(R.id.end_tv);
+        dayTv = (TextView)findViewById(R.id.day_tv);
+        totalTimeTv = (TextView)findViewById(R.id.total_time_tv);
+        goalTv = (TextView)findViewById(R.id.goal_tv);
+        deepTv = (TextView)findViewById(R.id.deep_time_tv);
+        shallowTv = (TextView)findViewById(R.id.shallow_time_tv);
+        fallingSleepTv = (TextView)findViewById(R.id.fall_time_tv);
+        lieTimeTv = (TextView)findViewById(R.id.lie_time_tv);
+        awakeTv = (TextView)findViewById(R.id.awake_time_tv);
+        wakeTimesTv = (TextView)findViewById(R.id.wake_times_tv);
 
     }
 
@@ -62,7 +119,9 @@ public class PersonalSleepAcitvity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.action_ib:
-                    startActivity(new Intent(PersonalSleepAcitvity.this, PersonalHistorySleepActivity.class));
+                    Intent intent = new Intent(PersonalSleepAcitvity.this, PersonalHistorySleepActivity.class);
+                    intent.putExtra(HomeFragment.EXTR_DEVICE_ID, deviceId);
+                    startActivity(intent);
                     break;
                 case R.id.goal_ib:
                     break;

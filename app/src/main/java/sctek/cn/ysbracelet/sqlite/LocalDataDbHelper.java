@@ -22,19 +22,25 @@ public class LocalDataDbHelper extends SQLiteOpenHelper {
 
         Log.e(TAG, "onCreate");
 
-        db.execSQL(LocalDataContract.UserInfo.CREATE_TABLE_USERINFO);
+        try {
 
-        db.execSQL(LocalDataContract.DeviceInfo.CREATE_TABLE_DEVICEINFO);
+            db.execSQL(LocalDataContract.UserInfo.CREATE_TABLE_USERINFO);
 
-        db.execSQL(LocalDataContract.HeartRate.CREATE_TABLE_HEARTRATE);
+            db.execSQL(LocalDataContract.DeviceInfo.CREATE_TABLE_DEVICEINFO);
 
-        db.execSQL(LocalDataContract.Sports.CREATE_TABLE_SPORTS);
+            db.execSQL(LocalDataContract.HeartRate.CREATE_TABLE_HEARTRATE);
 
-        db.execSQL(LocalDataContract.Sleep.CREATE_TABLE_SPORTS);
+            db.execSQL(LocalDataContract.Sports.CREATE_TABLE_SPORTS);
 
-        db.execSQL(LocalDataContract.Location.CREATE_TABLE_LOCATION);
+            db.execSQL(LocalDataContract.Sleep.CREATE_TABLE_SLEEP);
 
-        db.execSQL(LocalDataContract.Message.CREATE_TABLE_MESSAGE);
+            db.execSQL(LocalDataContract.Location.CREATE_TABLE_LOCATION);
+
+            db.execSQL(LocalDataContract.Message.CREATE_TABLE_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
 
     }
 

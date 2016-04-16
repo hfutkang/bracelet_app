@@ -62,7 +62,7 @@ public class SportsStatisticsActivity extends AppCompatActivity implements HttpC
         setContentView(R.layout.activity_sports_statistics);
         dataList = new ArrayList<>();
         mDevice = BluetoothLeManager.getInstance().getBindedDevice();
-        dateManager = new YsDateManager(YsDateManager.DATE_FORMAT_SHOW3);
+        dateManager = new YsDateManager(YsDateManager.DATE_FORMAT_MONTH);
         currentDate = dateManager.getCurrentDate();
 
         new Handler().post(new Runnable() {

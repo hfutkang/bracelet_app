@@ -127,7 +127,7 @@ public class LocationFragment extends Fragment implements HttpConnectionWorker.C
 
         footSteps = new ArrayList<>();
 
-        mDateManager = new YsDateManager(YsDateManager.DATE_FORMAT_SHOW1);
+        mDateManager = new YsDateManager(YsDateManager.DATE_FORMAT_DAY);
         currentDate = mDateManager.getCurrentDate();
         mDatePickerDialog = new DatePickerDialog(getContext(), onDateSetListener, 0, 0, 0);
         mDatePicker = mDatePickerDialog.getDatePicker();
@@ -330,7 +330,7 @@ public class LocationFragment extends Fragment implements HttpConnectionWorker.C
     private void getLatestLocation() {
         if(mDevice.getSerialNumber() == null)
             return;
-        String url = UrlUtils.compositeGetLatestLocationUrl(mDevice.getSerialNumber());
+        String url = UrlUtils.compositeGetLatestLocationForUserUrl(mDevice.getSerialNumber());
         YsHttpConnection connection = new YsHttpConnection(url, YsHttpConnection.METHOD_GET, null);
         HttpConnectionWorker worker = new HttpConnectionWorker(connection, this);
         worker.start();

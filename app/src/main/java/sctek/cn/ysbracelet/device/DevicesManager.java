@@ -46,6 +46,24 @@ public class DevicesManager {
         return mDevices.get(index);
     }
 
+    public DeviceInformation getDevice(String id) {
+        for (DeviceInformation d : mDevices) {
+            if(d.serialNumber.equals(id)) {
+                return d;
+            }
+        }
+        return null;
+    }
+
+    public DeviceInformation getDeviceByMac(String mac) {
+        for (DeviceInformation d : mDevices) {
+            if(d.mac.equals(mac)) {
+                return d;
+            }
+        }
+        return null;
+    }
+
     public List<DeviceInformation> getDevices() { return mDevices; }
 
     public void clear() {

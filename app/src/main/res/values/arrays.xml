@@ -259,7 +259,6 @@
         <item>90cm</item>
         <item>91cm</item>
         <item>92cm</item>
-        <item>92cm</item>
         <item>93cm</item>
         <item>94cm</item>
         <item>95cm</item>
@@ -298,6 +297,16 @@
         <item>128cm</item>
         <item>129cm</item>
         <item>130cm</item>
+        <item>131cm</item>
+        <item>132cm</item>
+        <item>133cm</item>
+        <item>134cm</item>
+        <item>135cm</item>
+        <item>136cm</item>
+        <item>137cm</item>
+        <item>138cm</item>
+        <item>139cm</item>
+        <item>140cm</item>
         <item>141cm</item>
         <item>142cm</item>
         <item>143cm</item>
@@ -416,13 +425,13 @@
     </string-array>
 
     <string-array name="weekdays">
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-        <item>Sunday</item>
+        <item>Mon</item>
+        <item>Tue</item>
+        <item>Wed</item>
+        <item>Thu</item>
+        <item>Fri</item>
+        <item>Sat</item>
+        <item>Sun</item>
     </string-array>
 
 </resources>

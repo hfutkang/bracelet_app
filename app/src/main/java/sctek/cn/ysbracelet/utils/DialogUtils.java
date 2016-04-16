@@ -12,5 +12,4 @@ public class DialogUtils {
         Toast.makeText(context, resId, Toast.LENGTH_LONG).show();
     }
 
-
 }

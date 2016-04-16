@@ -17,12 +17,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import sctek.cn.ysbracelet.R;
 import sctek.cn.ysbracelet.fragments.FamilyHRateFragment;
 import sctek.cn.ysbracelet.fragments.FamilySleepFragment;
@@ -54,27 +48,6 @@ public class MainActivity extends AppCompatActivity
         initNavigationView();
 
         initContentView();
-
-        try {
-            loadTestData();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void loadTestData() throws IOException{
-        File dataCache = getCacheDir();
-        String[] files = getAssets().list("testdata");
-        for(String fn : files) {
-            InputStream inputStream = getAssets().open(fn);
-            OutputStream outputStream = new FileOutputStream(new File(dataCache, fn));
-            byte[] buffer = new byte[1024];
-            int n = 0;
-            while ((n = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, n);
-            }
-
-        }
 
     }
 
@@ -148,6 +121,7 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case R.id.statistics_rb:
                         titleTv.setText(R.string.statistics_title);
+                        actionBarV.setBackgroundColor(getResources().getColor(R.color.orange));
                         showFragment(StatisticsFragment.class);
                         break;
                 }

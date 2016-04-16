@@ -41,7 +41,7 @@ public class XmlContentHandler extends DefaultHandler {
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
 		// TODO Auto-generated method stub
-		Log.e(TAG, localName);
+		Log.e(TAG, "startElement:" + localName);
 		mNodeName = localName;
 
 		if(localName.equals(XmlNodes.NODE_POSITION)) {
@@ -54,7 +54,7 @@ public class XmlContentHandler extends DefaultHandler {
 			mYsData = new SportsData();
 		}
 		else if(localName.equals(XmlNodes.NODE_LOGIN)) {
-			mYsData = YsUser.getInstance();
+//			mYsData = YsUser.getInstance();
 		}
 		else if(localName.equals(XmlNodes.NODE_REGISTER)) {
 		}
@@ -73,40 +73,39 @@ public class XmlContentHandler extends DefaultHandler {
 		else if(localName.equals(XmlNodes.NODE_USERINFO)) {
 			mYsData = YsUser.getInstance();
 		}
-
-		super.startElement(uri, localName, qName, attributes);
 	}
 	
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
 		// TODO Auto-generated method stub
+		Log.e(TAG, "endElement:" + localName);
 		if(localName.equals(XmlNodes.NODE_POSITION)
 				|| localName.equals(XmlNodes.NODE_HEARTRATE)
 				|| localName.equals(XmlNodes.NODE_SPORT)
-				|| localName.equals(XmlNodes.NODE_LOGIN)
 				|| localName.equals(XmlNodes.NODE_REGISTER)
 				|| localName.equals(XmlNodes.NODE_SLEEP)
 				|| localName.equals(XmlNodes.NODE_DEVICE)
 				|| localName.equals(XmlNodes.NODE_USERINFO))
 			publishData(mYsData);
 
-		super.endElement(uri, localName, qName);
+
 	}
 	
 	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 		// TODO Auto-generated method stub
-		Log.e(TAG, new String(ch));
 		String value = new String(ch, start, length);
+		Log.e(TAG, "characters:" + value);
+		if(value.contains("\n")||value.contains("  ")) {
+			return;
+		}
 		if(mYsData != null)
 			mYsData.setField(mNodeName, value);
 
 		if(mNodeName.equals(XmlNodes.NODE_RES))
 			responseCode = Integer.parseInt(value);
-
-		super.characters(ch, start, length);
 	}
 	
 	@Override

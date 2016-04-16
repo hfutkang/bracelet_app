@@ -15,15 +15,17 @@ import android.widget.TextView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import sctek.cn.ysbracelet.R;
+import sctek.cn.ysbracelet.activitys.EditorDeviceInfoActivity;
 import sctek.cn.ysbracelet.activitys.FenceActivity;
 import sctek.cn.ysbracelet.activitys.LocationAcitvity;
 import sctek.cn.ysbracelet.activitys.PersonalSleepAcitvity;
+import sctek.cn.ysbracelet.activitys.SearchDeviceActivity;
 import sctek.cn.ysbracelet.activitys.WarnActivity;
 import sctek.cn.ysbracelet.device.DeviceInformation;
 import sctek.cn.ysbracelet.uiwidget.CircleImageView;
 import sctek.cn.ysbracelet.adapters.FamiliesListViewAdapter;
 import sctek.cn.ysbracelet.uiwidget.HorizontalListView;
-import sctek.cn.ysbracelet.activitys.HeartRateActivity;
+import sctek.cn.ysbracelet.activitys.PersonalHeartRateActivity;
 import sctek.cn.ysbracelet.activitys.PersonalSportsAcitvity;
 import sctek.cn.ysbracelet.user.YsUser;
 
@@ -113,14 +115,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position >= mUser.getDeviceCount()) {
-
+                    startActivity(new Intent(getContext(), SearchDeviceActivity.class));
                 }
                 else {
                     selectedDevcie = mUser.getDevice(position);
                     ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv);
                     gravatarCiv.setProgress(selectedDevcie.getPower());
                     nameTv.setText(selectedDevcie.getName());
-                    ageTv.setText(selectedDevcie.getAge());
+                    ageTv.setText("" + selectedDevcie.getAge());
                 }
             }
         });
@@ -143,6 +145,20 @@ public class HomeFragment extends Fragment {
         locationTv.setOnClickListener(onViewClickedListener);
         warningTv.setOnClickListener(onViewClickedListener);
         fenceTv.setOnClickListener(onViewClickedListener);
+
+        selectedDevcie = mUser.getDevice(0);
+        gravatarCiv = (CircleImageView)view.findViewById(R.id.selected_member_cv);
+        nameTv = (TextView)view.findViewById(R.id.name_tv);
+        ageTv = (TextView)view.findViewById(R.id.age_tv);
+        sexTv = (TextView)view.findViewById(R.id.sex_tv);
+
+        ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv);
+        nameTv.setText(selectedDevcie.getName());
+        ageTv.setText("" + selectedDevcie.getAge());
+        sexTv.setText(selectedDevcie.getSex());
+
+        gravatarCiv.setOnClickListener(onViewClickedListener);
+
     }
 
     @Override
@@ -187,7 +203,7 @@ public class HomeFragment extends Fragment {
             intent.putExtras(bundle);
             switch (v.getId()) {
                 case R.id.heart_rate_title_tv:
-                    intent.setClass(getContext(), HeartRateActivity.class);
+                    intent.setClass(getContext(), PersonalHeartRateActivity.class);
                     startActivity(intent);
                     break;
                 case R.id.sports_title_tv:
@@ -213,6 +229,10 @@ public class HomeFragment extends Fragment {
                 case R.id.member_next_ib:
                     break;
                 case R.id.member_previous_ib:
+                    break;
+                case R.id.selected_member_cv:
+                    intent.setClass(getContext(), EditorDeviceInfoActivity.class);
+                    startActivity(intent);
                     break;
             }
 
