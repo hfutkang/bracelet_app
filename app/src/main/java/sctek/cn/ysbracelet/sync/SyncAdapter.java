@@ -3,7 +3,6 @@ package sctek.cn.ysbracelet.sync;
 import android.accounts.Account;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
@@ -25,32 +24,39 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements HttpConn
     public static final int SYNC_INTERVAL = 5*60;
 
     public static final int SYNC_TYPE_AUTO = 1;
-    public static final int SYNC_TYPE_MANNUAL = 2;
+    public static final int SYNC_TYPE_MANUAL_ALL = 2;
+    public static final int SYNC_TYPE_MANUAL_SINGLE = 3;
 
-    public static final String SYNC_EXTR = "cn.sctek.sync.extr";
+    private int syncMode;
 
-    private ContentResolver mContentResolver;
+    public static final String SYNC_EXTR_MODE = "cn.sctek.sync.extra";
+    public static final String SYNC_EXTR_DEVICE = "cn.sctek.sync.id";
+
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
-
-        mContentResolver = context.getContentResolver();
     }
 
     public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSync) {
         super(context, autoInitialize, allowParallelSync);
-        mContentResolver = context.getContentResolver();
     }
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-        int type = extras.getInt(SYNC_EXTR);//同步的类型，手动，自动。
-        Log.e(TAG, "onPerformSync:" + type + " " + authority);
-        switch (type) {
+         syncMode = extras.getInt(SYNC_EXTR_MODE);//同步的类型，手动，自动。
+        String id = extras.getString(SYNC_EXTR_DEVICE);
+        Log.e(TAG, "onPerformSync:" + syncMode + " " + authority);
+        Looper.prepare();
+        switch (syncMode) {
             case SYNC_TYPE_AUTO:
+                UserManagerUtils.syncForUser(account.name, YsUser.getInstance().getLastSyncTime(), this);
+                Looper.loop();
                 break;
-            case SYNC_TYPE_MANNUAL:
-                Looper.prepare();
-                UserManagerUtils.sync(account.name, YsUser.getInstance().getLastSyncTime(), this);
+            case SYNC_TYPE_MANUAL_ALL:
+                UserManagerUtils.syncForUser(account.name, YsUser.getInstance().getLastSyncTime(), this);
+                Looper.loop();
+                break;
+            case SYNC_TYPE_MANUAL_SINGLE:
+                UserManagerUtils.syncForDeivce(id, this);
                 Looper.loop();
                 break;
         }
@@ -60,11 +66,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements HttpConn
     public void onWorkDone(int resCode) {
         Looper.myLooper().quit();
         Log.e(TAG, "resCode:" + resCode);
+        if(syncMode == SYNC_TYPE_AUTO || syncMode == SYNC_TYPE_MANUAL_ALL) {
+            YsUser.getInstance().updateSyncTime(getContext().getContentResolver());
+        }
     }
 
     @Override
     public void onResult(YsData result) {
-        result.insert(getContext().getContentResolver());
+        try {
+            result.insert(getContext().getContentResolver());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

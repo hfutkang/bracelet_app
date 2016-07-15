@@ -2,9 +2,11 @@ package sctek.cn.ysbracelet.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,32 +14,29 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import sctek.cn.ysbracelet.R;
+import sctek.cn.ysbracelet.activitys.EditorDeviceInfoActivity;
 import sctek.cn.ysbracelet.activitys.FamilyHRateStatisticsActivity;
 import sctek.cn.ysbracelet.activitys.FamilySleepStatisticsActivity;
 import sctek.cn.ysbracelet.activitys.FamilySportsStatisticsActivity;
 import sctek.cn.ysbracelet.activitys.PersonalHRateStatisticsActivity;
 import sctek.cn.ysbracelet.activitys.PersonalSleepStatisticsActivity;
 import sctek.cn.ysbracelet.activitys.PersonalSportsStatisticsActivity;
+import sctek.cn.ysbracelet.activitys.SearchDeviceActivity;
 import sctek.cn.ysbracelet.adapters.FamiliesListViewAdapter;
 import sctek.cn.ysbracelet.device.DeviceInformation;
 import sctek.cn.ysbracelet.uiwidget.CircleImageView;
 import sctek.cn.ysbracelet.uiwidget.HorizontalListView;
 import sctek.cn.ysbracelet.user.YsUser;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link StatisticsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class StatisticsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    public final static String TAG = HomeFragment.class.getSimpleName();
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -50,6 +49,12 @@ public class StatisticsFragment extends Fragment {
     private HorizontalListView fimaliesLv;
     private ImageButton preIb;
     private ImageButton nextIb;
+
+    private DisplayImageOptions displayImageOptions;
+
+    private FamiliesListViewAdapter adapter;
+
+    private CircleImageView addCiv;
 
     private View hrateV;
     private View hrateSelectorV;
@@ -65,6 +70,7 @@ public class StatisticsFragment extends Fragment {
     private TextView personalSleepTv;
     private TextView familySleepTv;
 
+    private View selectorLo;
     private CircleImageView gravatarCiv;
     private TextView nameTv;
     private TextView sexTv;
@@ -77,15 +83,6 @@ public class StatisticsFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StatisticsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static StatisticsFragment newInstance(String param1, String param2) {
         StatisticsFragment fragment = new StatisticsFragment();
         Bundle args = new Bundle();
@@ -103,6 +100,24 @@ public class StatisticsFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         mUser = YsUser.getInstance();
+
+        displayImageOptions = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.gravatar_stub)
+                .showImageOnFail(R.drawable.gravatar_stub)
+                .resetViewBeforeLoading(true)
+                .cacheOnDisk(true)
+                .showImageForEmptyUri(R.drawable.gravatar_stub)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .considerExifParams(true)
+                .displayer(new FadeInBitmapDisplayer(300))
+                .build();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.e(TAG, "onResume");
     }
 
     @Override
@@ -117,17 +132,17 @@ public class StatisticsFragment extends Fragment {
     private void initViewElement(View view) {
 
         fimaliesLv = (HorizontalListView)view.findViewById(R.id.families_hlv);
-        FamiliesListViewAdapter adapter = new FamiliesListViewAdapter(getContext(), true);
+        adapter = new FamiliesListViewAdapter(getContext(), true);
         fimaliesLv.setAdapter(adapter);
         fimaliesLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position >= mUser.getDeviceCount()) {
-
+                    startActivityForResult(new Intent(getContext(), SearchDeviceActivity.class), HomeFragment.REQUEST_CODE_ADD);
                 }
                 else {
                     selectedDevcie = mUser.getDevice(position);
-                    ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv);
+                    ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv, displayImageOptions);
                     gravatarCiv.setProgress(selectedDevcie.getPower());
                     nameTv.setText(selectedDevcie.getName());
                     ageTv.setText("" + selectedDevcie.getAge());
@@ -162,17 +177,72 @@ public class StatisticsFragment extends Fragment {
         personalSportsTv.setOnClickListener(onViewClickedListener);
         familySportsTv.setOnClickListener(onViewClickedListener);
 
-        selectedDevcie = mUser.getDevice(0);
+        selectorLo = view.findViewById(R.id.family_selector_lo);
+        addCiv = (CircleImageView)view.findViewById(R.id.add_device_cv);
+
         gravatarCiv = (CircleImageView)view.findViewById(R.id.selected_member_cv);
         nameTv = (TextView)view.findViewById(R.id.name_tv);
         ageTv = (TextView)view.findViewById(R.id.age_tv);
         sexTv = (TextView)view.findViewById(R.id.sex_tv);
 
-        ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv);
-        nameTv.setText(selectedDevcie.getName());
-        ageTv.setText("" + selectedDevcie.getAge());
-        sexTv.setText(selectedDevcie.getSex());
+        if(mUser.getDeviceCount() == 0) {
+            addCiv.setVisibility(View.VISIBLE);
+            selectorLo.setVisibility(View.GONE);
+        }
+        else {
+            selectedDevcie = mUser.getDevice(0);
+            ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv, displayImageOptions);
+            nameTv.setText(selectedDevcie.getName());
+            ageTv.setText("" + selectedDevcie.getAge());
+            sexTv.setText(selectedDevcie.getSex());
+        }
 
+        addCiv.setOnClickListener(onViewClickedListener);
+        gravatarCiv.setOnClickListener(onViewClickedListener);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == HomeFragment.REQUEST_CODE_ADD) {
+            if(resultCode == HomeFragment.RESULT_CODE_ADD_OK) {
+                adapter.notifyDataSetChanged();
+                if(selectedDevcie == null) {
+                    addCiv.setVisibility(View.GONE);
+                    selectorLo.setVisibility(View.VISIBLE);
+                    selectedDevcie = mUser.getDevice(0);
+
+                    ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv, displayImageOptions);
+                    nameTv.setText(selectedDevcie.getName());
+                    ageTv.setText("" + selectedDevcie.getAge());
+                    sexTv.setText(selectedDevcie.getSex());
+                }
+            }
+        } else if(requestCode == HomeFragment.REQUEST_CODE_EDIT) {
+            if(resultCode == HomeFragment.RESULT_CODE_EDIT_OK) {
+                adapter.notifyDataSetChanged();
+                ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv, displayImageOptions);
+                nameTv.setText(selectedDevcie.getName());
+                ageTv.setText("" + selectedDevcie.getAge());
+                sexTv.setText(selectedDevcie.getSex());
+            }
+            else if(resultCode == HomeFragment.RESULT_CODE_DELETE_OK) {
+                adapter.notifyDataSetChanged();
+                if(mUser.getDeviceCount() == 0) {
+                    addCiv.setVisibility(View.VISIBLE);
+                    selectorLo.setVisibility(View.GONE);
+                    selectedDevcie = null;
+                }
+                else {
+                    selectedDevcie = YsUser.getInstance().getDevice(0);
+                    ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv, displayImageOptions);
+                    nameTv.setText(selectedDevcie.getName());
+                    ageTv.setText("" + selectedDevcie.getAge());
+                    sexTv.setText(selectedDevcie.getSex());
+                }
+            }
+        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -203,7 +273,8 @@ public class StatisticsFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Bundle bundle = new Bundle();
-            bundle.putString(HomeFragment.EXTR_DEVICE_ID, selectedDevcie.getSerialNumber());
+            if (selectedDevcie != null)
+                bundle.putString(HomeFragment.EXTR_DEVICE_ID, selectedDevcie.getSerialNumber());
             Intent intent = new Intent();
             intent.putExtras(bundle);
             switch (v.getId()) {
@@ -239,6 +310,14 @@ public class StatisticsFragment extends Fragment {
                 case R.id.family_sports_sta_tv:
                     intent.setClass(getContext(), FamilySportsStatisticsActivity.class);
                     startActivity(intent);
+                    break;
+                case R.id.selected_member_cv:
+                    intent.setClass(getContext(), EditorDeviceInfoActivity.class);
+                    startActivityForResult(intent, HomeFragment.REQUEST_CODE_EDIT);
+                    break;
+                case R.id.add_device_cv:
+                    intent.setClass(getContext(), SearchDeviceActivity.class);
+                    startActivityForResult(intent, HomeFragment.REQUEST_CODE_ADD);
                     break;
             }
         }

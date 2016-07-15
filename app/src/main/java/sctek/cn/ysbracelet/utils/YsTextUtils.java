@@ -51,6 +51,14 @@ public class YsTextUtils {
         return matcher.matches();
     }
 
+    public static boolean isValidCode(String code) {
+        if(code == null) return false;
+
+        Pattern patter = Pattern.compile("[0-9]{4}");
+        Matcher matcher = patter.matcher(code);
+        return matcher.matches();
+    }
+
     public static double calculateCalories(int run, int walk, int weight, int height) {
         double stepLength = height*HEIGHT_STEPLENGHT_RATIO/100000;//单位是千米
 
@@ -58,7 +66,7 @@ public class YsTextUtils {
                 + walk*stepLength*weight*METRIC_WALKING_FACTOR;
     }
 
-    public static String paserHourForMinute(Context context, int mins) {
+    public static String parseHourForMinute(Context context, int mins) {
         int h = mins/60;
         int m = mins%60;
 

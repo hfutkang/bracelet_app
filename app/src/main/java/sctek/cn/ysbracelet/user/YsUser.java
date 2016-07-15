@@ -1,9 +1,11 @@
 package sctek.cn.ysbracelet.user;
 
 import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
@@ -12,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 import sctek.cn.ysbracelet.DateManager.YsDateManager;
+import sctek.cn.ysbracelet.activitys.PersonalLatestDataBaseActivity;
 import sctek.cn.ysbracelet.ble.BleUtils;
 import sctek.cn.ysbracelet.device.DeviceInformation;
 import sctek.cn.ysbracelet.device.DevicesManager;
@@ -35,7 +38,7 @@ public class YsUser implements YsData{
 
     private String name;
     private String password;
-    private String lastSyncTime;
+    private String lastSyncTime = "1970-01-01 00:00";
     private String sex;
     private int age;
     private int height;
@@ -75,7 +78,8 @@ public class YsUser implements YsData{
             name = cursor.getString(nameIndex);
             password = cursor.getString(passwordIndex);
             lastSyncTime = cursor.getString(syncTimeIndex);
-            Log.e(TAG, lastSyncTime);
+
+            Log.e(TAG, name + " " + password + " " + lastSyncTime);
 
             loadDevices(context);
         }
@@ -108,7 +112,7 @@ public class YsUser implements YsData{
             device.height = cursor.getInt(heightIndex);
             device.weight = cursor.getInt(weightIndex);
             device.power = cursor.getInt(powerIndex);
-            device.imagePath = cursor.getString(imagePathIndex);
+            device.imageName = cursor.getString(imagePathIndex);
 
             mDevicesManager.addDevice(device);
         }
@@ -131,11 +135,52 @@ public class YsUser implements YsData{
 
     }
 
+    public void logout(Context context) {
+        AccountManager accountManager = AccountManager.get(context);
+        accountManager.removeAccount(getAccount(), null, null);
+        ContentResolver cr = context.getContentResolver();
+
+        cr.delete(LocalDataContract.HeartRate.CONTENT_URI, null, null);
+        cr.delete(LocalDataContract.Sports.CONTENT_URI, null, null);
+        cr.delete(LocalDataContract.Sleep.CONTENT_URI, null, null);
+        cr.delete(LocalDataContract.DeviceInfo.CONTENT_URI, null, null);
+        cr.delete(LocalDataContract.Sports.CONTENT_URI, null,null);
+        cr.delete(LocalDataContract.Location.CONTENT_URI, null, null);
+        cr.delete(LocalDataContract.Message.CONTENT_URI, null, null);
+        cr.delete(LocalDataContract.UserInfo.CONTENT_URI, null, null);
+
+        SharedPreferences preferences = context.getSharedPreferences("sctek.cn.ysbracelet.fence", Context.MODE_PRIVATE);
+        preferences.edit().clear().commit();
+        preferences = context.getSharedPreferences(PersonalLatestDataBaseActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
+        preferences.edit().clear().commit();
+
+        mDevicesManager.getDevices().clear();
+        name = null;
+        password = null;
+
+    }
+
     public void addDevice(DeviceInformation device) {
         mDevicesManager.addDevice(device);
     }
 
-    public void deleteDevice(DeviceInformation device) {
+    public void deleteDevice(DeviceInformation device, ContentResolver cr) {
+        device.delete(cr);
+        cr.delete(LocalDataContract.HeartRate.CONTENT_URI
+                , LocalDataContract.HeartRate.COLUMNS_NAME_DEVICE + "=?"
+                , new String[]{device.serialNumber});
+        cr.delete(LocalDataContract.Sports.CONTENT_URI
+                , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_DEVICE + "=?"
+                , new String[]{device.serialNumber});
+        cr.delete(LocalDataContract.Sleep.CONTENT_URI
+                , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_DEVICE + "=?"
+                , new String[]{device.serialNumber});
+        cr.delete(LocalDataContract.Message.CONTENT_URI
+                , LocalDataContract.Message.COLUMNS_NAME_DEVICE + "=?"
+                , new String[]{device.serialNumber});
+        cr.delete(LocalDataContract.Location.CONTENT_URI
+                , LocalDataContract.Location.COLUMNS_NAME_LOCATION_DEVICE + "=?"
+                , new String[]{device.serialNumber});
         mDevicesManager.deleteDevice(device);
     }
 
@@ -223,8 +268,6 @@ public class YsUser implements YsData{
         ContentValues values = new ContentValues();
         values.put(LocalDataContract.UserInfo.COLUMNS_NAME_NAME, name);
         values.put(LocalDataContract.UserInfo.COLUMNS_NAME_PASSWORD, password);
-        lastSyncTime = new YsDateManager(YsDateManager.DATE_FORMAT_SECOND).getCurrentDate();
-        values.put(LocalDataContract.UserInfo.COLUMNS_NAME_LAST_SYNC_TIME, lastSyncTime);
         return cr.insert(LocalDataContract.UserInfo.CONTENT_URI, values);
     }
 
@@ -237,14 +280,27 @@ public class YsUser implements YsData{
         values.put(LocalDataContract.UserInfo.COLUMNS_NAME_LAST_SYNC_TIME, lastSyncTime);
         return cr.update(LocalDataContract.UserInfo.CONTENT_URI
                 , values
-                , LocalDataContract.UserInfo.COLUMNS_NAME_NAME + "=" + name
+                , LocalDataContract.UserInfo.COLUMNS_NAME_NAME + "=" + "'" + name + "'"
                 , null);
+    }
+
+    public void updateSyncTime(ContentResolver cr) {
+
+        ContentValues values = new ContentValues();
+        lastSyncTime = new YsDateManager(YsDateManager.DATE_FORMAT_SECOND).getCurrentDate();
+        values.put(LocalDataContract.UserInfo.COLUMNS_NAME_LAST_SYNC_TIME, lastSyncTime);
+        cr.update(LocalDataContract.UserInfo.CONTENT_URI
+                , values
+                , LocalDataContract.UserInfo.COLUMNS_NAME_NAME + "=" + "'" + name + "'"
+                , null);
+        if(BleUtils.DEBUG) Log.e(TAG, "updateSyncTime:" + lastSyncTime);
+
     }
 
     @Override
     public int delete(ContentResolver cr) {
         return cr.delete(LocalDataContract.UserInfo.CONTENT_URI
-                , LocalDataContract.UserInfo.COLUMNS_NAME_NAME + "=" + name
+                , LocalDataContract.UserInfo.COLUMNS_NAME_NAME + "=" + "'" + name + "'"
                 , null);
     }
 }

@@ -23,11 +23,19 @@ public class Commands {
 
     public static final byte CMD_GET_HEART_RATE = 0x08;
 
-    public static final byte CMD_SWITCH_MODE = 0x09;
+    public static final byte CMD_GET_DEVICE_ID = 0x09;
+
+    public static final byte CMD_CONTROL_MOTOR = 0x0A;
+
+    public static final byte CMD_SWITHC_WARN = 0x0D;
+
+    public static final byte CMD_WARN_CONTROL = 0x14;
+
+    public static final byte CMD_GET_WARN_LIST = 0x15;
+
+    public static final byte CMD_MEASURE_HRATE = 0x11;
 
     public static final byte CMD_SOS = (byte)0x80;
-
-    public static final byte CMD_MEASURE_HRATE = 0x00;
 
     public class MotorData {
 

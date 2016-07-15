@@ -59,16 +59,16 @@ public class HeartRateData implements YsData {
         values.put(LocalDataContract.HeartRate.COLUMNS_NAME_TYPE, type);
         values.put(LocalDataContract.HeartRate.COLUMNS_NAME_TIME, tempTime);
         return cr.update(LocalDataContract.HeartRate.CONTENT_URI, values
-                , LocalDataContract.HeartRate.COLUMNS_NAME_TIME + "=" + tempTime
-                + " AND " + LocalDataContract.HeartRate.COLUMNS_NAME_DEVICE + "=" + deviceId
+                , LocalDataContract.HeartRate.COLUMNS_NAME_TIME + "=" + "'" + tempTime + "'"
+                + " AND " + LocalDataContract.HeartRate.COLUMNS_NAME_DEVICE + "=" + "'" + deviceId + "'"
                 , null);
     }
 
     @Override
     public int delete(ContentResolver cr) {
         return cr.delete(LocalDataContract.HeartRate.CONTENT_URI
-            , LocalDataContract.HeartRate.COLUMNS_NAME_TIME + "=" + tempTime
-                + " AND " + LocalDataContract.HeartRate.COLUMNS_NAME_DEVICE + "=" + deviceId
+            , LocalDataContract.HeartRate.COLUMNS_NAME_TIME + "=" + "'" + tempTime + "'"
+                + " AND " + LocalDataContract.HeartRate.COLUMNS_NAME_DEVICE + "=" + "'" + deviceId + "'"
             , null);
     }
 }

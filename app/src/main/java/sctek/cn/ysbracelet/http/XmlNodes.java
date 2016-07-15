@@ -23,6 +23,8 @@ public class XmlNodes {
 
     public final static String NODE_SLEEP = "sleep";
 
+    public final static String NODE_MSG = "message";
+
     public final static String NODE_RES = "res";
 
     public final static String NODE_TIMESTAMP = "ts";
@@ -53,13 +55,23 @@ public class XmlNodes {
 
         public final static String NODE_DEVICE_ID = "deviceId";
 
+        public final static String NODE_TYPE = "type";
+
+        public final static String NODE_MCC = "mcc";
+
+        public final static String NODE_MNC = "mnc";
+
+        public final static String NODE_LAC = "lac";
+
+        public final static String NODE_CID = "cid";
+
     }
 
     public class HeartRateNodes {
 
         public final static String NODE_TIME = "time";
 
-        public final static String NODE_RATE = "HR";
+        public final static String NODE_RATE = "rate";
 
         public final static String NODE_DEVICE_ID = "deviceId";
 
@@ -97,6 +109,18 @@ public class XmlNodes {
         public final static String NODE_START = "start";
 
         public final static String NODE_END = "end";
+
+    }
+
+    public class MessageNodes {
+
+        public final static String NODE_DEVICE_ID = "deviceId";
+
+        public final static String NODE_TIME = "time";
+
+        public final static String NODE_TYPE = "type";
+
+        public final static String NODE_MSG = "msg";
 
     }
 

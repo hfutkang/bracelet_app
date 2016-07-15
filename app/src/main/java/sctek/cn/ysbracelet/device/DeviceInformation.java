@@ -9,6 +9,8 @@ import sctek.cn.ysbracelet.ble.BleUtils;
 import sctek.cn.ysbracelet.devicedata.YsData;
 import sctek.cn.ysbracelet.http.XmlNodes;
 import sctek.cn.ysbracelet.sqlite.LocalDataContract;
+import sctek.cn.ysbracelet.user.YsUser;
+import sctek.cn.ysbracelet.utils.UrlUtils;
 
 /**
  * Created by kang on 16-2-24.
@@ -23,17 +25,17 @@ public class DeviceInformation implements YsData{
 
     public String mac;
 
-    public String imagePath;
+    public String imageName;
 
-    public String sex;
+    public String sex = "Female";
 
-    public int age;
+    public int age = 1;
 
-    public int weight;
+    public int weight = 75;
 
-    public int height;
+    public int height = 10;
 
-    public int power;
+    public int power = 100;
 
     public DeviceInformation() {
         serialNumber = null;
@@ -45,6 +47,7 @@ public class DeviceInformation implements YsData{
         serialNumber = sn;
         this.mac = mac;
         this.name = name;
+        this.imageName = YsUser.getInstance().getName() + "_" + sn + ".png";
     }
 
     public void setName(String name) {
@@ -77,7 +80,11 @@ public class DeviceInformation implements YsData{
 
     public int getHeight() { return height; }
 
-    public String getImagePath() { return imagePath; }
+    public String getImageName() {
+        return imageName;
+    }
+
+    public String getImagePath() { return UrlUtils.IMAGE_PATH_BASE + imageName; };
 
     public String getSex() { return sex; }
 
@@ -106,7 +113,7 @@ public class DeviceInformation implements YsData{
             power = Integer.parseInt(value);
         }
         else if(field.equals(XmlNodes.DeviceNodes.NODE_IMAGE)) {
-            imagePath = value;
+            imageName = value;
         }
         else if(field.equals(XmlNodes.DeviceNodes.NODE_SEX)) {
             sex = value;
@@ -128,7 +135,7 @@ public class DeviceInformation implements YsData{
         values.put(LocalDataContract.DeviceInfo.COLUMNS_NAME_AGE, age);
         values.put(LocalDataContract.DeviceInfo.COLUMNS_NAME_WEIGHT, weight);
         values.put(LocalDataContract.DeviceInfo.COLUMNS_NAME_POWER, power);
-        values.put(LocalDataContract.DeviceInfo.COLUMNS_NAME_IMAGE_PATH, imagePath);
+        values.put(LocalDataContract.DeviceInfo.COLUMNS_NAME_IMAGE_PATH, imageName);
         return cr.insert(LocalDataContract.DeviceInfo.CONTENT_URI, values);
     }
 
@@ -143,17 +150,17 @@ public class DeviceInformation implements YsData{
         values.put(LocalDataContract.DeviceInfo.COLUMNS_NAME_AGE, age);
         values.put(LocalDataContract.DeviceInfo.COLUMNS_NAME_WEIGHT, weight);
         values.put(LocalDataContract.DeviceInfo.COLUMNS_NAME_POWER, power);
-        values.put(LocalDataContract.DeviceInfo.COLUMNS_NAME_IMAGE_PATH, imagePath);
+        values.put(LocalDataContract.DeviceInfo.COLUMNS_NAME_IMAGE_PATH, imageName);
         return cr.update(LocalDataContract.DeviceInfo.CONTENT_URI
                 , values
-                , LocalDataContract.DeviceInfo.COLUMNS_NAME_SN + "=" + serialNumber
+                , LocalDataContract.DeviceInfo.COLUMNS_NAME_SN + "=" + "'" + serialNumber + "'"
                 , null);
     }
 
     @Override
     public int delete(ContentResolver cr) {
         return cr.delete(LocalDataContract.DeviceInfo.CONTENT_URI
-                , LocalDataContract.DeviceInfo.COLUMNS_NAME_SN + "=" + serialNumber
-                , null);
+                , LocalDataContract.DeviceInfo.COLUMNS_NAME_SN + "=?"
+                , new String[]{serialNumber});
     }
 }

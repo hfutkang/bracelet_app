@@ -125,6 +125,8 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
 
         new InitOverlaysAsyncTask().execute();
 
+        new LoadPolylinesAsyncTask().execute();
+
         initMyCurrentPosition();
     }
 
@@ -383,14 +385,14 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
                     DialogUtils.makeToast(LocationAcitvity.this, R.string.no_position_data);
                     return;
                 }
-                mOverlaysManager.toggleMarkerVisible(device.serialNumber);
+                mOverlaysManager.toggleMarkerVisible(mBaiduMap, device.serialNumber);
             }
             else if(currentMode == MODE_HISTORY) {
                 if(!mOverlaysManager.hasTrail(device.serialNumber)) {
                     DialogUtils.makeToast(LocationAcitvity.this, R.string.no_trail_data);
                     return;
                 }
-                mOverlaysManager.togglePolylineVisible(device.serialNumber);
+                mOverlaysManager.togglePolylineVisible(mBaiduMap, device.serialNumber);
             }
         }
     };
@@ -469,6 +471,12 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
         LatLng latLng = new LatLng(data.latitude, data.longitude);
         mOverlaysManager.moveMarkerTo(data.deviceId, latLng);
         mOverlaysManager.setMarkerTitle(data.deviceId, data.tempTime);
+
+        try {
+            data.insert(getContentResolver());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

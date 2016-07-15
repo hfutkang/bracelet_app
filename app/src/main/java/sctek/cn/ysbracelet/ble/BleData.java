@@ -15,10 +15,12 @@ public class BleData {
 
     private byte[] dataBuffer;
     private int cmd;
+    private String mac;
 
-    public BleData(int cmd, byte[] data) {
+    public BleData(int cmd, byte[] data, String mac1) {
         this.cmd = cmd;
         dataBuffer = data;
+        mac = mac1;
     }
 
     public void append(byte[] data) {
@@ -43,6 +45,24 @@ public class BleData {
 
     public int getCmd() {
         return cmd;
+    }
+
+    public String getMac() {
+        return mac;
+    }
+
+    public int getSequenceNumber(int offset) {
+        int leftLenght = dataBuffer.length - offset;
+
+        if(leftLenght < MAX_SEGMENT_SIZE)
+            return 1;
+
+        int seq = leftLenght/MAX_SEGMENT_SIZE;
+
+        if(leftLenght%MAX_SEGMENT_SIZE == 0)
+            return seq;
+        else
+            return seq + 1;
     }
 
     public byte[] getNextSegment(int offset) {

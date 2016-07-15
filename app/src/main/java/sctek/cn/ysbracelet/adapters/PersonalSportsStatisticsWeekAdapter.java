@@ -61,7 +61,7 @@ public class PersonalSportsStatisticsWeekAdapter extends PersonalStatisticsBaseA
                 , new String[]{LocalDataContract.Sports.COLUMNS_NAME_SPORTS_WALK, LocalDataContract.Sports.COLUMNS_NAME_SPORTS_RUN
                         , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME}
                 , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_DEVICE + "=?"
-                        + " AND " + LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + ">" + "'" + dateStart + "'"
+                        + " AND " + LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + ">=" + "'" + dateStart + "'"
                         + " AND " + LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + "<" + "'" + dateEnd + "'"
                 , new String[]{deviceId}
                 , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + " asc");

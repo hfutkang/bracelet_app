@@ -1,9 +1,14 @@
 package sctek.cn.ysbracelet.ble;
 
 import android.annotation.TargetApi;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
+import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
+import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
@@ -64,6 +69,7 @@ public class BleUtils {
         return writeValue(bluetoothGatt, writeCharacteristic, qppData);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     private static boolean writeValue(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, byte[] bytes){
         if(BleUtils.DEBUG) Log.e(TAG, "writeValue");
         if(gatt == null){
@@ -75,4 +81,40 @@ public class BleUtils {
         return gatt.writeCharacteristic(characteristic);
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public static boolean isConnected(Context context, String mac) {
+        BluetoothManager manager = (BluetoothManager)context.getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter adapter = manager.getAdapter();
+        if(BleUtils.DEBUG) Log.e(TAG, "isConnected");
+        if(mac == null || manager == null || adapter == null)
+            return false;
+        BluetoothDevice device = adapter.getRemoteDevice(mac);
+        return manager.getConnectionState(device, BluetoothProfile.GATT) == BluetoothProfile.STATE_CONNECTED;
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public static boolean isBluetoothEnabled(Context context) {
+        BluetoothManager manager = (BluetoothManager)context.getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter adapter = manager.getAdapter();
+        if(adapter == null)
+            return false;
+        return adapter.isEnabled();
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public static void startBleScanl(Context context, BluetoothAdapter.LeScanCallback callback) {
+        BluetoothManager manager = (BluetoothManager)context.getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter adapter = manager.getAdapter();
+        if(adapter != null&&adapter.isEnabled()) {
+            adapter.startLeScan(callback);
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public static void stopBleScan(Context context, BluetoothAdapter.LeScanCallback callback) {
+        BluetoothManager manager = (BluetoothManager)context.getSystemService(Context.BLUETOOTH_SERVICE);
+        BluetoothAdapter adapter = manager.getAdapter();
+        if(adapter != null)
+            adapter.stopLeScan(callback);
+    }
 }

@@ -1,8 +1,10 @@
 package sctek.cn.ysbracelet.activitys;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,7 +24,9 @@ import sctek.cn.ysbracelet.fragments.FamilyHRateFragment;
 import sctek.cn.ysbracelet.fragments.FamilySleepFragment;
 import sctek.cn.ysbracelet.fragments.FamilySportsFragment;
 import sctek.cn.ysbracelet.fragments.HomeFragment;
+import sctek.cn.ysbracelet.fragments.MessageFragment;
 import sctek.cn.ysbracelet.fragments.OnFragmentInteractionListener;
+import sctek.cn.ysbracelet.fragments.SettingsFragment;
 import sctek.cn.ysbracelet.fragments.StatisticsFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void initNavigationView() {
 
         actionBarV = findViewById(R.id.action_bar_rl);
@@ -86,6 +91,7 @@ public class MainActivity extends AppCompatActivity
         RadioGroup radioGroup = (RadioGroup)findViewById(R.id.bottom_navigation_rg);
         nullRb = (RadioButton)findViewById(R.id.null_rb);
         radioGroup.setOnCheckedChangeListener(onCheckedChangeListener);
+
     }
 
     @Override
@@ -116,8 +122,14 @@ public class MainActivity extends AppCompatActivity
                         showFragment(HomeFragment.class);
                         break;
                     case R.id.messages_rb:
+                        titleTv.setText(R.string.label_messages);
+                        actionBarV.setBackgroundColor(getResources().getColor(R.color.orange));
+                        showFragment(MessageFragment.class);
                         break;
                     case R.id.settings_rb:
+                        titleTv.setText(R.string.label_settings);
+                        actionBarV.setBackgroundColor(getResources().getColor(R.color.orange));
+                        showFragment(SettingsFragment.class);
                         break;
                     case R.id.statistics_rb:
                         titleTv.setText(R.string.statistics_title);

@@ -1,7 +1,6 @@
 package sctek.cn.ysbracelet.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +10,6 @@ import sctek.cn.ysbracelet.R;
 import sctek.cn.ysbracelet.adapters.FamilySleepMonthVpAdapter;
 import sctek.cn.ysbracelet.adapters.FamilySleepWeekVpAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FamilySleepFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class FamilySleepFragment extends FamilyDataBaseFragment {
 
     private static final String TAG = FamilySleepFragment.class.getSimpleName();

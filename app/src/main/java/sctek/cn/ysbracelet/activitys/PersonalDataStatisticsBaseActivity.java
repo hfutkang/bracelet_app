@@ -67,6 +67,13 @@ public abstract class PersonalDataStatisticsBaseActivity extends AppCompatActivi
         backIb = (ImageButton)findViewById(R.id.nav_back_ib);
         timeTv = (TextView)findViewById(R.id.time_tv);
 
+        backIb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         mViewPager = (ViewPager)findViewById(R.id.chart_vp);
         mViewPager.setAdapter(adapter);
 

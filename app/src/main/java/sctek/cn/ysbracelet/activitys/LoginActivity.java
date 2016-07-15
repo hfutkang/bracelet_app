@@ -1,14 +1,17 @@
 package sctek.cn.ysbracelet.activitys;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.igexin.sdk.PushManager;
 
 import sctek.cn.ysbracelet.R;
 import sctek.cn.ysbracelet.device.DeviceInformation;
@@ -30,7 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout nameTl;
     private TextInputLayout passwordTl;
 
-    private TextView findPassordTv;
+    private TextView findPasswordTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +54,24 @@ public class LoginActivity extends AppCompatActivity {
         nameTl = (TextInputLayout)findViewById(R.id.username_tl);
         passwordTl = (TextInputLayout)findViewById(R.id.password_tl);
 
-        findPassordTv = (TextView)findViewById(R.id.find_password_tv);
+        findPasswordTv = (TextView)findViewById(R.id.find_password_tv);
 
-        findPassordTv.setText(Html.fromHtml(getString(R.string.forget_password_str)));
-        findPassordTv.setMovementMethod(LinkMovementMethod.getInstance());
+        findPasswordTv.setText(Html.fromHtml(getString(R.string.forget_password_str)));
+        findPasswordTv.getPaint().setFlags(Paint. UNDERLINE_TEXT_FLAG);
+        findPasswordTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, FindPasswordActivity.class));
+            }
+        });
+//        findPassordTv.setMovementMethod(LinkMovementMethod.getInstance());
 
     }
 
     public void onLoginButtonClicked(View v) {
 
-        String name = nameEt.getText().toString();
-        String password = passwordEt.getText().toString();
+        final String name = nameEt.getText().toString();
+        final String password = passwordEt.getText().toString();
 
         if(!YsTextUtils.isPhoneNumber(name)) {
             String msg = getString(R.string.name_error_msg);
@@ -78,11 +88,23 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onWorkDone(int resCode) {
                 if(resCode == XmlNodes.RESPONSE_CODE_SUCCESS) {
+
+                    YsUser.getInstance().setName(name);
+                    YsUser.getInstance().setPassword(password);
+                    YsUser.getInstance().insert(getContentResolver());
+
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     UserManagerUtils.createSyncAccount(getApplicationContext());//登录成功，开始同步服务器数据
+                    PushManager.getInstance().initialize(getApplicationContext());
+                    boolean result = PushManager.getInstance().bindAlias(getApplicationContext(), name);
+                    Log.e(TAG, "bind alias result:" + result);
+                    finish();
                 }
                 else if(resCode == XmlNodes.RESPONSE_CODE_OTHER) {
                     DialogUtils.makeToast(LoginActivity.this, R.string.login_error_password);
+                }
+                else if(resCode == XmlNodes.RESPONSE_CODE_FAIL) {
+                    DialogUtils.makeToast(LoginActivity.this, R.string.login_not_exist);
                 }
             }
 
@@ -90,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResult(YsData result) {
 
                 /*
-                * 登录成功后返回登录用户和该用户监护的设备，
+                * 登录成功后返回登录用户监护的设备，
                 * 下面将他们插入到本地数据库。
                 * */
                 result.insert(getContentResolver());
@@ -102,13 +124,14 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(Exception e) {
+                DialogUtils.makeToast(LoginActivity.this, R.string.login_fail);
                 e.printStackTrace();
             }
         });
     }
 
     public void onRegisterButtonClicked(View v) {
-//        startActivity(new Intent(this, RegisterActivity.class));
+        startActivity(new Intent(this, RegisterActivity.class));
     }
 
 }

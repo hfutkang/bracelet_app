@@ -90,8 +90,8 @@ public class SleepData implements YsData {
         return cr.update(LocalDataContract.Sleep.CONTENT_URI
                     , values
                     , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_DEVICE + "=" + deviceId
-                        + " AND " + LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START + "=" + startTime
-                        + " AND " + LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_END + "=" + endTime
+                        + " AND " + LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START + "=" + "" + startTime + "'"
+                        + " AND " + LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_END + "=" + "'" + endTime + "'"
                     , null);
     }
 
@@ -100,8 +100,8 @@ public class SleepData implements YsData {
 
         return cr.delete(LocalDataContract.Sleep.CONTENT_URI
                 , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_DEVICE + "=" + deviceId
-                        + " AND " + LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START + "=" + startTime
-                        + " AND " + LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_END + "=" + endTime
+                        + " AND " + LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START + "=" + "'" + startTime + "'"
+                        + " AND " + LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_END + "=" + "'" + endTime + "'"
                 , null);
     }
 }

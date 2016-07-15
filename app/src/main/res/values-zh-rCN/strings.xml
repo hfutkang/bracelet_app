@@ -1,0 +1,232 @@
+<resources>
+    <string name="app_name">优松手环</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string name="navigation_mbracelet">我的手环</string>
+    <string name="navigation_rbracelets">远程手环</string>
+    <string name="navigation_messages">消息</string>
+    <string name="navigation_about">关于</string>
+    <string name="navigation_help">帮助</string>
+
+    <string name="label_home">主页</string>
+    <string name="label_messages">消息</string>
+    <string name="label_settings">设置</string>
+    <string name="label_statistics">统计</string>
+
+    <string name="label_fimaly_sports">家庭运动</string>
+    <string name="label_fimaly_hrate">家庭心率</string>
+    <string name="label_fimaly_sleep">家庭睡眠</string>
+
+    <string name="warning_title">提醒</string>
+    <string name="fence_title">围栏</string>
+
+    <string name="username_label">用户名:</string>
+    <string name="password_label">&#160;&#160;&#160;&#160;密码:</string>
+    <string name="new_password_label">新密码:</string>
+    <string name="confirm_password_label">&#160;&#160;&#160;&#160;确认:</string>
+    <string name="username_hint">手机号码</string>
+    <string name="password_hint">密码</string>
+    <string name="confirm_password_hint">密码确认</string>
+    <string name="email_label">&#160;&#160;&#160;&#160;邮箱:</string>
+    <string name="email_hint">邮箱地址</string>
+    <string name="forget_password_str">忘记密码</string>
+
+    <string name="get_verify_code">获取验证码</string>
+    <string name="email_verify">邮箱验证码</string>
+    <string name="change_password_label">修改密码</string>
+    <string name="try_again_in60s">重试(60s)</string>
+    <string name="user_not_exist">用户不存在</string>
+    <string name="invalid_vcode_msg">无效验证码</string>
+    <string name="change_password_fail">修改密码失败</string>
+    <string name="change_password_success">修改密码成功</string>
+
+    <string name="name_label">手环昵称:</string>
+    <string name="sex_label">她/他的性别:</string>
+    <string name="age_label">她/他的年龄:</string>
+    <string name="height_label">她/他的身高:</string>
+    <string name="weight_label">她/他的体重:</string>
+
+    <string name="name_prompt">名字:</string>
+    <string name="sex_prompt">性别:</string>
+    <string name="age_prompt">年龄:</string>
+    <string name="height_prompt">身高:</string>
+    <string name="weight_prompt">体重:</string>
+
+    <string name="update_userinfo_fail">更新帐号信息失败，使用默认设置.</string>
+    <string name="add_device_fail">添加设备失败，请稍后再试</string>
+    <string name="new_device_exist">失败! 设备退出</string>
+    <string name="update_deviceinfo_fail">更新设备信息失败</string>
+
+    <string name="save_label">保存</string>
+    <string name="name_error_msg">输入有效手机号码</string>
+    <string name="password_error_msg">不合法的密码</string>
+    <string name="confirm_pw_error_msg">密码不一致</string>
+    <string name="email_error_msg">不合法的邮箱地址</string>
+    <string name="register_error_exist">用户已存在!</string>
+    <string name="register_error_fail">注册失败，请稍后重试。</string>
+    <string name="login_error_password">用户名或密码错误</string>
+    <string name="login_not_exist">用户不存在</string>
+    <string name="login_fail">登录失败，请检查你的网络</string>
+    <string name="name_too_long">用户名不能超过20个字符</string>
+
+    <string name="login_label">登录</string>
+    <string name="register_label">注册</string>
+
+    <string name="bracelet_data">数据</string>
+    <string name="location_title">定位</string>
+    <string name="bracelet_settings">设置</string>
+
+    <string name="sports_title">运动</string>
+    <string name="total_steps_label">总步数</string>
+    <string name="total_time_label">总时间</string>
+    <string name="walk_steps_label">步行</string>
+    <string name="step_unit">步数</string>
+    <string name="run_steps_label">跑步</string>
+    <string name="calorie_label">卡路里</string>
+    <string name="longest_time_label">最长</string>
+    <string name="break_time_label">休息</string>
+    <string name="calorie_unit">卡</string>
+
+    <string name="heart_rate_title">心率</string>
+    <string name="heart_rate_unit">bpm</string>
+    <string name="heart_rate_records_label">记录</string>
+    <string name="max_label">最大</string>
+    <string name="min_label">最小</string>
+    <string name="average_label">平均</string>
+    <string name="my_heart_rate_label">心率</string>
+    <string name="latest_heart_rate_label">最新心率</string>
+
+    <string name="sleep_title">睡眠</string>
+    <string name="sleep_unit">时</string>
+    <string name="sleep_total_label">总时长</string>
+    <string name="deep_sleep_label">深睡</string>
+    <string name="shallow_sleep_label">浅睡</string>
+    <string name="falling_sleep_label">入睡用时</string>
+    <string name="lie_time_label">躺床时间</string>
+    <string name="awake_time_label">清醒</string>
+    <string name="wake_times_label">醒来次数</string>
+    <string name="hour">时</string>
+    <string name="minute">分</string>
+
+    <string name="loading_data">加载数据&#8230;</string>
+    <string name="fail_load_data">加载最新数据失败</string>
+    <string name="success_load_data">数据已更新</string>
+    <string name="ble_disconnected">BLe已断开</string>
+    <string name="ble_connected">连接</string>
+    <string name="fail_get_sports_data">获取运动数据失败</string>
+    <string name="fail_get_heart_rate_data">获取心率数据失败</string>
+    <string name="fail_get_sleep_data">获取睡眠数据失败</string>
+    <string name="timeout_get_sports_data">获取运动数据超时</string>
+    <string name="timeout_get_heart_rate_data">获取心率数据超时</string>
+    <string name="timeout_get_sleep_data">获取睡眠数据超时</string>
+
+    <string name="start_measure_hrate">测试心率</string>
+    <string name="preparing_to_measure">正在准备&#8230;</string>
+    <string name="measure_in_progress">测试中&#8230;</string>
+    <string name="measure_fail">失败</string>
+    <string name="select_month">选择月份</string>
+    <string name="ok_label">确认</string>
+    <string name="send_measure_command_success">请等待，测试结果将在五分钟内可查询</string>
+    <string name="send_measure_command_fail">测试命令发送失败，请检查你的网络。</string>
+    <string name="no_data_yet">暂无数据</string>
+
+    <string name="empty_data">无数据</string>
+    <string name="no_device">未发现设备</string>
+
+    <string name="trail_title">轨迹</string>
+    <string name='find_title'>查找</string>
+
+    <string name="call_reminder_title">来电提醒</string>
+    <string name="alarms_title">闹钟</string>
+    <string name="event_reminder_title">事件提醒</string>
+    <string name="alarm_mode">提醒模式</string>
+    <string name="alarm_name">事件标签</string>
+    <string name="alarm_editor_title">编辑闹钟</string>
+
+    <string name="family_sports_title">家庭运动</string>
+    <string name="family_sports_steps_label">步数:</string>
+    <string name="family_sports_calories_label">消耗:</string>
+
+    <string name="family_sleep_title">家庭睡眠</string>
+    <string name="family_sleep_time_label">总时长:</string>
+    <string name="family_hrate_title">家庭心率</string>
+
+    <string name="statistics_title">统计</string>
+    <string name="hrate_statistics_label">心率统计</string>
+    <string name="sports_statistics_label">运动统计</string>
+    <string name="sleep_statistics_label">睡眠统计</string>
+    <string name="personal_hrate_statistics_label">个人心率</string>
+    <string name="family_hrate_statistics_label">家庭心率</string>
+    <string name="personal_sports_statistics_label">个人睡眠</string>
+    <string name="family_sports_statistics_label">个人运动</string>
+    <string name="personal_sleep_statistics_label">个人睡眠</string>
+    <string name="family_sleep_statistics_label">家庭睡眠</string>
+
+    <string name="sleep_longest_time">最长:</string>
+    <string name="sleep_shortest_time">最短:</string>
+    <string name="sleep_average_time">平均:</string>
+
+    <string name="sports_most_steps">最多:</string>
+    <string name="sports_least_steps">最少:</string>
+    <string name="sports_average_steps">平均:</string>
+
+    <string name="hrate_highest_rate">最高:</string>
+    <string name="hrate_lowest_rate">最低:</string>
+    <string name="hrate_average_rate">平均:</string>
+
+    <string name="start">开始</string>
+    <string name="goal">目标</string>
+    <string name="sleep_goal">目标(分钟)</string>
+
+    <string name="turn_location_on_hint">查看实时位置需要在设置中开启手环的实时定位。</string>
+    <string name="nerver_show">不再提示</string>
+    <string name="i_know">知道了</string>
+    <string name="no_position_data">没有位置信息，刷新试试</string>
+    <string name="no_trail_data">没有轨迹</string>
+
+    <string name="turn_on_bluetooth_title">开启蓝牙</string>
+    <string name="turn_on_bluetooth_message">需要开启蓝牙</string>
+    <string name="turn_on_now">现在开启</string>
+    <string name="cancel">取消</string>
+
+    <string name="label_device_info">设备信息</string>
+
+    <string name="search_device_title">搜索</string>
+    <string name="add">添加</string>
+    <string name="added">已添加</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="app_version">App版本</string>
+    <string name="support">支持</string>
+    <string name="help">帮助</string>
+    <string name="about_device">关于设备</string>
+    <string name="how_to_buy">如何购买</string>
+    <string name="way_to_charge">如何充值</string>
+    <string name="quit">退出</string>
+
+    <string name="delete">删除</string>
+    <string name="delete_device_msg">确认删除？</string>
+    <string name="delete_device_fail">删除失败</string>
+    <string name="yes">确认</string>
+    <string name="no">取消</string>
+
+    <string name="low_power_msg">%1$s的手环电量不足，请及时充电\n</string>
+    <string name="low_power_notify_title">低电报警</string>
+    <string name="sos_msg">%1$s的手环发出了一条SOS消息，请尽快确认\n</string>
+    <string name="sos_msg_notify">%1$s发出SOS警报 %2$s\n</string>
+    <string name="sos_notify_title">求救报警</string>
+    <string name="time">时间:</string>
+    <string name="no_msg">没有消息</string>
+
+    <string name="uploading">上传中...</string>
+    <string name="select_local_picture">本地照片</string>
+    <string name="take_picture">拍照</string>
+    <string name="upload_image_fail">上传头像失败</string>
+
+</resources>

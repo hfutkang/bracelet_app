@@ -1,34 +1,58 @@
 package sctek.cn.ysbracelet.activitys;
 
+import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import sctek.cn.ysbracelet.R;
+import sctek.cn.ysbracelet.ble.BleData;
+import sctek.cn.ysbracelet.ble.BlePacket;
+import sctek.cn.ysbracelet.ble.BleUtils;
+import sctek.cn.ysbracelet.ble.BluetoothLeManager;
+import sctek.cn.ysbracelet.ble.BluetoothLeService;
+import sctek.cn.ysbracelet.ble.Commands;
+import sctek.cn.ysbracelet.ble.MyBluetoothGattCallBack;
 import sctek.cn.ysbracelet.devicedata.YsData;
 import sctek.cn.ysbracelet.fragments.HomeFragment;
 import sctek.cn.ysbracelet.http.XmlNodes;
 import sctek.cn.ysbracelet.sqlite.LocalDataContract;
+import sctek.cn.ysbracelet.thread.BleDataSendThread;
 import sctek.cn.ysbracelet.thread.HttpConnectionWorker;
 import sctek.cn.ysbracelet.user.UserManagerUtils;
+import sctek.cn.ysbracelet.user.YsUser;
 import sctek.cn.ysbracelet.utils.DialogUtils;
 
-public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity implements HttpConnectionWorker.ConnectionWorkListener{
+public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity implements HttpConnectionWorker.ConnectionWorkListener
+    , MyBluetoothGattCallBack.OnCharacteristicChangedListener{
 
     private final static String TAG = PersonalHeartRateActivity.class.getSimpleName();
 
-    private TextView timeTv;
     private TextView rateTv;
     private Button startIb;
+
+    private String mac;
+
+    private BluetoothLeService mBluetoothLeService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = new Intent(this, BluetoothLeService.class);
+        bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
+
+        mac = YsUser.getInstance().getDevice(deviceId).mac;
     }
 
     protected void initViewElement() {
@@ -38,8 +62,6 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
         titleTv.setText(R.string.heart_rate_title);
         actionIb.setOnClickListener(onViewClickedListener);
         backIb.setOnClickListener(onViewClickedListener);
-
-        timeTv = (TextView)findViewById(R.id.time_tv);
 
         rateTv = (TextView)findViewById(R.id.rate_tv);
         startIb = (Button) findViewById(R.id.start_measure_ib);
@@ -68,7 +90,11 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
 
         if(cursor.moveToFirst()) {
             timeTv.setText(cursor.getString(1));
+            Log.e(TAG, "" + cursor.getInt(0));
             rateTv.setText("" + cursor.getInt(0));
+        }
+        else {
+            timeTv.setText(R.string.no_data_yet);
         }
 
         cursor.close();
@@ -89,7 +115,6 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
 
     @Override
     public void onResult(YsData result) {
-
     }
 
     @Override
@@ -102,7 +127,7 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.nav_back_ib:
-
+                    onBackPressed();
                     break;
                 case R.id.action_ib:
                     Intent intent = new Intent(PersonalHeartRateActivity.this, PersonalHistoryHRateActivity.class);
@@ -110,10 +135,59 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
                     startActivity(intent);
                     break;
                 case R.id.start_measure_ib:
-                    UserManagerUtils.startMeasureHeartRate(deviceId, PersonalHeartRateActivity.this);
+                    if(BleUtils.isConnected(PersonalHeartRateActivity.this, mac)) {
+                        measureHeartRate(mac);
+                    }
+                    else {
+                        UserManagerUtils.startMeasureHeartRate(deviceId, PersonalHeartRateActivity.this);
+                    }
                     break;
             }
         }
     };
 
+    private ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            if(BleUtils.DEBUG) Log.e(TAG, "onServiceConnected");
+            MyBluetoothGattCallBack.getInstance().setBleListener(PersonalHeartRateActivity.this);
+            BluetoothLeManager.connect(PersonalHeartRateActivity.this, mac);
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            if(BleUtils.DEBUG) Log.e(TAG, "onServiceDisconnected");
+            mBluetoothLeService = null;
+        }
+    };
+
+    @Override
+    public void onReceiveData(BlePacket packet) {
+        if(packet.cmd == Commands.CMD_MEASURE_HRATE) {
+            DialogUtils.makeToast(PersonalHeartRateActivity.this, R.string.measure_in_progress);
+        }
+    }
+
+    @Override
+    public void onReceiveRssi(int rssi) {
+
+    }
+
+    @Override
+    public void onDataValid() {
+
+    }
+
+    private void measureHeartRate(String mac) {
+        BleData data = new BleData(Commands.CMD_MEASURE_HRATE, new byte[]{0x01}, mac);
+        BleDataSendThread dataSendThread = new BleDataSendThread(data, mHandler, null);
+        dataSendThread.start();
+    }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+        }
+    };
 }

@@ -90,7 +90,7 @@ public class YsDateManager {
 
     public String getCurrentDate() {
         Date date = new Date();
-       return mShowDateFormat.format(date);
+        return mShowDateFormat.format(date);
     }
 
     public String getHttpDate() {
@@ -128,7 +128,11 @@ public class YsDateManager {
     }
 
     public int getMinutesOfDayFor(String date) throws ParseException{
-        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_SECOND);
+
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_DAY);
+        if(date.matches("^* \\d{2}:\\d{2}:\\d{2}]"))
+            format = new SimpleDateFormat(DATE_FORMAT_SECOND);
+
         Date time = format.parse(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(time);
@@ -137,7 +141,11 @@ public class YsDateManager {
     }
 
     public int getDayOfWeekFor(String date) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_SECOND);
+
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_DAY);
+        if(date.matches("^* \\d{2}:\\d{2}:\\d{2}]"))
+            format = new SimpleDateFormat(DATE_FORMAT_SECOND);
+
         Date time = format.parse(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(time);
@@ -150,7 +158,11 @@ public class YsDateManager {
     }
 
     public int getDayOfMonthFor(String date) throws ParseException {
-        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_SECOND);
+
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_DAY);
+        if(date.matches("^* \\d{2}:\\d{2}:\\d{2}]"))
+            format = new SimpleDateFormat(DATE_FORMAT_SECOND);
+
         Date time = format.parse(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(time);
@@ -162,7 +174,10 @@ public class YsDateManager {
         if(date == null)
             return 0;
 
-        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_SECOND);
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_DAY);
+        if(date.matches("^* \\d{2}:\\d{2}:\\d{2}]"))
+            format = new SimpleDateFormat(DATE_FORMAT_SECOND);
+
         Date timeEnd = format.parse(date);
 
         long millisEnd = timeEnd.getTime();
@@ -179,7 +194,10 @@ public class YsDateManager {
         if (date == null)
             return 0;
 
-        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_SECOND);
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_DAY);
+        if(date.matches("^* \\d{2}:\\d{2}:\\d{2}]"))
+            format = new SimpleDateFormat(DATE_FORMAT_SECOND);
+
         Date timeEnd = format.parse(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(timeEnd);
@@ -187,7 +205,7 @@ public class YsDateManager {
         int yearStart = mCalendar.get(Calendar.YEAR);
 
         int monthEnd = calendar.get(Calendar.MONTH);
-        int monthStart = calendar.get(Calendar.MONTH);
+        int monthStart = mCalendar.get(Calendar.MONTH);
 
         int years = yearStart - yearEnd;
         int months = monthStart - monthEnd + 1;
@@ -199,7 +217,10 @@ public class YsDateManager {
         if (date == null)
             return 0;
 
-        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_SECOND);
+        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_DAY);
+        if(date.matches("^* \\d{2}:\\d{2}:\\d{2}]"))
+            format = new SimpleDateFormat(DATE_FORMAT_SECOND);
+
         int days = daysFromNowTo(date);
         Date time = format.parse(date);
         Calendar calendar = Calendar.getInstance();
@@ -225,7 +246,10 @@ public class YsDateManager {
         calendar.add(Calendar.WEEK_OF_YEAR, weeksFromNow);
 
         int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
-        calendar.add(Calendar.DAY_OF_MONTH, -weekDay + 2);
+        if(weekDay == Calendar.SUNDAY)
+            calendar.add(Calendar.DAY_OF_MONTH, -6);
+        else
+            calendar.add(Calendar.DAY_OF_MONTH, -weekDay + 2);
         return format.format(calendar.getTime());
     }
 
@@ -237,7 +261,10 @@ public class YsDateManager {
         calendar.add(Calendar.WEEK_OF_YEAR, weeksFromNow);
 
         int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
-        calendar.add(Calendar.DAY_OF_MONTH, 8 - weekDay);
+        if(weekDay == Calendar.SUNDAY)
+            calendar.add(Calendar.DAY_OF_MONTH, 0);
+        else
+            calendar.add(Calendar.DAY_OF_MONTH, 8 - weekDay);
         return format.format(calendar.getTime());
     }
 
@@ -249,7 +276,10 @@ public class YsDateManager {
         calendar.add(Calendar.WEEK_OF_YEAR, weeksFromNow);
 
         int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
-        calendar.add(Calendar.DAY_OF_MONTH, 9 - weekDay);
+        if(weekDay == Calendar.SUNDAY)
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        else
+            calendar.add(Calendar.DAY_OF_MONTH, 9 - weekDay);
         return format.format(calendar.getTime());
     }
 
@@ -259,7 +289,7 @@ public class YsDateManager {
 
         Calendar calendar = Calendar.getInstance();
 
-        calendar.add(Calendar.MONTH, -monthFromNow);
+        calendar.add(Calendar.MONTH, monthFromNow);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH));
         return format.format(calendar.getTime());
     }
@@ -269,7 +299,7 @@ public class YsDateManager {
         SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_DAY);
 
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MONTH, -monthFromNow);
+        calendar.add(Calendar.MONTH, monthFromNow);
         calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         return format.format(calendar.getTime());
     }

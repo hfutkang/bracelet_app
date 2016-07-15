@@ -3,6 +3,7 @@ package sctek.cn.ysbracelet.adapters;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.view.View;
 import android.widget.BaseAdapter;
 
 import java.text.ParseException;
@@ -43,7 +44,7 @@ public class FamilySportsMonthVpAdapter extends FamilyDataBaseVpAdapter {
     }
 
     @Override
-    protected BaseAdapter constructLvAdapter(Context context, int postion) {
-        return new FamilySportsMonthLvAdapter(context, postion);
+    protected BaseAdapter constructLvAdapter(Context context, View emptyV, int postion) {
+        return new FamilySportsMonthLvAdapter(context, emptyV, postion);
     }
 }

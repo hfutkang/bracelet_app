@@ -56,7 +56,7 @@ public class PersonalSleepStatisticsMonthAdapter extends PersonalStatisticsBaseA
         Cursor cursor = cr.query(LocalDataContract.Sleep.CONTENT_URI
                 , new String[]{LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_TOTALE, LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START}
                 , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_DEVICE + "=?"
-                        + " AND " + LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START + ">" + "'" + dateStart + "'"
+                        + " AND " + LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START + ">=" + "'" + dateStart + "'"
                         + " AND " + LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START + "<" + "'" + dateEnd + "'"
                 , new String[]{deviceId}
                 , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START + " asc");

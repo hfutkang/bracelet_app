@@ -11,6 +11,15 @@ android {
         versionCode 1
         versionName "1.0"
 
+        //参数说明
+        manifestPlaceholders = [
+                GETUI_APP_ID : "DlWSVi1reU6YrShHYdNy27",
+                GETUI_APP_KEY : "AEisA2HQ3x8GAfyHEbFT99",
+                GETUI_APP_SECRET : "dXbMojgG5T6HeHqmxGVDp8",
+                PACKAGE_NAME : "sctek.cn.ysbracelet"
+        ]
+        //APP_ID、APP_KEY、APP_SECRET请根据个推开发者后台申请到的应用参数进行相应替换
+
     }
     buildTypes {
         release {
@@ -41,4 +50,7 @@ dependencies {
     compile 'com.android.support:support-v4:23.2.0'
     compile 'com.android.support:cardview-v7:23.2.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
+    compile 'com.getui:sdk:2.8.1.0'
+    compile 'com.getui:ext:2.0.3'
 }

@@ -1,12 +1,17 @@
 package sctek.cn.ysbracelet.activitys;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -67,9 +72,7 @@ public class PersonalSportsAcitvity extends PersonalLatestDataBaseActivity {
 
         if(cursor.moveToFirst()) {
             String time = cursor.getString(2);
-            String[] tempTime = time.split(" ");
-            dayTv.setText(tempTime[0]);
-            endTv.setText(tempTime[1]);
+            dayTv.setText(time);
 
             int runSteps = cursor.getInt(0);
             int walkSteps = cursor.getInt(1);
@@ -82,6 +85,9 @@ public class PersonalSportsAcitvity extends PersonalLatestDataBaseActivity {
             double calories = YsTextUtils.calculateCalories(runSteps, walkSteps, device.weight, device.height);
             caloriesTv.setText(new DecimalFormat("#.00").format(calories));
 
+        }
+        else {
+            dayTv.setText(R.string.no_data_yet);
         }
 
         cursor.close();
@@ -110,6 +116,10 @@ public class PersonalSportsAcitvity extends PersonalLatestDataBaseActivity {
         walkTv = (TextView)findViewById(R.id.walk_tv);
         breakTv = (TextView)findViewById(R.id.break_tv);
 
+        SharedPreferences preferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
+        String goal = preferences.getInt(deviceId + "_sports_goal", 0) + "";
+        goalTv.setText(goal);
+
     }
 
     private View.OnClickListener onViewClickedListener = new View.OnClickListener() {
@@ -122,10 +132,36 @@ public class PersonalSportsAcitvity extends PersonalLatestDataBaseActivity {
                     startActivity(intent);
                     break;
                 case R.id.goal_ib:
+                    showGoalDialog();
                     break;
                 case R.id.nav_back_ib:
+                    onBackPressed();
                     break;
             }
         }
     };
+
+    protected void showGoalDialog() {
+        View view = LayoutInflater.from(this).inflate(R.layout.goal_dialog_view, null);
+        final EditText goalEt = (EditText)view.findViewById(R.id.goal_et);
+
+        goalEt.setText(goalTv.getText());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        builder.setTitle(R.string.goal);
+        builder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String goal = goalEt.getText().toString();
+                if(goal.isEmpty())
+                    goal = "0";
+                int g = Integer.parseInt(goal);
+                SharedPreferences preferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
+                preferences.edit().putInt(deviceId + "_sports_goal", g).commit();
+                goalTv.setText(g + "");
+            }
+        });
+        builder.show();
+    }
 }

@@ -62,6 +62,13 @@ public abstract class FamilyDataStatisticsBaseActivity extends AppCompatActivity
         backIb = (ImageButton)findViewById(R.id.nav_back_ib);
         actionIb = (ImageButton)findViewById(R.id.action_ib);
 
+        backIb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         mViewPager = (ViewPager) findViewById(R.id.list_vp);
 
         mViewPager.setAdapter(adapter);

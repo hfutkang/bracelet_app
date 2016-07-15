@@ -17,6 +17,8 @@ public abstract class PersonalLatestDataBaseActivity extends AppCompatActivity {
 
     private final static String TAG = PersonalLatestDataBaseActivity.class.getSimpleName();
 
+    public final static String PREFERENCE_NAME = "sc.sctek.ysbracelet.preference";
+
     protected View actionBarV;
     protected TextView titleTv;
     protected ImageButton backIb;

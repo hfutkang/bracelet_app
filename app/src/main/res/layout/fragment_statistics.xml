@@ -7,10 +7,28 @@
     android:weightSum="2"
     tools:context="sctek.cn.ysbracelet.fragments.StatisticsFragment">
 
-    <include layout="@layout/family_selector_layout"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:background="@color/orange"
+        android:layout_weight="1">
+
+        <include layout="@layout/family_selector_layout"
+            android:id="@+id/family_selector_lo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <sctek.cn.ysbracelet.uiwidget.CircleImageView
+            android:id="@+id/add_device_cv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/add_bracelet"
+            widget:border_width="2dp"
+            widget:border_color="@color/yellow"
+            android:visibility="gone"/>
+
+    </FrameLayout>
 
     <FrameLayout
         android:id="@+id/statistics_fl"

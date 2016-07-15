@@ -118,7 +118,7 @@ public class MyDeviceFragment extends Fragment {
                     showFragment(new LocationFragment());
                     break;
                 case R.id.settings_rb:
-                    showFragment(new SettingsFragment());
+//                    showFragment(new SettingsFragment());
                     break;
             }
         }

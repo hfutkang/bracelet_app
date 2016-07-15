@@ -125,7 +125,7 @@ public class CircleImageView extends ImageView {
         canvas.drawCircle(getWidth() / 2, getHeight() / 2, mDrawableRadius, mBitmapPaint);
         if (mBorderWidth != 0) {
 //            canvas.drawCircle(getWidth() / 2, getHeight() / 2, mBorderRadius, mBorderPaint);
-            Log.e(TAG, "left:" + mDrawableRect.left + " right:" + mDrawableRect.right + " top:" + mDrawableRect.top + " bottom:" + mDrawableRect.bottom);
+//            Log.e(TAG, "left:" + mDrawableRect.left + " right:" + mDrawableRect.right + " top:" + mDrawableRect.top + " bottom:" + mDrawableRect.bottom);
             float w = getWidth() / 2;
             float h = getHeight() / 2;
             mBorderRect.set(w - mDrawableRadius, h - mDrawableRadius, w + mDrawableRadius, h + mDrawableRadius);

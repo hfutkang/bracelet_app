@@ -51,6 +51,21 @@ public class PositionData implements YsData{
         else if(XmlNodes.PositionNodes.NODE_DEVICE_ID.equals(field)) {
             deviceId = value;
         }
+        else if(XmlNodes.PositionNodes.NODE_TYPE.equals(field)) {
+            type = value;
+        }
+        else if(XmlNodes.PositionNodes.NODE_MCC.equals(field)) {
+            mcc = Integer.parseInt(value);
+        }
+        else if(XmlNodes.PositionNodes.NODE_MNC.equals(field)) {
+            mnc = Integer.parseInt(value);
+        }
+        else if(XmlNodes.PositionNodes.NODE_LAC.equals(field)) {
+            lac = Integer.parseInt(value);
+        }
+        else if(XmlNodes.PositionNodes.NODE_CID.equals(field)) {
+            cid = Integer.parseInt(value);
+        }
     }
 
     @Override
@@ -84,7 +99,7 @@ public class PositionData implements YsData{
         return cr.update(LocalDataContract.Location.CONTENT_URI
                 , values
                 , LocalDataContract.Location.COLUMNS_NAME_LOCATION_DEVICE + "=" + deviceId
-                + " AND " + LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME + "=" + tempTime
+                + " AND " + LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME + "=" + "'" + tempTime + "'"
                 , null);
     }
 

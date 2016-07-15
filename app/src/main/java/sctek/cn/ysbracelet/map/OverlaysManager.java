@@ -1,8 +1,11 @@
 package sctek.cn.ysbracelet.map;
 
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -45,22 +48,38 @@ public class OverlaysManager {
         devicePolylineMap.get(device).setPoints(latLngs);
     }
 
-    public void toggleMarkerVisible(String device) {
+    public void toggleMarkerVisible(BaiduMap map, String device) {
         boolean visible = deviceSelectedMap.get(device);
 
         Marker marker = deviceMarkerMap.get(device);
         marker.setVisible(!visible);
 
         deviceSelectedMap.put(device, !visible);
+
+        if(!visible) {
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(marker.getPosition());
+            map.setMapStatus(MapStatusUpdateFactory
+                    .newLatLngBounds(builder.build()));
+        }
+
     }
 
-    public void togglePolylineVisible(String device) {
+    public void togglePolylineVisible(BaiduMap map, String device) {
         boolean visible = deviceSelectedMap.get(device);
 
         Polyline polyline = devicePolylineMap.get(device);
         polyline.setVisible(!visible);
 
         deviceSelectedMap.put(device, !visible);
+
+        if(!visible) {
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(polyline.getPoints().get(0));
+            map.setMapStatus(MapStatusUpdateFactory
+                    .newLatLngBounds(builder.build()));
+        }
+
     }
 
     public void showMarkers() {

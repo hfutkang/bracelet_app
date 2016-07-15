@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public abstract class FamilyDataBaseVpAdapter extends PagerAdapter{
     }
 
     protected abstract int getPageCount();
-    protected abstract BaseAdapter constructLvAdapter(Context context, int postion);
+    protected abstract BaseAdapter constructLvAdapter(Context context, View view, int postion);
 
     @Override
     public int getCount() {
@@ -54,7 +55,8 @@ public abstract class FamilyDataBaseVpAdapter extends PagerAdapter{
     public Object instantiateItem(ViewGroup container, int position) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.family_viewpager_item_view, null);
         ListView lv = (ListView)view.findViewById(R.id.data_lv);
-        lv.setAdapter(constructLvAdapter(mContext, position));
+        TextView emptyView = (TextView)view.findViewById(R.id.empty_tv);
+        lv.setAdapter(constructLvAdapter(mContext, emptyView, position));
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -62,7 +64,7 @@ public abstract class FamilyDataBaseVpAdapter extends PagerAdapter{
                 if(holder.detailV != null && holder.detailV.getVisibility() == View.GONE) {
                     holder.detailV.setVisibility(View.VISIBLE);
                 }
-                else if(holder.detailV !=null) {
+                else if(holder.detailV != null) {
                     holder.detailV.setVisibility(View.GONE);
                 }
             }

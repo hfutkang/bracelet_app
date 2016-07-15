@@ -34,7 +34,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"/>
+            android:gravity="center"
+            android:textColor="@color/green"
+            android:text="@string/added"
+            android:layout_marginRight="5dp"/>
         <Button
             android:id="@+id/bond_bt"
             android:layout_width="wrap_content"

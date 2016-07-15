@@ -12,7 +12,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import sctek.cn.ysbracelet.ble.BluetoothLeManager;
+import sctek.cn.ysbracelet.ble.BleUtils;
 
 /**
  * Created by kang on 16-4-14.
@@ -22,7 +22,6 @@ public class FenceService extends Service implements BluetoothAdapter.LeScanCall
 
     private static final String TAG = FenceService.class.getSimpleName();
 
-    private BluetoothLeManager mBluetoothLeManager;
     private SharedPreferences.Editor editor;
 
     public final static String SCAN_BLE_COMPLETE_ACTION = "sctek.cn.ysbracelet.ACTION.SCAN_BLE_COMPLETE";
@@ -52,7 +51,6 @@ public class FenceService extends Service implements BluetoothAdapter.LeScanCall
     public void onCreate() {
         super.onCreate();
         Log.e(TAG, "onCreate");
-        mBluetoothLeManager = BluetoothLeManager.getInstance();
         editor = getSharedPreferences("sctek.cn.ysbracelet.fence", MODE_PRIVATE).edit();
     }
 
@@ -69,7 +67,7 @@ public class FenceService extends Service implements BluetoothAdapter.LeScanCall
         super.onDestroy();
         Log.e(TAG, "onDestroy");
         scanThread.interrupt();
-        mBluetoothLeManager.stopBleScan(FenceService.this);
+        BleUtils.stopBleScan(this, this);
         SharedPreferences sp = getSharedPreferences("sctek.cn.ysbracelet.fence", MODE_PRIVATE);
         sp.edit().clear().commit();
     }
@@ -84,7 +82,7 @@ public class FenceService extends Service implements BluetoothAdapter.LeScanCall
                     Log.e(TAG, "thread interrupted");
                     return;
                 }
-                mBluetoothLeManager.stopBleScan(FenceService.this);
+                BleUtils.stopBleScan(FenceService.this, FenceService.this);
                 try {
                     sleep(1000);
                 } catch (InterruptedException e) {
@@ -94,7 +92,7 @@ public class FenceService extends Service implements BluetoothAdapter.LeScanCall
                 }
 
                 sp.edit().clear().commit();
-                mBluetoothLeManager.startBleScanl(FenceService.this);
+                BleUtils.startBleScanl(FenceService.this, FenceService.this);
 
                 try {
                     sleep(5000);

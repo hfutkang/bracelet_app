@@ -1,12 +1,17 @@
 package sctek.cn.ysbracelet.activitys;
 
+import android.app.AlertDialog;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import sctek.cn.ysbracelet.R;
@@ -79,11 +84,13 @@ public class PersonalSleepAcitvity extends PersonalLatestDataBaseActivity {
             int wake = cursor.getInt(3);
 
             wakeTimesTv.setText(wake + "");
-            totalTimeTv.setText(YsTextUtils.paserHourForMinute(this, total));
-            deepTv.setText(YsTextUtils.paserHourForMinute(this, deep));
-            shallowTv.setText(YsTextUtils.paserHourForMinute(this, shallow));
+            totalTimeTv.setText(YsTextUtils.parseHourForMinute(this, total));
+            deepTv.setText(YsTextUtils.parseHourForMinute(this, deep));
+            shallowTv.setText(YsTextUtils.parseHourForMinute(this, shallow));
 
-
+        }
+        else {
+            dayTv.setText(R.string.no_data_yet);
         }
 
         cursor.close();
@@ -112,6 +119,11 @@ public class PersonalSleepAcitvity extends PersonalLatestDataBaseActivity {
         awakeTv = (TextView)findViewById(R.id.awake_time_tv);
         wakeTimesTv = (TextView)findViewById(R.id.wake_times_tv);
 
+        SharedPreferences preferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
+        int goal = preferences.getInt(deviceId + "_sleep_goal", 0);
+
+        goalTv.setText(YsTextUtils.parseHourForMinute(this, goal));
+
     }
 
     private View.OnClickListener onViewClickedListener = new View.OnClickListener() {
@@ -124,6 +136,7 @@ public class PersonalSleepAcitvity extends PersonalLatestDataBaseActivity {
                     startActivity(intent);
                     break;
                 case R.id.goal_ib:
+                    showGoalDialog();
                     break;
                 case R.id.nav_back_ib:
                     onBackPressed();
@@ -131,4 +144,28 @@ public class PersonalSleepAcitvity extends PersonalLatestDataBaseActivity {
             }
         }
     };
+
+    protected void showGoalDialog() {
+        View view = LayoutInflater.from(this).inflate(R.layout.goal_dialog_view, null);
+        final EditText goalEt = (EditText)view.findViewById(R.id.goal_et);
+
+        goalEt.setText(goalTv.getText());
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        builder.setTitle(R.string.sleep_goal);
+        builder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String goal = goalEt.getText().toString();
+                if(goal.isEmpty())
+                    goal = "0";
+                int g = Integer.parseInt(goal);
+                SharedPreferences preferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
+                preferences.edit().putInt(deviceId + "_sleep_goal", g).commit();
+                goalTv.setText(YsTextUtils.parseHourForMinute(PersonalSleepAcitvity.this, g));
+            }
+        });
+        builder.show();
+    }
 }

@@ -3,6 +3,7 @@ package sctek.cn.ysbracelet.adapters;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -54,12 +55,13 @@ public class PersonalSportsStatisticsMonthAdapter extends PersonalStatisticsBase
     protected LineData getDataSet(int position) {
         String dateStart = mDateManager.getFirstDayOfMonthBy(-position);
         String dateEnd = mDateManager.getLastDayOfMonthBy(-position);
+        Log.e(TAG, dateStart + " " + dateEnd);
         ContentResolver cr = mContext.getContentResolver();
         Cursor cursor = cr.query(LocalDataContract.Sports.CONTENT_URI
                 , new String[]{LocalDataContract.Sports.COLUMNS_NAME_SPORTS_WALK, LocalDataContract.Sports.COLUMNS_NAME_SPORTS_RUN
                         , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME}
                 , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_DEVICE + "=?"
-                        + " AND " + LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + ">" + "'" + dateStart + "'"
+                        + " AND " + LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + ">=" + "'" + dateStart + "'"
                         + " AND " + LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + "<" + "'" + dateEnd + "'"
                 , new String[]{deviceId}
                 , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + " asc");

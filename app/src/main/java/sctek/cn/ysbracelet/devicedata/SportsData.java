@@ -85,16 +85,16 @@ public class SportsData implements YsData {
         values.put(LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TYPE, type);
         return cr.update(LocalDataContract.Sports.CONTENT_URI
                 , values
-                , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_DEVICE + "=" + deviceId
-                    + " AND " + LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + "=" + tempTime
+                , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_DEVICE + "=" + "'" + deviceId + "'"
+                    + " AND " + LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + "=" + "'" + tempTime + "'"
                 , null);
     }
 
     @Override
     public int delete(ContentResolver cr) {
         return cr.delete(LocalDataContract.Sports.CONTENT_URI
-                , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_DEVICE + "=" + deviceId
-                    + " AND " + LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + "=" + tempTime
+                , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_DEVICE + "=" + "'" + deviceId + "'"
+                    + " AND " + LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + "=" + "'" + tempTime + "'"
                 , null);
     }
 }

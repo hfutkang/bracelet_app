@@ -31,9 +31,10 @@ public final class LocalDataContract {
 
         public static final String CREATE_TABLE_USERINFO =
                 "create table " + TABLE_NAME + " ("
+                        + _ID + " integer auto_increment unique,"
                         + COLUMNS_NAME_NAME + " not null primary key,"
                         + COLUMNS_NAME_PASSWORD + " char(20) not null,"
-                        + COLUMNS_NAME_LAST_SYNC_TIME + " timestamp"
+                        + COLUMNS_NAME_LAST_SYNC_TIME + " datetime default '1970-01-01 00:00'"
                         + ");";
     }
 
@@ -55,8 +56,8 @@ public final class LocalDataContract {
 
         public static final String CREATE_TABLE_DEVICEINFO =
                 "create table " + TABLE_NAME + " ("
-                        + _ID + " integer auto_increment,"
-                        + COLUMNS_NAME_SN + " primary key not null,"
+                        + _ID + " integer auto_increment unique,"
+                        + COLUMNS_NAME_SN + " primary key,"
                         + COLUMNS_NAME_MAC + " varchar(20) not null,"
                         + COLUMNS_NAME_NAME + " varchar(20) default 'yoyo',"
                         + COLUMNS_NAME_SEX + " varchar(10) default 'male',"
@@ -81,11 +82,12 @@ public final class LocalDataContract {
 
         public static final String CREATE_TABLE_MESSAGE =
                 "create table " + TABLE_NAME + " ("
-                        + _ID + " integer auto_increment primary key,"
-                        + COLUMNS_NAME_DEVICE + " not null,"
-                        + COLUMNS_NAME_TIME + " timestamp,"
+                        + _ID + " integer auto_increment unique,"
+                        + COLUMNS_NAME_DEVICE + " varchar(20) not null,"
+                        + COLUMNS_NAME_TIME + " varchar(20) not null default '1970-01-01 00:00',"
                         + COLUMNS_NAME_TYPE + " varchar(10),"
-                        + COLUMNS_NAME_MESSAGE + " text"
+                        + COLUMNS_NAME_MESSAGE + " varchar(500),"
+                        + "primary key(" + COLUMNS_NAME_DEVICE + "," + COLUMNS_NAME_TIME + ")"
                         + ");";
     }
 
@@ -102,11 +104,12 @@ public final class LocalDataContract {
 
         public static final String CREATE_TABLE_HEARTRATE =
                 "create table " + TABLE_NAME + " ("
-                        + _ID + " integer auto_increment primary key,"
-                        + COLUMNS_NAME_DEVICE + " not null,"
+                        + _ID + " integer auto_increment unique,"
+                        + COLUMNS_NAME_DEVICE + " varchar(20) not null,"
                         + COLUMNS_NAME_RATE + " int(3),"
-                        + COLUMNS_NAME_TIME + " timestamp,"
-                        + COLUMNS_NAME_TYPE + " varchar(10) default 'device'"
+                        + COLUMNS_NAME_TIME + " varchar(20) not null default '1970-01-01 00:00',"
+                        + COLUMNS_NAME_TYPE + " varchar(10) default 'Manual',"
+                        + "primary key(" + COLUMNS_NAME_DEVICE + "," + COLUMNS_NAME_TIME + ")"
                         + ");";
 
     }
@@ -122,23 +125,24 @@ public final class LocalDataContract {
         public static final String COLUMNS_NAME_LOCATION_DEVICE = "device";
         public static final String COLUMNS_NAME_LOCATION_LATITUDE = "latitude";
         public static final String COLUMNS_NAME_LOCATION_LONGITUDE = "longitude";
-        public static final String COLUMNS_NAME_LOCATION_MCC = "aaa";
-        public static final String COLUMNS_NAME_LOCATION_MNC = "bbb";
-        public static final String COLUMNS_NAME_LOCATION_LAC = "ccc";
-        public static final String COLUMNS_NAME_LOCATION_CID = "ddd";
+        public static final String COLUMNS_NAME_LOCATION_MCC = "mcc";
+        public static final String COLUMNS_NAME_LOCATION_MNC = "mnc";
+        public static final String COLUMNS_NAME_LOCATION_LAC = "lac";
+        public static final String COLUMNS_NAME_LOCATION_CID = "cid";
 
         public static final String CREATE_TABLE_LOCATION =
                 "create table " + TABLE_NAME + " ("
-                        + _ID + " integer auto_increment primary key,"
-                        + COLUMNS_NAME_LOCATION_DEVICE + " not null,"
+                        + _ID + " integer auto_increment unique,"
+                        + COLUMNS_NAME_LOCATION_DEVICE + " varchar(20) not null,"
                         + COLUMNS_NAME_LOCATION_LATITUDE + " double,"
                         + COLUMNS_NAME_LOCATION_LONGITUDE + " double,"
                         + COLUMNS_NAME_LOCATION_MCC + " int(3),"
                         + COLUMNS_NAME_LOCATION_MNC + " int(3),"
                         + COLUMNS_NAME_LOCATION_LAC + " int(3),"
                         + COLUMNS_NAME_LOCATION_CID + " int(3),"
-                        + COLUMNS_NAME_LOCATION_TIME + " timestamp,"
-                        + COLUMNS_NAME_LOCATION_TYPE + " varchar(10) default 'gps'"
+                        + COLUMNS_NAME_LOCATION_TIME + " varchar(20) not null default '1970-01-01 00:00',"
+                        + COLUMNS_NAME_LOCATION_TYPE + " varchar(10) default 'gps',"
+                        + "primary key(" + COLUMNS_NAME_LOCATION_DEVICE + "," + COLUMNS_NAME_LOCATION_TIME + ")"
                         + ");";
     }
 
@@ -157,13 +161,14 @@ public final class LocalDataContract {
 
         public static final String CREATE_TABLE_SPORTS =
                 "create table " + TABLE_NAME + " ("
-                        + _ID + " integer auto_increment primary key,"
-                        + COLUMNS_NAME_SPORTS_DEVICE + " not null,"
-                        + COLUMNS_NAME_SPORTS_RUN + " integer,"
-                        + COLUMNS_NAME_SPORTS_WALK + " integer,"
+                        + _ID + " integer auto_increment unique,"
+                        + COLUMNS_NAME_SPORTS_DEVICE + " varchar(20) not null,"
+                        + COLUMNS_NAME_SPORTS_RUN + " int(6),"
+                        + COLUMNS_NAME_SPORTS_WALK + " int(6),"
                         + COLUMNS_NAME_SPORTS_CALORIES + " calories,"
-                        + COLUMNS_NAME_SPORTS_TIME + " timestamp,"
-                        + COLUMNS_NAME_SPORTS_TYPE + " varchar(10)"
+                        + COLUMNS_NAME_SPORTS_TIME + " varchar(20) not null default '1970-01-01',"
+                        + COLUMNS_NAME_SPORTS_TYPE + " varchar(10),"
+                        + "primary key(" + COLUMNS_NAME_SPORTS_DEVICE + "," + COLUMNS_NAME_SPORTS_TIME + ")"
                         + ");";
     }
 
@@ -183,14 +188,15 @@ public final class LocalDataContract {
 
         public static final String CREATE_TABLE_SLEEP =
                 "create table " + TABLE_NAME + " ("
-                        + _ID + " integer auto_increment primary key,"
-                        + COLUMNS_NAME_SLEEP_DEVICE + " not null,"
-                        + COLUMNS_NAME_SLEEP_TOTALE + " integer,"
-                        + COLUMNS_NAME_SLEEP_DEEP + " integer,"
-                        + COLUMNS_NAME_SLEEP_SHALLOW + " integer,"
-                        + COLUMNS_NAME_SLEEP_START + " timestamp,"
-                        + COLUMNS_NAME_SLEEP_END + " timestamp,"
-                        + COLUMNS_NAME_SLEEP_WAKE + " integer"
+                        + _ID + " integer auto_increment unique,"
+                        + COLUMNS_NAME_SLEEP_DEVICE + " varchar(20) not null,"
+                        + COLUMNS_NAME_SLEEP_TOTALE + " int(5),"
+                        + COLUMNS_NAME_SLEEP_DEEP + " int(5),"
+                        + COLUMNS_NAME_SLEEP_SHALLOW + " int(5),"
+                        + COLUMNS_NAME_SLEEP_START + " varchar(20) not null default '1970-01-01 00:00',"
+                        + COLUMNS_NAME_SLEEP_END + " varchar(20) not null default '1970-01-01 00:00',"
+                        + COLUMNS_NAME_SLEEP_WAKE + " int(5),"
+                        + "primary key(" + COLUMNS_NAME_SLEEP_DEVICE + "," + COLUMNS_NAME_SLEEP_START + ")"
                         + ");";
     }
 

@@ -5,6 +5,12 @@
         <item>Male</item>
     </string-array>
 
+    <string-array name="timer_mode">
+        <item>Short shock 1</item>
+        <item>Short shock 2</item>
+        <item>Long shock</item>
+    </string-array>
+
     <string-array name="age">
         <item>1 year old</item>
         <item>2 years old</item>

@@ -26,11 +26,23 @@
 
     <string name="username_label">UserName:</string>
     <string name="password_label">Password:</string>
-    <string name="confirm_password_label">&#160;&#160;Confirm:</string>
-    <string name="username_hint">Input your your phone number here</string>
-    <string name="password_hint">Input your password here</string>
-    <string name="confirm_password_hint">Input your password again</string>
-    <string name="forget_password_str">&lt;a href=\"http://www.baidu.com"&gt;默认的超链接样式&lt;/a&gt;</string>
+    <string name="new_password_label">&#160;&#160;&#160;&#160;&#160;New:</string>
+    <string name="confirm_password_label">&#160;&#160;&#160;Again:</string>
+    <string name="username_hint">Input a phone number</string>
+    <string name="password_hint">Input password here</string>
+    <string name="confirm_password_hint">Input password again</string>
+    <string name="email_label">&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Email:</string>
+    <string name="email_hint">Your email address</string>
+    <string name="forget_password_str">Forget password</string>
+
+    <string name="get_verify_code">Get verify code</string>
+    <string name="email_verify">Email verify code</string>
+    <string name="change_password_label">Chang password</string>
+    <string name="try_again_in60s">Try again(60s)</string>
+    <string name="invalid_vcode_msg">invalid code</string>
+    <string name="user_not_exist">User not exist</string>
+    <string name="change_password_fail">Fail to change password</string>
+    <string name="change_password_success">Change password success</string>
 
     <string name="name_label">Enter a name for it:</string>
     <string name="sex_label">Choose sex for it:</string>
@@ -46,14 +58,19 @@
 
     <string name="update_userinfo_fail">Update information fail,set to default.</string>
     <string name="add_device_fail">Add new device fail,Try again later</string>
+    <string name="new_device_exist">Fail! device exist</string>
     <string name="update_deviceinfo_fail">Update device information fail</string>
 
     <string name="save_label">Save</string>
     <string name="name_error_msg">Should be a valid phone number</string>
     <string name="password_error_msg">Not valid password</string>
-    <string name="register_error_exist">already exit!</string>
+    <string name="confirm_pw_error_msg">Confirm error</string>
+    <string name="email_error_msg">Not valid email</string>
+    <string name="register_error_exist">Already exit!</string>
     <string name="register_error_fail">Fail to register, try again later</string>
     <string name="login_error_password">Username or password is wrong</string>
+    <string name="login_not_exist">User not exist</string>
+    <string name="login_fail">Fail to login, please checkout your network.</string>
     <string name="name_too_long">Name should be shorter than 20</string>
 
     <string name="login_label">Login</string>
@@ -64,10 +81,14 @@
     <string name="bracelet_settings">Settings</string>
 
     <string name="sports_title">Sports</string>
+    <string name="total_steps_label">Total sports</string>
+    <string name="total_time_label">Total time</string>
     <string name="walk_steps_label">Walk</string>
     <string name="step_unit">steps</string>
     <string name="run_steps_label">Run</string>
     <string name="calorie_label">Calories</string>
+    <string name="longest_time_label">Longest</string>
+    <string name="break_time_label">Break</string>
     <string name="calorie_unit">cal</string>
 
     <string name="heart_rate_title">HRate</string>
@@ -83,6 +104,7 @@
     <string name="sleep_unit">h</string>
     <string name="sleep_total_label">Total</string>
     <string name="deep_sleep_label">Deep</string>
+    <string name="falling_sleep_label">Falling sleep</string>
     <string name="shallow_sleep_label">Shallow</string>
     <string name="hour">hour</string>
     <string name="minute">min</string>
@@ -90,7 +112,7 @@
     <string name="loading_data">Loading data&#8230;</string>
     <string name="fail_load_data">Fail to get latest data</string>
     <string name="success_load_data">data is updated</string>
-    <string name="ble_disconnected">Disconnected</string>
+    <string name="ble_disconnected">Ble Disconnected</string>
     <string name="ble_connected">Connected</string>
     <string name="fail_get_sports_data">Fail to get sports data</string>
     <string name="fail_get_heart_rate_data">Fail to get heart rate data</string>
@@ -107,6 +129,7 @@
     <string name="ok_label">OK</string>
     <string name="send_measure_command_success">Command has sent,result may be reliable in 5 minutes</string>
     <string name="send_measure_command_fail">Fail to send measure command,please check you network</string>
+    <string name="no_data_yet">No data yet</string>
 
     <string name="empty_data">No data</string>
     <string name="no_device">No device found</string>
@@ -154,15 +177,20 @@
 
     <string name="start">Start</string>
     <string name="goal">Goal</string>
+    <string name="sleep_goal">Goal(minute)</string>
 
     <string name="turn_location_on_hint">Please turn on runtime location at settings when look for runtime position</string>
     <string name="nerver_show">No longer display</string>
     <string name="i_know">Got it</string>
     <string name="no_position_data">No position data,Click refresh button to check</string>
     <string name="no_trail_data">No trail</string>
+    <string name="runtime_location">Location</string>
+    <string name="history_trail">Trail</string>
+    <string name="find_device">Find</string>
+    <string name="location_switch">Switch</string>
 
     <string name="turn_on_bluetooth_title">Enable Bluetooth</string>
-    <string name="turn_on_bluetooth_message">Use Fence function should enable bluetooth</string>
+    <string name="turn_on_bluetooth_message">Have to turn bluetooth on</string>
     <string name="turn_on_now">Enable now</string>
     <string name="cancel">Cancel</string>
 
@@ -174,5 +202,44 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="app_version">App Version</string>
+    <string name="support">Support</string>
+    <string name="help">Help</string>
+    <string name="about_device">About device</string>
+    <string name="how_to_buy">Ways to buy</string>
+    <string name="way_to_charge">How to charge</string>
+    <string name="quit">Quit</string>
+
+    <string name="delete">Delete</string>
+    <string name="delete_device_msg">Are you sure to delete it?</string>
+    <string name="delete_device_fail">Fail to delete it</string>
+    <string name="yes">Yes</string>
+    <string name="no">NO</string>
+
+    <string name="low_power_msg">%1$s sent a low power message\n</string>
+    <string name="low_power_notify_title">Short of power</string>
+    <string name="sos_msg">%1$s sent a sos message\n</string>
+    <string name="sos_msg_notify">%1$s sos message %2$s\n</string>
+    <string name="sos_notify_title">SOS</string>
+    <string name="time">Time:</string>
+    <string name="no_msg">No message</string>
+
+    <string name="uploading">uploading...</string>
+    <string name="select_local_picture">Locale picture</string>
+    <string name="take_picture">Take picture</string>
+    <string name="upload_image_fail">Fail to upload gravatar</string>
+
+    <string name="waiting">Waiting&#8230;</string>
+    <string name="get_device_id_fail">Fail to get device information</string>
+    <string name="get_warn_list_timeout">Fail to get timer list</string>
+    <string name="shock_mode">Shock mode</string>
+    <string name="timer_name">Name</string>
+    <string name="timeout_send_ble_command">Operation time out</string>
+    <string name="delete_timer">Delete this timer</string>
+    <string name="device_not_found">Device not found</string>
+    <string name="fence_on">Fence is on</string>
+    <string name="warn_control_fail">Operation fail</string>
+    <string name="title_activity_find_password">FindPasswordActivity</string>
 
 </resources>

@@ -1,0 +1,26 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sctek.cn.ysbracelet.fragments.MessageFragment">
+
+    <ListView
+        android:id="@+id/messages_lv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@null"
+        android:dividerHeight="1dp"
+        android:layout_marginTop="10dp">
+    </ListView>
+
+    <TextView
+        android:id="@+id/empty_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_msg"
+        android:textSize="35dp"
+        android:gravity="center"
+        android:visibility="gone"
+        android:layout_gravity="center" />
+
+</FrameLayout>

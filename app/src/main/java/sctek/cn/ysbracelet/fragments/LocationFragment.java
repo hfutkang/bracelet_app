@@ -30,13 +30,12 @@ import java.util.List;
 
 import sctek.cn.ysbracelet.DateManager.YsDateManager;
 import sctek.cn.ysbracelet.R;
-import sctek.cn.ysbracelet.thread.HttpConnectionWorker;
-import sctek.cn.ysbracelet.ble.BluetoothLeManager;
 import sctek.cn.ysbracelet.device.DeviceInformation;
 import sctek.cn.ysbracelet.devicedata.PositionData;
 import sctek.cn.ysbracelet.devicedata.YsData;
 import sctek.cn.ysbracelet.http.XmlNodes;
 import sctek.cn.ysbracelet.http.YsHttpConnection;
+import sctek.cn.ysbracelet.thread.HttpConnectionWorker;
 import sctek.cn.ysbracelet.utils.UrlUtils;
 
 /**
@@ -123,7 +122,6 @@ public class LocationFragment extends Fragment implements HttpConnectionWorker.C
         }
 
         currentState = LocationState.RUNTIEM;
-        mDevice = BluetoothLeManager.getInstance().getBindedDevice();
 
         footSteps = new ArrayList<>();
 

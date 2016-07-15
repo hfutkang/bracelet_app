@@ -15,17 +15,23 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
-    <!--for sync-->
-    <uses-permission android:name="android.permission.READ_SYNC_STATS"/>
-    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS"/>
-    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS"/>
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS"/>
+    <!-- for sync -->
+    <uses-permission android:name="android.permission.READ_SYNC_STATS" />
+    <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
 
-    <!--for location-->
+    <!-- for location -->
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <permission
+        android:name="android.permission.STATUS_BAR_SERVICE"
+        android:protectionLevel="signature" />
 
     <uses-feature
         android:name="android.hardware.bluetooth_le"
@@ -53,35 +59,37 @@
         </activity>
 
         <service android:name=".sync.AuthenticatorService">
-            <intent-filter >
-                <action android:name="android.accounts.AccountAuthenticator"/>
+            <intent-filter>
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
-            <meta-data android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator"/>
-        </service>
 
-        <service android:name=".user.UserDataSyncService"
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
+        </service>
+        <service
+            android:name=".user.UserDataSyncService"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.content.SyncAdapter"/>
+                <action android:name="android.content.SyncAdapter" />
             </intent-filter>
 
-            <meta-data android:name="android.content.SyncAdapter"
-                android:resource="@xml/syncadapter"/>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/syncadapter" />
         </service>
-
         <service android:name=".ble.BluetoothLeService" />
-
-        <service android:name=".user.FenceService"/>
+        <service android:name=".user.FenceService" />
 
         <provider
-            android:authorities="sctek.cn.ysbracelet.sqlite.LocalDataProvider"
             android:name=".sqlite.LocalDataProvider"
-            android:syncable="true"/>
+            android:authorities="sctek.cn.ysbracelet.sqlite.LocalDataProvider"
+            android:syncable="true" />
 
         <activity android:name=".activitys.SportsStatisticsActivity" />
-        <activity android:name=".activitys.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activitys.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activitys.RegisterActivity" />
         <activity
             android:name=".activitys.LoginActivity"
@@ -89,12 +97,15 @@
         <activity
             android:name=".activitys.PersonalHeartRateActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activitys.SetDeviceInfoActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activitys.SearchDeviceActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activitys.EditorDeviceInfoActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activitys.SetDeviceInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.SearchDeviceActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.EditorDeviceInfoActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activitys.PersonalHistoryHRateActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -121,7 +132,12 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activitys.FenceActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:parentActivityName=".activitys.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activitys.MainActivity" />
+        </activity>
         <activity
             android:name=".activitys.PersonalHRateStatisticsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -131,11 +147,36 @@
         <activity
             android:name=".activitys.PersonalSleepStatisticsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activitys.FamilyHRateStatisticsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activitys.FamilySportsStatisticsActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".activitys.FamilySleepStatisticsActivity"
+        <activity
+            android:name=".activitys.FamilyHRateStatisticsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.FamilySportsStatisticsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activitys.FamilySleepStatisticsActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- 个推配置 -->
+        <receiver
+            android:name=".receiver.PushReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.igexin.sdk.action.${GETUI_APP_ID}" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".ble.FenceBroadcastReceiver"
+            android:exported="false">
+            <intent-filter android:priority="0">
+                <action android:name="sctek.cn.ysbracelet.ble.connected" />
+                <action android:name="sctek.cn.ysbracelet.ble.disconnected" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".activitys.FindPasswordActivity"
+            android:label="@string/title_activity_find_password"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

@@ -55,7 +55,8 @@
                 fab:fab_colorPressed="@color/blueviolet"
                 fab:fab_icon="@drawable/ic_runtime_location"
                 fab:fab_iconTintColor="@android:color/white"
-                fab:fab_size="mini" />
+                fab:fab_size="mini"
+                fab:fab_title="@string/runtime_location"/>
 
             <com.github.gfranks.fab.menu.FloatingActionButton
                 android:id="@+id/trail_fab"
@@ -65,7 +66,8 @@
                 fab:fab_colorPressed="@color/colorAccent"
                 fab:fab_icon="@drawable/ic_compass"
                 fab:fab_iconTintColor="@android:color/white"
-                fab:fab_size="mini" />
+                fab:fab_size="mini"
+                fab:fab_title="@string/history_trail"/>
 
             <com.github.gfranks.fab.menu.FloatingActionButton
                 android:id="@+id/find_fab"
@@ -75,7 +77,19 @@
                 fab:fab_colorPressed="@color/aqua"
                 fab:fab_icon="@android:drawable/ic_dialog_info"
                 fab:fab_iconTintColor="@android:color/white"
-                fab:fab_size="mini" />
+                fab:fab_size="mini"
+                fab:fab_title="@string/find_device"/>
+
+            <com.github.gfranks.fab.menu.FloatingActionButton
+                android:id="@+id/switch_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/darkorchid"
+                fab:fab_colorPressed="@color/darkorchid"
+                fab:fab_icon="@drawable/ic_icon_stub"
+                fab:fab_iconTintColor="@android:color/white"
+                fab:fab_size="mini"
+                fab:fab_title="@string/location_switch"/>
 
         </com.github.gfranks.fab.menu.FloatingActionsMenu>
 

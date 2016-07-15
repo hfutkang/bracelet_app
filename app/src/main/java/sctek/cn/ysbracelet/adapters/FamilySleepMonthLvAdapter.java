@@ -24,8 +24,8 @@ public class FamilySleepMonthLvAdapter extends FamilyDataBaseLvAdapter{
 
     private final static String TAG = FamilySleepMonthLvAdapter.class.getSimpleName();
 
-    public FamilySleepMonthLvAdapter(Context context, int offset) {
-        super(context, offset);
+    public FamilySleepMonthLvAdapter(Context context, View emptyV, int offset) {
+        super(context, emptyV, offset);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class FamilySleepMonthLvAdapter extends FamilyDataBaseLvAdapter{
 
         ContentResolver cr = mContext.getContentResolver();
         Cursor cursor = cr.query(LocalDataContract.Sleep.CONTENT_URI, projection
-                , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START + ">" + "'" + dateStart + "'"
+                , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START + ">=" + "'" + dateStart + "'"
                         + " AND " + LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START + "<" + "'" + dateEnd + "'"
                 , null
                 , LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_START + " desc");
@@ -106,15 +106,15 @@ public class FamilySleepMonthLvAdapter extends FamilyDataBaseLvAdapter{
         holder.detailV.setVisibility(View.GONE);
 
         SleepData data = (SleepData) mRecords.get(postion);
-        String[] tempE = data.tempEndTime.split(" ");
+        String[] tempE = data.tempStartTime.split(" ");
 
         String name = YsUser.getInstance().getDevice(data.deviceId).getName();
         holder.name.setText(name);
         holder.time.setText(tempE[0]);
 
-        holder.totalTime.setText(YsTextUtils.paserHourForMinute(mContext, data.total));
-        holder.deepTv.setText(YsTextUtils.paserHourForMinute(mContext, data.deep));
-        holder.shallowTv.setText(YsTextUtils.paserHourForMinute(mContext, data.shallow));
+        holder.totalTime.setText(YsTextUtils.parseHourForMinute(mContext, data.total));
+        holder.deepTv.setText(YsTextUtils.parseHourForMinute(mContext, data.deep));
+        holder.shallowTv.setText(YsTextUtils.parseHourForMinute(mContext, data.shallow));
         holder.wakeTimesTv.setText("" + data.wake);
     }
 

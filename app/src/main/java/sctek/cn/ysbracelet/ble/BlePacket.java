@@ -26,6 +26,7 @@ public class BlePacket {
     public boolean isHead;
     public boolean hasNext;
     public int length;
+    public int type;
 
     public BlePacket() {
         data = null;
@@ -38,10 +39,11 @@ public class BlePacket {
 
     public void init(byte[] packet) {
         cmd = packet[0];
-        seq = packet[1];
-        length = packet[2];
+        length = (packet[1] & 0x0F) + 1;
+        type = (packet[1] >> 4) &0x0F;
+        seq = packet[2];
         isHead = seq == 1;
-        hasNext = seq == 0;
+        hasNext = seq > 1;
         data = Arrays.copyOfRange(packet, 3, 3+length);
     }
 
@@ -59,7 +61,7 @@ public class BlePacket {
         return true;
     }
 
-    public static byte[] parsePacket(byte cmd, int seq, byte[] data, boolean isHead) {
+    public static byte[] parsePacket(byte cmd, int seq, byte[] data) {
         if(BleUtils.DEBUG) Log.e(TAG, "parsePacket");
 
         ByteBuffer packetBuffer = ByteBuffer.allocate(20);
@@ -68,16 +70,20 @@ public class BlePacket {
         packetBuffer.position(0);
 
         packetBuffer.put(cmd);
-        packetBuffer.put((byte)seq);
 
         if(data != null) {
             byte leng = (byte)data.length;
-            leng = (byte)(isHead?leng|0x20:leng&0xdf);
-            packetBuffer.put(leng);
+
+            byte l = (byte)(leng -1);
+            packetBuffer.put(l);
+            packetBuffer.put((byte)seq);
             packetBuffer.put(data);
         } else {
-            byte leng = (byte) (isHead?0x20:0x00);
+            byte leng = 0x00;
             packetBuffer.put(leng);
+            packetBuffer.put((byte)seq);
+            byte d = 0x00;
+            packetBuffer.put(d);
         }
 
         byte checkByte = packetBuffer.get(0);

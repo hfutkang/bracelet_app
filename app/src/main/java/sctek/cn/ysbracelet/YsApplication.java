@@ -15,7 +15,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 
 import java.io.File;
 
-import sctek.cn.ysbracelet.ble.BluetoothLeManager;
+import sctek.cn.ysbracelet.ble.MyBluetoothGattCallBack;
 import sctek.cn.ysbracelet.user.YsUser;
 
 /**
@@ -29,9 +29,15 @@ public class YsApplication extends Application{
     public void onCreate() {
         super.onCreate();
 
-        YsUser.getInstance().loadUserInfo(this);
-        BluetoothLeManager.getInstance().initial(this);
+        try {
+            YsUser.getInstance().loadUserInfo(this);
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
         SDKInitializer.initialize(this);
+
+        MyBluetoothGattCallBack.init(this);
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
@@ -59,6 +65,7 @@ public class YsApplication extends Application{
                 .build();
 
         ImageLoader.getInstance().init(config);
+
     }
 
 }

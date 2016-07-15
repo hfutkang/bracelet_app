@@ -46,7 +46,7 @@ public class PersonalSportsStatisticsActivity extends PersonalDataStatisticsBase
     protected void initDataElement() {
         super.initDataElement();
         statisticsMode = STATISTICS_MODE_WEEK;
-        dateManager = new YsDateManager(YsDateManager.DATE_FORMAT_SECOND);
+        dateManager = new YsDateManager(YsDateManager.DATE_FORMAT_DAY);
         adapter = new PersonalSportsStatisticsWeekAdapter(this, deviceId);
     }
 

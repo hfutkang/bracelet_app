@@ -31,11 +31,15 @@ public abstract class FamilyDataBaseLvAdapter extends BaseAdapter{
 
     protected List<YsData> mRecords;
 
-    public FamilyDataBaseLvAdapter(Context context, int offset) {
+    private View emptyV;
+
+    public FamilyDataBaseLvAdapter(Context context, View view, int offset) {
         mContext = context;
         mDevices = YsUser.getInstance().getDevices();
         mDateManager = new YsDateManager(YsDateManager.DATE_FORMAT_SECOND);
         pageOffset = offset;
+
+        emptyV = view;
 
         mRecords = new ArrayList<>();
         loadDataAsyncTask.execute();
@@ -83,7 +87,12 @@ public abstract class FamilyDataBaseLvAdapter extends BaseAdapter{
         @Override
         protected void onPostExecute(Void aVoid) {
             Log.e(TAG, "onPostExecute");
-            notifyDataSetChanged();
+            if(mRecords.size() == 0)
+                emptyV.setVisibility(View.VISIBLE);
+            else {
+                emptyV.setVisibility(View.GONE);
+                notifyDataSetChanged();
+            }
         }
     };
 }

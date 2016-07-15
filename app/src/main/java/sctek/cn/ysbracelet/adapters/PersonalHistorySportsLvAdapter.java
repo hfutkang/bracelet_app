@@ -83,9 +83,7 @@ public class PersonalHistorySportsLvAdapter extends BaseAdapter {
         holder.detailV.setVisibility(View.GONE);
         SportsData data = (SportsData)mRecords.get(position);
 
-        String[] tempTime = data.tempTime.split(" ");
-        holder.dayTv.setText(tempTime[0]);
-        holder.endTv.setText(tempTime[1]);
+        holder.dayTv.setText(data.tempTime);
 
         int total = data.runSteps + data.walkSteps;
         holder.totalStepsTv.setText("" + total);

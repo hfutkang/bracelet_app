@@ -5,9 +5,11 @@
     tools:context="sctek.cn.ysbracelet.fragments.SettingsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ListView
+        android:id="@+id/settings_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:dividerHeight="2dp"
+        android:layout_margin="10dp" />
 
 </FrameLayout>

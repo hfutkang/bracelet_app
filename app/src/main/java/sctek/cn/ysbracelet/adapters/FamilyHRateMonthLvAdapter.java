@@ -22,8 +22,8 @@ public class FamilyHRateMonthLvAdapter extends FamilyDataBaseLvAdapter{
 
     private final static String TAG = FamilyHRateMonthLvAdapter.class.getSimpleName();
 
-    public FamilyHRateMonthLvAdapter(Context context, int offset) {
-        super(context, offset);
+    public FamilyHRateMonthLvAdapter(Context context, View emptyV, int offset) {
+        super(context, emptyV, offset);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class FamilyHRateMonthLvAdapter extends FamilyDataBaseLvAdapter{
 
         ContentResolver cr = mContext.getContentResolver();
         Cursor cursor = cr.query(LocalDataContract.HeartRate.CONTENT_URI, projection
-                , LocalDataContract.HeartRate.COLUMNS_NAME_TIME + ">" + "'" + dateStart + "'"
+                , LocalDataContract.HeartRate.COLUMNS_NAME_TIME + ">=" + "'" + dateStart + "'"
                         + " AND " + LocalDataContract.HeartRate.COLUMNS_NAME_TIME + "<" + "'" + dateEnd + "'"
                 , null
                 , LocalDataContract.HeartRate.COLUMNS_NAME_TIME + " desc");

@@ -5,6 +5,7 @@ import android.net.Uri;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,11 +26,18 @@ public class YsHttpConnection {
     public static final String METHOD_GET = "GET";
     public static final String METHOD_POST = "POST";
 
-    private String mParams;
+    public static String IMAGE_CONTENT_TYPE = "multipart/form-data";   //内容类型
+    public static String  BOUNDARY =  "sctek";  //边界标识   随机生成
+
+    private byte[] mParamsBytes;
 
     public YsHttpConnection(String urlString, String method, String params) {
 
-        mParams = params;
+        try {
+            mParamsBytes = params == null ? null : params.getBytes("ISO-8859-1");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
 
         String encodeUrl = Uri.encode(urlString, ALLOWED_URI_CHARS);
         URL url;
@@ -43,24 +51,28 @@ public class YsHttpConnection {
 
         try {
             mHttpURLConnection = (HttpURLConnection) url.openConnection();
-            mHttpURLConnection.setRequestMethod(method);
+
+            mHttpURLConnection.setDoInput(true);
+            if(METHOD_POST.equals(method)) {
+                mHttpURLConnection.setDoOutput(true);
+                mHttpURLConnection.setRequestMethod(METHOD_POST);
+            }
+
         } catch (IOException e1) {
             e1.printStackTrace();
             mHttpURLConnection = null;
             return;
         }
 
-        mHttpURLConnection.setDoInput(true);
-        mHttpURLConnection.setDoOutput(true);
-
         mHttpURLConnection.setConnectTimeout(DEFAULT_HTTP_CONNECT_TIMEOUT);
         mHttpURLConnection.setReadTimeout(DEFAULT_HTTP_READ_TIMEOUT);
-        mHttpURLConnection.setRequestProperty("Accept", "text/plain");
-        mHttpURLConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        mHttpURLConnection.setRequestProperty("Connection", "Keep-Alive");
+        mHttpURLConnection.setRequestProperty("Accept", "text/xml");
+        mHttpURLConnection.setRequestProperty("Content-Type", IMAGE_CONTENT_TYPE + "; boundary=" + BOUNDARY);
         mHttpURLConnection.setRequestProperty("Charset", "UTF-8");
 
-        if(mParams != null) {
-            mHttpURLConnection.setRequestProperty("Content-Length", mParams.getBytes().length + "");
+        if(mParamsBytes != null) {
+            mHttpURLConnection.setRequestProperty("Content-Length", mParamsBytes.length + "");
         }
 
     }
@@ -97,10 +109,11 @@ public class YsHttpConnection {
     public InputStream doRequest() throws  IOException {
         try {
             mHttpURLConnection.connect();
-            if (mParams != null) {
+            if (mParamsBytes != null) {
                 OutputStream outputStream = mHttpURLConnection.getOutputStream();
-                outputStream.write(mParams.getBytes());
+                outputStream.write(mParamsBytes);
                 outputStream.flush();
+                outputStream.close();
             }
 
             if (mHttpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {

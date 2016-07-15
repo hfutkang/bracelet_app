@@ -27,8 +27,8 @@ public class FamilySportsMonthLvAdapter extends FamilyDataBaseLvAdapter{
 
     private final static String TAG = FamilySportsMonthLvAdapter.class.getSimpleName();
 
-    public FamilySportsMonthLvAdapter(Context context, int offset) {
-        super(context, offset);
+    public FamilySportsMonthLvAdapter(Context context, View emptyV, int offset) {
+        super(context, emptyV, offset);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class FamilySportsMonthLvAdapter extends FamilyDataBaseLvAdapter{
 
         ContentResolver cr = mContext.getContentResolver();
         Cursor cursor = cr.query(LocalDataContract.Sports.CONTENT_URI, projection
-                , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + ">" + "'" + dateStart + "'"
+                , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + ">=" + "'" + dateStart + "'"
                         + " AND " + LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + "<" + "'" + dateEnd + "'"
                 , null
                 , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + " desc");
@@ -105,12 +105,11 @@ public class FamilySportsMonthLvAdapter extends FamilyDataBaseLvAdapter{
         holder.detailV.setVisibility(View.GONE);
 
         SportsData data = (SportsData) mRecords.get(postion);
-        String[] tempTime = data.tempTime.split(" ");
 
         DeviceInformation device = YsUser.getInstance().getDevice(data.deviceId);
         String name = device.getName();
         holder.name.setText(name);
-        holder.time.setText(tempTime[0]);
+        holder.time.setText(data.tempTime);
 
 
 

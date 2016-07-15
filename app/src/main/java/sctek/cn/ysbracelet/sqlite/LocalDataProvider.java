@@ -8,14 +8,18 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
+import android.location.LocationProvider;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 /**
  * Created by kang on 16-3-25.
  */
 public class LocalDataProvider extends ContentProvider {
+
+    private final static String TAG = LocationProvider.class.getSimpleName();
 
     private static final UriMatcher mUriMatcher;
 
@@ -259,6 +263,7 @@ public class LocalDataProvider extends ContentProvider {
                 throw new IllegalArgumentException("Unkown uri" + uri);
         }
         if(rowId == null) {
+            Log.e(TAG, tableName + " " + selection);
             count = database.delete(tableName, selection, selectionArgs);
         }
         else {

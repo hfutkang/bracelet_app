@@ -1,10 +1,14 @@
 package sctek.cn.ysbracelet.activitys;
 
+import android.accounts.Account;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.igexin.sdk.PushManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -13,6 +17,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import sctek.cn.ysbracelet.R;
+import sctek.cn.ysbracelet.sqlite.LocalDataContract;
+import sctek.cn.ysbracelet.sync.SyncAdapter;
 import sctek.cn.ysbracelet.user.YsUser;
 
 public class WelcomeActivity extends AppCompatActivity {
@@ -33,14 +39,24 @@ public class WelcomeActivity extends AppCompatActivity {
             public void run() {
                 if(YsUser.getInstance().isLogined()) {
                     startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+                    if(YsUser.getInstance().getDeviceCount() != 0) {
+                        Account account = YsUser.getInstance().getAccount();
+                        Bundle bundle = new Bundle();
+                        ContentResolver.setSyncAutomatically(account, LocalDataContract.AUTHORITY, true);
+                        bundle.putInt(SyncAdapter.SYNC_EXTR_MODE, SyncAdapter.SYNC_TYPE_MANUAL_ALL);
+                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
+                        bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
+                        ContentResolver.requestSync(account, LocalDataContract.AUTHORITY, bundle);
+                    }
+                    PushManager.getInstance().initialize(getApplicationContext());
                     finish();
                 }
                 else {
-                    try {
-                        loadTestData();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+//                    try {
+//                        loadTestData();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
                     startActivity(new Intent(WelcomeActivity.this, LoginActivity.class));
                     finish();
                 }

@@ -5,7 +5,7 @@
     android:descendantFocusability="blocksDescendants">
 
     <ImageButton
-        android:id="@+id/delete_ib"
+        android:id="@+id/alarm_delete_ib"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@id/delete_ib"
+        android:layout_toRightOf="@id/alarm_delete_ib"
         android:layout_centerVertical="true"
         android:orientation="vertical"
         android:layout_marginTop="10dp"

@@ -79,7 +79,7 @@ public class UserDataSyncService extends Service {
         public void run() {
             Looper.prepare();
             if(userName != null)
-                UserManagerUtils.sync(userName, startTime, this);
+                UserManagerUtils.syncForUser(userName, startTime, this);
             Looper.loop();
             super.run();
         }

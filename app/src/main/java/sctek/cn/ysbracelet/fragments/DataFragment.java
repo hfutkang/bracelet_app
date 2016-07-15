@@ -19,19 +19,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import sctek.cn.ysbracelet.R;
-import sctek.cn.ysbracelet.thread.BleDataSendThread;
-import sctek.cn.ysbracelet.uiwidget.PullDownProgressController;
-import sctek.cn.ysbracelet.uiwidget.PullToRefreshScrollView;
 import sctek.cn.ysbracelet.activitys.PersonalHeartRateActivity;
 import sctek.cn.ysbracelet.ble.BleData;
 import sctek.cn.ysbracelet.ble.BleDataParser;
 import sctek.cn.ysbracelet.ble.BlePacket;
-import sctek.cn.ysbracelet.ble.BluetoothLeManager;
+import sctek.cn.ysbracelet.ble.BleUtils;
 import sctek.cn.ysbracelet.ble.BluetoothLeService;
 import sctek.cn.ysbracelet.ble.Commands;
+import sctek.cn.ysbracelet.ble.MyBluetoothGattCallBack;
 import sctek.cn.ysbracelet.devicedata.HeartRateData;
 import sctek.cn.ysbracelet.devicedata.SleepData;
 import sctek.cn.ysbracelet.devicedata.SportsData;
+import sctek.cn.ysbracelet.thread.BleDataSendThread;
+import sctek.cn.ysbracelet.uiwidget.PullDownProgressController;
+import sctek.cn.ysbracelet.uiwidget.PullToRefreshScrollView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -42,7 +43,7 @@ import sctek.cn.ysbracelet.devicedata.SportsData;
  * create an instance of this fragment.
  */
 public class DataFragment extends Fragment implements PullToRefreshScrollView.OnPullToRefreshListener
-                        , BluetoothLeService.OnCharacteristicChangedListener{
+                        , MyBluetoothGattCallBack.OnCharacteristicChangedListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -79,8 +80,6 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
     private SportViewHolder sportViewHolder;
     private SleepViewHolder sleepViewHolder;
     private HRateViewHolder hRateViewHolder;
-
-    private BluetoothLeManager mBluetoothLeManager;
 
     private BleDataSendThread getSportsDataThread;
     private BleDataSendThread getSleepDataThread;
@@ -119,10 +118,6 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        mBluetoothLeManager = BluetoothLeManager.getInstance();
-
-        mBluetoothLeManager.setCharacteristicListener(this);
-
         initThreads();
 
         mHandler.post(new Runnable() {
@@ -151,14 +146,14 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
 
     private void initThreads() {
 
-        BleData data = new BleData(Commands.CMD_GET_SPORT_DATA, null);
-        getSportsDataThread = new BleDataSendThread(data, mHandler);
+        BleData data = new BleData(Commands.CMD_GET_SPORT_DATA, null, null);
+        getSportsDataThread = new BleDataSendThread(data, mHandler, null);
 
-        data = new BleData(Commands.CMD_GET_HEART_RATE, null);
-        getHRateDataThread = new BleDataSendThread(data, mHandler);
+        data = new BleData(Commands.CMD_GET_HEART_RATE, null, null);
+        getHRateDataThread = new BleDataSendThread(data, mHandler, null);
 
-        data = new BleData(Commands.CMD_GET_SLEEP_DATA, null);
-        getSleepDataThread = new BleDataSendThread(data, mHandler);
+        data = new BleData(Commands.CMD_GET_SLEEP_DATA, null, null);
+        getSleepDataThread = new BleDataSendThread(data, mHandler, null);
 
     }
 
@@ -190,7 +185,7 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
 
         sleepViewHolder = new SleepViewHolder();
 
-        if(mBluetoothLeManager.isConnected())
+        if(BleUtils.isConnected(getContext(), null))
             deviceStateTv.setText(R.string.ble_disconnected);
         else
             deviceStateTv.setText(R.string.ble_connected);
@@ -221,7 +216,6 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
     public void onDetach() {
         super.onDetach();
         mListener = null;
-        BluetoothLeManager.getInstance().setCharacteristicListener(null);
         getActivity().unregisterReceiver(bleStateBroadcastReceiver);
         getSleepDataThread.interrupt();
         getSportsDataThread.interrupt();
@@ -258,7 +252,6 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
             mHandler.removeMessages(TIMEOUT_GET_HEART_RATE_DATA);
             getSleepDataThread.start();
             mHandler.sendEmptyMessageDelayed(TIMEOUT_GET_SLEEP_DATA, GET_BLEDATA_TIMEOUT_MS);
-
         }
         else if(packet.cmd == Commands.CMD_GET_SLEEP_DATA) {
             SleepData sld = BleDataParser.parseSleepDataFrom(packet);
@@ -379,7 +372,7 @@ public class DataFragment extends Fragment implements PullToRefreshScrollView.On
         if(loading)
             return;
 
-        if(mBluetoothLeManager.isConnected()) {
+        if(BleUtils.isConnected(getContext(), null)) {
             getSportsDataThread.start();
             mHandler.sendEmptyMessageDelayed(TIMEOUT_GET_SPROTS_DATA, GET_BLEDATA_TIMEOUT_MS);
         }

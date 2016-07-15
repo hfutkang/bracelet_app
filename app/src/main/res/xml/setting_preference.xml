@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <Preference android:title="@string/app_version"
+        android:key="app_version"/>
+    
+    <Preference android:title="@string/about_device"
+        android:key="about_device"/>
+    
+    <Preference android:title="@string/support"
+        android:key="@string/support"/>
+    
+    <Preference android:title="@string/app_version"
+        android:key="app_version"/>
+    
+    <Preference android:title="@string/help"
+        android:key="help" />
+    
+    <Preference android:title="@string/how_to_buy"
+        android:key="buy" />
+    
+    <Preference android:title="@string/way_to_charge"
+        android:key="charge" />
+    
+    <Preference android:title="@string/quit"
+        android:key="quit"/>
+
+</PreferenceScreen>

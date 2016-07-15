@@ -23,8 +23,8 @@ public class FamilyHRateWeekLvAdapter extends FamilyDataBaseLvAdapter{
 
     private final static String TAG = FamilyHRateWeekLvAdapter.class.getSimpleName();
 
-    public FamilyHRateWeekLvAdapter(Context context, int offset) {
-        super(context, offset);
+    public FamilyHRateWeekLvAdapter(Context context, View emptyV, int offset) {
+        super(context, emptyV, offset);
     }
 
     @Override
@@ -40,7 +40,7 @@ public class FamilyHRateWeekLvAdapter extends FamilyDataBaseLvAdapter{
 
         ContentResolver cr = mContext.getContentResolver();
         Cursor cursor = cr.query(LocalDataContract.HeartRate.CONTENT_URI, projection
-                , LocalDataContract.HeartRate.COLUMNS_NAME_TIME + ">" + "'" + dateStart + "'"
+                , LocalDataContract.HeartRate.COLUMNS_NAME_TIME + ">=" + "'" + dateStart + "'"
                         + " AND " + LocalDataContract.HeartRate.COLUMNS_NAME_TIME + "<" + "'" + dateEnd + "'"
                 , null
                 , LocalDataContract.HeartRate.COLUMNS_NAME_TIME + " desc");

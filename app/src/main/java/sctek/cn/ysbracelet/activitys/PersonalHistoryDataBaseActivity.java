@@ -98,6 +98,13 @@ public abstract class PersonalHistoryDataBaseActivity extends AppCompatActivity 
         actionIb = (ImageButton)findViewById(R.id.action_ib);
         actionIb.setVisibility(View.GONE);
 
+        backIb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         emptyTv = (TextView)findViewById(R.id.empty_tv);
         emptyTv.setVisibility(View.GONE);
     }

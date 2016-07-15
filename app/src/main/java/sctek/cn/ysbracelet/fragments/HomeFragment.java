@@ -2,9 +2,11 @@ package sctek.cn.ysbracelet.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,21 +14,24 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import sctek.cn.ysbracelet.R;
 import sctek.cn.ysbracelet.activitys.EditorDeviceInfoActivity;
 import sctek.cn.ysbracelet.activitys.FenceActivity;
 import sctek.cn.ysbracelet.activitys.LocationAcitvity;
+import sctek.cn.ysbracelet.activitys.PersonalHeartRateActivity;
 import sctek.cn.ysbracelet.activitys.PersonalSleepAcitvity;
+import sctek.cn.ysbracelet.activitys.PersonalSportsAcitvity;
 import sctek.cn.ysbracelet.activitys.SearchDeviceActivity;
 import sctek.cn.ysbracelet.activitys.WarnActivity;
+import sctek.cn.ysbracelet.adapters.FamiliesListViewAdapter;
 import sctek.cn.ysbracelet.device.DeviceInformation;
 import sctek.cn.ysbracelet.uiwidget.CircleImageView;
-import sctek.cn.ysbracelet.adapters.FamiliesListViewAdapter;
 import sctek.cn.ysbracelet.uiwidget.HorizontalListView;
-import sctek.cn.ysbracelet.activitys.PersonalHeartRateActivity;
-import sctek.cn.ysbracelet.activitys.PersonalSportsAcitvity;
 import sctek.cn.ysbracelet.user.YsUser;
 
 /**
@@ -46,6 +51,13 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     public static final String EXTR_DEVICE_ID = "deviceId";
+    public static final String EXTR_DEVICE_MAC = "mac";
+    public static final int REQUEST_CODE_ADD = 1;
+    public static final int REQUEST_CODE_EDIT = 2;
+    public static final int RESULT_CODE_ADD_OK = 1;
+    public static final int RESULT_CODE_ADD_FAIL = 2;
+    public static final int RESULT_CODE_EDIT_OK = 3;
+    public static final int RESULT_CODE_DELETE_OK = 4;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -57,10 +69,17 @@ public class HomeFragment extends Fragment {
     private ImageButton preIb;
     private ImageButton nextIb;
 
+    private View selectorLo;
     private CircleImageView gravatarCiv;
     private TextView nameTv;
     private TextView sexTv;
     private TextView ageTv;
+
+    private DisplayImageOptions displayImageOptions;
+
+    private FamiliesListViewAdapter adapter;
+
+    private CircleImageView addCiv;
 
     private TextView sportsTv;
     private TextView hRateTv;
@@ -71,20 +90,11 @@ public class HomeFragment extends Fragment {
 
     private YsUser mUser;
     private DeviceInformation selectedDevcie;
-    private int currentPosition;
 
     public HomeFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomeFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static HomeFragment newInstance(String param1, String param2) {
         HomeFragment fragment = new HomeFragment();
@@ -104,22 +114,34 @@ public class HomeFragment extends Fragment {
         }
         
         mUser = YsUser.getInstance();
+
+        displayImageOptions = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.gravatar_stub)
+                .showImageOnFail(R.drawable.gravatar_stub)
+                .resetViewBeforeLoading(true)
+                .cacheOnDisk(true)
+                .showImageForEmptyUri(R.drawable.gravatar_stub)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .considerExifParams(true)
+                .displayer(new FadeInBitmapDisplayer(300))
+                .build();
     }
 
     private void initViewElement(View view) {
 
         fimaliesLv = (HorizontalListView)view.findViewById(R.id.families_hlv);
-        FamiliesListViewAdapter adapter = new FamiliesListViewAdapter(getContext(), true);
+        adapter = new FamiliesListViewAdapter(getContext(), true);
         fimaliesLv.setAdapter(adapter);
         fimaliesLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position >= mUser.getDeviceCount()) {
-                    startActivity(new Intent(getContext(), SearchDeviceActivity.class));
+                    startActivityForResult(new Intent(getContext(), SearchDeviceActivity.class), REQUEST_CODE_ADD);
                 }
                 else {
                     selectedDevcie = mUser.getDevice(position);
-                    ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv);
+                    ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv, displayImageOptions);
                     gravatarCiv.setProgress(selectedDevcie.getPower());
                     nameTv.setText(selectedDevcie.getName());
                     ageTv.setText("" + selectedDevcie.getAge());
@@ -146,17 +168,27 @@ public class HomeFragment extends Fragment {
         warningTv.setOnClickListener(onViewClickedListener);
         fenceTv.setOnClickListener(onViewClickedListener);
 
-        selectedDevcie = mUser.getDevice(0);
+        selectorLo = view.findViewById(R.id.family_selector_lo);
         gravatarCiv = (CircleImageView)view.findViewById(R.id.selected_member_cv);
         nameTv = (TextView)view.findViewById(R.id.name_tv);
         ageTv = (TextView)view.findViewById(R.id.age_tv);
         sexTv = (TextView)view.findViewById(R.id.sex_tv);
 
-        ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv);
-        nameTv.setText(selectedDevcie.getName());
-        ageTv.setText("" + selectedDevcie.getAge());
-        sexTv.setText(selectedDevcie.getSex());
+        addCiv = (CircleImageView)view.findViewById(R.id.add_device_cv);
 
+        if(mUser.getDeviceCount() == 0) {
+            addCiv.setVisibility(View.VISIBLE);
+            selectorLo.setVisibility(View.GONE);
+        }
+        else {
+            selectedDevcie = mUser.getDevice(0);
+            ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv, displayImageOptions);
+            nameTv.setText(selectedDevcie.getName());
+            ageTv.setText("" + selectedDevcie.getAge());
+            sexTv.setText(selectedDevcie.getSex());
+        }
+
+        addCiv.setOnClickListener(onViewClickedListener);
         gravatarCiv.setOnClickListener(onViewClickedListener);
 
     }
@@ -164,7 +196,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        Log.e(TAG, "onActivityResult onCreateView");
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initViewElement(view);
         return view;
@@ -194,11 +226,55 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e(TAG, "onActivityResult " + requestCode + " " + resultCode);
+        if(requestCode == REQUEST_CODE_ADD) {
+            if(resultCode == RESULT_CODE_ADD_OK) {
+                adapter.notifyDataSetChanged();
+                if(selectedDevcie == null) {
+                    addCiv.setVisibility(View.GONE);
+                    selectorLo.setVisibility(View.VISIBLE);
+                    selectedDevcie = mUser.getDevice(0);
+
+                    ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv, displayImageOptions);
+                    nameTv.setText(selectedDevcie.getName());
+                    ageTv.setText("" + selectedDevcie.getAge());
+                    sexTv.setText(selectedDevcie.getSex());
+                }
+            }
+        } else if(requestCode == REQUEST_CODE_EDIT) {
+            if(resultCode == RESULT_CODE_EDIT_OK) {
+                adapter.notifyDataSetChanged();
+                ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv, displayImageOptions);
+                nameTv.setText(selectedDevcie.getName());
+                ageTv.setText("" + selectedDevcie.getAge());
+                sexTv.setText(selectedDevcie.getSex());
+            }
+            else if(resultCode == RESULT_CODE_DELETE_OK) {
+                adapter.notifyDataSetChanged();
+                if(mUser.getDeviceCount() == 0) {
+                    addCiv.setVisibility(View.VISIBLE);
+                    selectorLo.setVisibility(View.GONE);
+                    selectedDevcie = null;
+                }
+                else {
+                    selectedDevcie = YsUser.getInstance().getDevice(0);
+                    ImageLoader.getInstance().displayImage(selectedDevcie.getImagePath(), gravatarCiv, displayImageOptions);
+                    nameTv.setText(selectedDevcie.getName());
+                    ageTv.setText("" + selectedDevcie.getAge());
+                    sexTv.setText(selectedDevcie.getSex());
+                }
+            }
+        }
+    }
+
     private View.OnClickListener onViewClickedListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Bundle bundle = new Bundle();
-            bundle.putString(EXTR_DEVICE_ID, selectedDevcie.getSerialNumber());
+            if (selectedDevcie != null)
+                bundle.putString(EXTR_DEVICE_ID, selectedDevcie.getSerialNumber());
             Intent intent = new Intent();
             intent.putExtras(bundle);
             switch (v.getId()) {
@@ -208,7 +284,7 @@ public class HomeFragment extends Fragment {
                     break;
                 case R.id.sports_title_tv:
                     intent.setClass(getContext(), PersonalSportsAcitvity.class);
-                    startActivity(intent);;
+                    startActivity(intent);
                     break;
                 case R.id.sleep_title_tv:
                     intent.setClass(getContext(), PersonalSleepAcitvity.class);
@@ -232,7 +308,11 @@ public class HomeFragment extends Fragment {
                     break;
                 case R.id.selected_member_cv:
                     intent.setClass(getContext(), EditorDeviceInfoActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent, REQUEST_CODE_EDIT);
+                    break;
+                case R.id.add_device_cv:
+                    intent.setClass(getContext(), SearchDeviceActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_ADD);
                     break;
             }
 

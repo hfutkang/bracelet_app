@@ -8,6 +8,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import sctek.cn.ysbracelet.device.DeviceInformation;
 import sctek.cn.ysbracelet.devicedata.HeartRateData;
+import sctek.cn.ysbracelet.devicedata.Message;
 import sctek.cn.ysbracelet.devicedata.PositionData;
 import sctek.cn.ysbracelet.devicedata.SleepData;
 import sctek.cn.ysbracelet.devicedata.SportsData;
@@ -73,6 +74,11 @@ public class XmlContentHandler extends DefaultHandler {
 		else if(localName.equals(XmlNodes.NODE_USERINFO)) {
 			mYsData = YsUser.getInstance();
 		}
+		else if(localName.equals(XmlNodes.NODE_MSG)) {
+			Log.e(TAG, "node message xxxxxxxxxxxxxxxxx");
+			mYsData = new Message();
+		}
+
 	}
 	
 	@Override
@@ -86,7 +92,8 @@ public class XmlContentHandler extends DefaultHandler {
 				|| localName.equals(XmlNodes.NODE_REGISTER)
 				|| localName.equals(XmlNodes.NODE_SLEEP)
 				|| localName.equals(XmlNodes.NODE_DEVICE)
-				|| localName.equals(XmlNodes.NODE_USERINFO))
+				|| localName.equals(XmlNodes.NODE_USERINFO)
+				|| localName.equals(XmlNodes.NODE_MSG))
 			publishData(mYsData);
 
 

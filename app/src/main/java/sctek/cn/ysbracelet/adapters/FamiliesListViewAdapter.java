@@ -2,6 +2,7 @@ package sctek.cn.ysbracelet.adapters;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
@@ -10,7 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.util.List;
 
@@ -30,10 +34,24 @@ public class FamiliesListViewAdapter extends BaseAdapter {
     private List<DeviceInformation> devices;
     private Context mContext;
 
+    private DisplayImageOptions displayImageOptions;
+
     public FamiliesListViewAdapter(Context context, boolean withAddBt) {
         withAddButton = withAddBt;
         devices = YsUser.getInstance().getDevices();
         mContext = context;
+
+        displayImageOptions = new DisplayImageOptions.Builder()
+                .showImageOnLoading(R.drawable.gravatar_stub)
+                .showImageOnFail(R.drawable.gravatar_stub)
+                .showImageForEmptyUri(R.drawable.gravatar_stub)
+                .resetViewBeforeLoading(true)
+                .cacheOnDisk(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .considerExifParams(true)
+                .displayer(new FadeInBitmapDisplayer(300))
+                .build();
     }
 
     @Override
@@ -73,8 +91,9 @@ public class FamiliesListViewAdapter extends BaseAdapter {
         }
         else {
             viewHolder.imageView.setProgress(devices.get(position).getPower());
-            ImageLoader.getInstance().displayImage(devices.get(position).getImagePath(), viewHolder.imageView);
-            viewHolder.imageView.setImageResource(R.drawable.gravatar_stub);
+            ImageLoader.getInstance().displayImage(devices.get(position).getImagePath(), viewHolder.imageView
+                                        ,displayImageOptions);
+//            viewHolder.imageView.setImageResource(R.drawable.gravatar_stub);
         }
         return convertView;
     }
