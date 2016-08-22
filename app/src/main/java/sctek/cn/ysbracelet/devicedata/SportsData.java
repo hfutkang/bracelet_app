@@ -20,6 +20,8 @@ public class SportsData implements YsData {
     public int runSteps;
     public int walkSteps;
 
+    public int goal;
+
     public String type;
     public int calories;
 
@@ -96,5 +98,32 @@ public class SportsData implements YsData {
                 , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_DEVICE + "=" + "'" + deviceId + "'"
                     + " AND " + LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + "=" + "'" + tempTime + "'"
                 , null);
+    }
+
+    @Override
+    public void clearField() {
+        runSteps = 0;
+        walkSteps = 0;
+
+        goal = 0;
+
+        type = null;
+        calories = 0;
+
+        deviceId = null;
+
+        date = null;
+
+        tempTime = "2016-03-29";
+    }
+
+    public YsData clone() {
+        SportsData temp = null;
+        try {
+            temp = (SportsData)super.clone();
+        }catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return temp;
     }
 }

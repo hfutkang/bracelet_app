@@ -107,6 +107,13 @@ public class WarnActivity extends AppCompatActivity implements MyBluetoothGattCa
         Log.e(TAG, "onDestroy");
         MyBluetoothGattCallBack.getInstance().setBleListener(null);
         mYsTimers.clear();
+        try {
+            unregisterReceiver(mBroadcastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        mBroadcastReceiver = null;
+        BluetoothLeManager.disconnect(mac);
         System.gc();
         super.onDestroy();
     }
@@ -123,7 +130,6 @@ public class WarnActivity extends AppCompatActivity implements MyBluetoothGattCa
                 showProgressDialog();
                 mHandler.sendEmptyMessageDelayed(GET_WARN_LIST_TIME_OUT, 10000);
                 BluetoothLeManager.connect(WarnActivity.this, mac);
-
             }
         }
         else if(requestCode == ADD_TIMER_REQUEST && resultCode == RESULT_OK) {
@@ -312,9 +318,9 @@ public class WarnActivity extends AppCompatActivity implements MyBluetoothGattCa
         }
         BleData data;
         if(on)
-            data = new BleData(Commands.CMD_GET_DEVICE_ID, new byte[]{0x01}, mac);
+            data = new BleData(Commands.CMD_SWITHC_WARN, new byte[]{0x01}, mac);
         else
-            data = new BleData(Commands.CMD_GET_DEVICE_ID, new byte[]{0x00}, mac);
+            data = new BleData(Commands.CMD_SWITHC_WARN, new byte[]{0x00}, mac);
         BleDataSendThread dataSendThread = new BleDataSendThread(data, mHandler, null);
         dataSendThread.start();
     }
@@ -368,7 +374,7 @@ public class WarnActivity extends AppCompatActivity implements MyBluetoothGattCa
         if(packet.cmd == Commands.CMD_GET_WARN_LIST) {
             mHandler.removeMessages(GET_WARN_LIST_TIME_OUT);
             Log.e(TAG, "1");
-            if(packet.length == 5) {
+            if(packet.length == 5) {//收到校验帧，结束。
                 Log.e(TAG, "2");
                 try {
                     mProgressDialog.cancel();
@@ -386,7 +392,7 @@ public class WarnActivity extends AppCompatActivity implements MyBluetoothGattCa
             }
         }
         else if(packet.cmd == Commands.CMD_WARN_CONTROL) {
-            if(packet.data[0] == 0x00) {
+            if(packet.data[0] == 0x00) {//
                 mHandler.removeMessages(SEND_CONTROL_CMD_TIME_OUT);
                 mYsTimers.clear();
                 getWarnList();
@@ -461,6 +467,7 @@ public class WarnActivity extends AppCompatActivity implements MyBluetoothGattCa
                     activity.addModifyWarn(WARN_CONTRL_ID_MODI, timer.id, !timer.status, timer.hour, timer.minutes, timer.mode, timer.description);
                     break;
                 case ON_DELETE_BUTTON_CLICKED:
+                    activity.selectedTimerIndex = msg.arg1;
                     activity.showDeleteTimerDialog();
                     break;
                 case ON_RECEIVE_CHECK_PACKET:

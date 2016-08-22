@@ -8,6 +8,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 
+import sctek.cn.ysbracelet.activitys.SearchDeviceActivity;
+
 /**
  * Created by kang on 16-2-23.
  */
@@ -16,17 +18,19 @@ public class UrlUtils {
     public static final String TAG = "UrlUtils";
 
     public static final String DEBUG_URL_PREFIX = "http://192.168.5.253:81/";
-    public static final String SC_URL_PREFIX = "http://www.sctek.cn:9090/";
+    public static final String SC_URL_PREFIX = SearchDeviceActivity.TEST?
+            "http://192.168.5.253:81/":
+            "http://www.sctek.cn:9090/";
 
-    public static final String URL_BASE = DEBUG_URL_PREFIX + "app.php?";
+    public static final String URL_BASE = SC_URL_PREFIX + "app.php?";
 
-    public static final String LOGIN_BASE = DEBUG_URL_PREFIX + "login.php?";
+    public static final String LOGIN_BASE = SC_URL_PREFIX + "login.php?";
 
-    public static final String REGISTER_BASE = DEBUG_URL_PREFIX + "register.php?";
+    public static final String REGISTER_BASE = SC_URL_PREFIX + "register.php?";
 
-    public static final String UPLOAD_IMAGE_URL = DEBUG_URL_PREFIX + "uploadimage.php";
+    public static final String UPLOAD_IMAGE_URL = SC_URL_PREFIX + "uploadimage.php";
 
-    public static final String IMAGE_PATH_BASE = DEBUG_URL_PREFIX + "images/";
+    public static final String IMAGE_PATH_BASE = SC_URL_PREFIX + "images/";
 
     public static String  BOUNDARY =  "sctek";  //边界标识   随机生成
     public static String PREFIX = "--" , LINE_END = System.getProperty("line.separator");
@@ -36,7 +40,7 @@ public class UrlUtils {
         return REGISTER_BASE
                 + "uname=" + phoneNum
                 + "&pw=" + password
-                + "&email=" + email
+                    + "&email=" + email
                 + "&code=" + vCode;
     }
 

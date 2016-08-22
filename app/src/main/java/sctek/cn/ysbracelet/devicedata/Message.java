@@ -65,4 +65,23 @@ public class Message implements YsData{
                         + " AND " + LocalDataContract.Message.COLUMNS_NAME_DEVICE + "=" + "'" + deviceId + "'"
                 , null);
     }
+
+    @Override
+    public void clearField() {
+        deviceId = null;
+        name = null;
+        type = null;
+        time = null;
+        message = null;
+    }
+
+    public YsData clone() {
+        Message temp = null;
+        try {
+            temp = (Message)super.clone();
+        }catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return temp;
+    }
 }

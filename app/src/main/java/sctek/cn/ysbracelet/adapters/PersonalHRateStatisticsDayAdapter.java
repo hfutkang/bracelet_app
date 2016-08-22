@@ -32,7 +32,6 @@ public class PersonalHRateStatisticsDayAdapter extends PersonalStatisticsBaseAda
     public PersonalHRateStatisticsDayAdapter(Context context, String device) {
         super(context, device);
         mDateManager = new YsDateManager(YsDateManager.DATE_FORMAT_DAY);
-
         initXValuesTask.execute();
     }
 
@@ -85,7 +84,7 @@ public class PersonalHRateStatisticsDayAdapter extends PersonalStatisticsBaseAda
             int xIndex = 0;
             try {
                 xIndex = mDateManager.getMinutesOfDayFor(date);
-                Log.e(TAG, "" + xIndex);
+                Log.e(TAG, date + " " + xIndex);
             } catch (ParseException e) {
                 e.printStackTrace();
             }

@@ -88,6 +88,8 @@ public class PersonalHistorySleepLvAdapter extends BaseAdapter {
         holder.dayTv.setText(tempE[0]);
         holder.endTv.setText(tempE[1]);
 
+        holder.goalTv.setText(YsTextUtils.parseHourForMinute(mContext, data.goal));
+
         holder.totalTimeTv.setText(YsTextUtils.parseHourForMinute(mContext, data.total));
         holder.deepTv.setText(YsTextUtils.parseHourForMinute(mContext, data.deep));
         holder.shallowTv.setText(YsTextUtils.parseHourForMinute(mContext, data.shallow));

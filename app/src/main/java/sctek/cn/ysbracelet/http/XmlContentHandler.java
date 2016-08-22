@@ -6,6 +6,9 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import sctek.cn.ysbracelet.device.DeviceInformation;
 import sctek.cn.ysbracelet.devicedata.HeartRateData;
 import sctek.cn.ysbracelet.devicedata.Message;
@@ -27,9 +30,22 @@ public class XmlContentHandler extends DefaultHandler {
 
 	private int responseCode;
 
+	private StringBuffer sb;
+
+	private Map<String, YsData> mYsDatas;
+
 	public XmlContentHandler(XmlParserListener xmlParserListener) {
 		mXmlParserListener = xmlParserListener;
 		responseCode = -1;
+		sb = new StringBuffer();
+
+		mYsDatas = new HashMap<>(6);
+		mYsDatas.put(XmlNodes.NODE_POSITION, new PositionData());
+		mYsDatas.put(XmlNodes.NODE_HEARTRATE, new HeartRateData());
+		mYsDatas.put(XmlNodes.NODE_SPORT, new SportsData());
+		mYsDatas.put(XmlNodes.NODE_SLEEP, new SleepData());
+		mYsDatas.put(XmlNodes.NODE_DEVICE, new DeviceInformation());
+		mYsDatas.put(XmlNodes.NODE_MSG, new Message());
 	}
 	
 	@Override
@@ -45,38 +61,11 @@ public class XmlContentHandler extends DefaultHandler {
 		Log.e(TAG, "startElement:" + localName);
 		mNodeName = localName;
 
-		if(localName.equals(XmlNodes.NODE_POSITION)) {
-			mYsData = new PositionData();
-		}
-		else if(localName.equals(XmlNodes.NODE_HEARTRATE)) {
-			mYsData = new HeartRateData();
-		}
-		else if(localName.equals(XmlNodes.NODE_SPORT)) {
-			mYsData = new SportsData();
-		}
-		else if(localName.equals(XmlNodes.NODE_LOGIN)) {
-//			mYsData = YsUser.getInstance();
-		}
-		else if(localName.equals(XmlNodes.NODE_REGISTER)) {
-		}
-		else if(localName.equals(XmlNodes.NODE_SLEEP)) {
-			mYsData = new SleepData();
-		}
-		else if(localName.equals(XmlNodes.NODE_ADD_DEVICE)) {
-
-		}
-		else if(localName.equals(XmlNodes.NODE_DELETE_DEVICE)) {
-
-		}
-		else if(localName.equals(XmlNodes.NODE_DEVICE)) {
-			mYsData = new DeviceInformation();
-		}
-		else if(localName.equals(XmlNodes.NODE_USERINFO)) {
+		YsData temp = mYsDatas.get(mNodeName);
+		if(temp != null)
+			mYsData = temp;
+		if(localName.equals(XmlNodes.NODE_USERINFO)) {
 			mYsData = YsUser.getInstance();
-		}
-		else if(localName.equals(XmlNodes.NODE_MSG)) {
-			Log.e(TAG, "node message xxxxxxxxxxxxxxxxx");
-			mYsData = new Message();
 		}
 
 	}
@@ -86,6 +75,7 @@ public class XmlContentHandler extends DefaultHandler {
 			throws SAXException {
 		// TODO Auto-generated method stub
 		Log.e(TAG, "endElement:" + localName);
+
 		if(localName.equals(XmlNodes.NODE_POSITION)
 				|| localName.equals(XmlNodes.NODE_HEARTRATE)
 				|| localName.equals(XmlNodes.NODE_SPORT)
@@ -93,9 +83,17 @@ public class XmlContentHandler extends DefaultHandler {
 				|| localName.equals(XmlNodes.NODE_SLEEP)
 				|| localName.equals(XmlNodes.NODE_DEVICE)
 				|| localName.equals(XmlNodes.NODE_USERINFO)
-				|| localName.equals(XmlNodes.NODE_MSG))
+				|| localName.equals(XmlNodes.NODE_MSG)) {
 			publishData(mYsData);
+			mYsData.clearField();
+			mYsData = null;
+		}
 
+		if(mYsData != null) {
+			mYsData.setField(mNodeName, sb.toString());
+		}
+
+		sb.delete(0, sb.length());
 
 	}
 	
@@ -104,12 +102,12 @@ public class XmlContentHandler extends DefaultHandler {
 			throws SAXException {
 		// TODO Auto-generated method stub
 		String value = new String(ch, start, length);
-		Log.e(TAG, "characters:" + value);
+		Log.e(TAG, "start:" + start + " length:" + length + " characters:" + value);
 		if(value.contains("\n")||value.contains("  ")) {
 			return;
 		}
-		if(mYsData != null)
-			mYsData.setField(mNodeName, value);
+
+		sb.append(value);
 
 		if(mNodeName.equals(XmlNodes.NODE_RES))
 			responseCode = Integer.parseInt(value);

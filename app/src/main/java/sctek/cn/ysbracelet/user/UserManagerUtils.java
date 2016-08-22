@@ -35,6 +35,7 @@ public class UserManagerUtils {
         if(BleUtils.DEBUG) Log.e(TAG, "syncForUser");
 
         String url = UrlUtils.compositeUserSyncUrl(userName, startTime);
+        Log.e(TAG, url);
         YsHttpConnection mConnection = new YsHttpConnection(url, YsHttpConnection.METHOD_GET, null);
         new HttpConnectionWorker(mConnection, listener).start();
 //                .setTestXmlFile("/storage/emulated/0/Android/data/sctek.cn.ysbracelet/cache/syncdata.xml").start();

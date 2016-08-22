@@ -272,51 +272,58 @@ public class HomeFragment extends Fragment {
     private View.OnClickListener onViewClickedListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Bundle bundle = new Bundle();
-            if (selectedDevcie != null)
-                bundle.putString(EXTR_DEVICE_ID, selectedDevcie.getSerialNumber());
-            Intent intent = new Intent();
-            intent.putExtras(bundle);
+            Class cl = null;
             switch (v.getId()) {
                 case R.id.heart_rate_title_tv:
-                    intent.setClass(getContext(), PersonalHeartRateActivity.class);
-                    startActivity(intent);
+                    cl = PersonalHeartRateActivity.class;
                     break;
                 case R.id.sports_title_tv:
-                    intent.setClass(getContext(), PersonalSportsAcitvity.class);
-                    startActivity(intent);
+                    cl = PersonalSportsAcitvity.class;
                     break;
                 case R.id.sleep_title_tv:
-                    intent.setClass(getContext(), PersonalSleepAcitvity.class);
-                    startActivity(intent);
+                    cl = PersonalSleepAcitvity.class;
                     break;
                 case R.id.location_title_tv:
-                    intent.setClass(getContext(), LocationAcitvity.class);
-                    startActivity(intent);
+                    cl = LocationAcitvity.class;
                     break;
                 case R.id.warning_title_tv:
-                    intent.setClass(getContext(), WarnActivity.class);
-                    startActivity(intent);
+                    cl = WarnActivity.class;
                     break;
                 case R.id.fence_title_tv:
-                    intent.setClass(getContext(), FenceActivity.class);
-                    startActivity(intent);
+                    cl = FenceActivity.class;
                     break;
                 case R.id.member_next_ib:
                     break;
                 case R.id.member_previous_ib:
                     break;
                 case R.id.selected_member_cv:
-                    intent.setClass(getContext(), EditorDeviceInfoActivity.class);
-                    startActivityForResult(intent, REQUEST_CODE_EDIT);
+                    cl = EditorDeviceInfoActivity.class;
                     break;
                 case R.id.add_device_cv:
-                    intent.setClass(getContext(), SearchDeviceActivity.class);
-                    startActivityForResult(intent, REQUEST_CODE_ADD);
+                    startActivityForResult(new Intent(getContext(), SearchDeviceActivity.class), REQUEST_CODE_ADD);
                     break;
             }
+            startActivity(cl);
 
         }
     };
+
+    private void startActivity(Class cl) {
+        if (selectedDevcie == null || cl == null)
+            return;
+
+        Bundle bundle = new Bundle();
+        Intent intent = new Intent();
+        bundle.putString(EXTR_DEVICE_ID, selectedDevcie.getSerialNumber());
+        intent.putExtras(bundle);
+
+        intent.setClass(getContext(), cl);
+
+        if(cl == EditorDeviceInfoActivity.class) {
+            startActivityForResult(intent, REQUEST_CODE_EDIT);
+        } else{
+            startActivity(intent);
+        }
+    }
 
 }

@@ -89,7 +89,6 @@ public class BleDataSendThread extends Thread {
             byte[] packet = BlePacket.parsePacket((byte) data.getCmd(), seq, seg);
             if(!BluetoothLeManager.sendData(packet, mac))
                 return false;
-
             seq++;
             offset += BleData.MAX_SEGMENT_SIZE;
         } while (data.hasNext(offset));

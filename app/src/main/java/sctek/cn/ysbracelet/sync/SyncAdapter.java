@@ -9,6 +9,9 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.util.Log;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
 import sctek.cn.ysbracelet.devicedata.YsData;
 import sctek.cn.ysbracelet.thread.HttpConnectionWorker;
 import sctek.cn.ysbracelet.user.UserManagerUtils;
@@ -32,19 +35,24 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements HttpConn
     public static final String SYNC_EXTR_MODE = "cn.sctek.sync.extra";
     public static final String SYNC_EXTR_DEVICE = "cn.sctek.sync.id";
 
+    private Executor mExecutor;
+
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
+        mExecutor = Executors.newFixedThreadPool(5);
     }
 
     public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSync) {
         super(context, autoInitialize, allowParallelSync);
+        mExecutor = Executors.newFixedThreadPool(5);
     }
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
          syncMode = extras.getInt(SYNC_EXTR_MODE);//同步的类型，手动，自动。
         String id = extras.getString(SYNC_EXTR_DEVICE);
         Log.e(TAG, "onPerformSync:" + syncMode + " " + authority);
+        Log.e(TAG, "thread id===========" + Thread.currentThread().getId());
         Looper.prepare();
         switch (syncMode) {
             case SYNC_TYPE_AUTO:
@@ -72,13 +80,17 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements HttpConn
     }
 
     @Override
-    public void onResult(YsData result) {
-        try {
-            result.insert(getContext().getContentResolver());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+    public void onResult(final YsData result) {
+            mExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        result.insert(getContext().getContentResolver());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
     }
 
     @Override

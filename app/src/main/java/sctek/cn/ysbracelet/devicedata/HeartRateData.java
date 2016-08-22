@@ -71,4 +71,22 @@ public class HeartRateData implements YsData {
                 + " AND " + LocalDataContract.HeartRate.COLUMNS_NAME_DEVICE + "=" + "'" + deviceId + "'"
             , null);
     }
+
+    @Override
+    public void clearField() {
+        time = null;
+        rate = 0;
+        deviceId = null;
+        type = null;
+    }
+
+    public YsData clone() {
+        HeartRateData temp = null;
+        try {
+            temp = (HeartRateData)super.clone();
+        }catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return temp;
+    }
 }

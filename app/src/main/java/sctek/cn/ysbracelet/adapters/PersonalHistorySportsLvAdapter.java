@@ -89,6 +89,7 @@ public class PersonalHistorySportsLvAdapter extends BaseAdapter {
         holder.totalStepsTv.setText("" + total);
         holder.runTv.setText("" + data.runSteps);
         holder.walkTv.setText("" + data.walkSteps);
+        holder.goalTv.setText("" + data.goal);
 
         double calories = YsTextUtils.calculateCalories(data.runSteps, data.walkSteps, mDevice.weight, mDevice.height);
         holder.caloriesTv.setText(new DecimalFormat("#.00").format(calories));

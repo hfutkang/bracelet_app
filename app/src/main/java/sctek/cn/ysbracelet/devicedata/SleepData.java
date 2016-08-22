@@ -3,6 +3,7 @@ package sctek.cn.ysbracelet.devicedata;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.net.Uri;
+import android.util.Log;
 
 import java.util.Date;
 
@@ -23,6 +24,8 @@ public class SleepData implements YsData {
     public int shallow;
     public int wake;
 
+    public int goal;
+
     public String deviceId;
 
     public Date startTime;
@@ -33,6 +36,7 @@ public class SleepData implements YsData {
 
     @Override
     public void setField(String field, String value) {
+        Log.e(TAG, "setField:" + field + " " + value);
         if(XmlNodes.SleepNodes.NODE_QUALITY.equals(field)) {
 
         }
@@ -64,7 +68,7 @@ public class SleepData implements YsData {
 
     @Override
     public Uri insert(ContentResolver cr) {
-
+        Log.e(TAG, "insert:" + deviceId + " " + total + " " + deep + " " + shallow + " " + wake + " " + tempEndTime + " " + tempStartTime);
         ContentValues values = new ContentValues();
         values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_DEVICE, deviceId);
         values.put(LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_TOTALE, total);
@@ -104,4 +108,35 @@ public class SleepData implements YsData {
                         + " AND " + LocalDataContract.Sleep.COLUMNS_NAME_SLEEP_END + "=" + "'" + endTime + "'"
                 , null);
     }
+
+    @Override
+    public void clearField() {
+        quality = 0;
+        total = 0;
+        deep = 0;
+        shallow = 0;
+        wake = 0;
+
+        goal = 0;
+
+        deviceId = null;
+
+        startTime = null;
+        endTime = null;
+
+        tempStartTime = "2016-03-29 23:01";
+        tempEndTime = "2016-03-30 08:00";
+    }
+
+    public YsData clone() {
+        SleepData temp = null;
+        try {
+            temp = (SleepData)super.clone();
+        }catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return temp;
+    }
+
+
 }

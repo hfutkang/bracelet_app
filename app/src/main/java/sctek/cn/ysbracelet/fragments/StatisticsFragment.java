@@ -277,6 +277,7 @@ public class StatisticsFragment extends Fragment {
                 bundle.putString(HomeFragment.EXTR_DEVICE_ID, selectedDevcie.getSerialNumber());
             Intent intent = new Intent();
             intent.putExtras(bundle);
+            Class cl = null;
             switch (v.getId()) {
                 case R.id.hrate_statistics_rl:
                     toggleViewVisibility(hrateSelectorV);
@@ -288,38 +289,31 @@ public class StatisticsFragment extends Fragment {
                     toggleViewVisibility(sleepSelectorV);
                     break;
                 case R.id.personal_hrate_sta_tv:
-                    intent.setClass(getContext(), PersonalHRateStatisticsActivity.class);
-                    startActivity(intent);
+                    cl = PersonalHRateStatisticsActivity.class;
                     break;
                 case R.id.personal_sports_sta_tv:
-                    intent.setClass(getContext(), PersonalSportsStatisticsActivity.class);
-                    startActivity(intent);
+                    cl = PersonalSportsStatisticsActivity.class;
                     break;
                 case R.id.personal_sleep_sta_tv:
-                    intent.setClass(getContext(), PersonalSleepStatisticsActivity.class);
-                    startActivity(intent);
+                    cl = PersonalSleepStatisticsActivity.class;
                     break;
                 case R.id.family_hrate_sta_tv:
-                    intent.setClass(getContext(), FamilyHRateStatisticsActivity.class);
-                    startActivity(intent);
+                    cl = FamilyHRateStatisticsActivity.class;
                     break;
                 case R.id.family_sleep_sta_tv:
-                    intent.setClass(getContext(), FamilySleepStatisticsActivity.class);
-                    startActivity(intent);
+                    cl = FamilySleepStatisticsActivity.class;
                     break;
                 case R.id.family_sports_sta_tv:
-                    intent.setClass(getContext(), FamilySportsStatisticsActivity.class);
-                    startActivity(intent);
+                    cl = FamilySportsStatisticsActivity.class;
                     break;
                 case R.id.selected_member_cv:
-                    intent.setClass(getContext(), EditorDeviceInfoActivity.class);
-                    startActivityForResult(intent, HomeFragment.REQUEST_CODE_EDIT);
+                    cl = EditorDeviceInfoActivity.class;
                     break;
                 case R.id.add_device_cv:
-                    intent.setClass(getContext(), SearchDeviceActivity.class);
-                    startActivityForResult(intent, HomeFragment.REQUEST_CODE_ADD);
+                    startActivityForResult(new Intent(getContext(), SearchDeviceActivity.class), HomeFragment.REQUEST_CODE_ADD);
                     break;
             }
+            startActivity(cl);
         }
     };
 
@@ -329,6 +323,24 @@ public class StatisticsFragment extends Fragment {
         }
         else {
             view.setVisibility(View.GONE);
+        }
+    }
+
+    private void startActivity(Class cl) {
+        if (selectedDevcie == null || cl == null)
+            return;
+
+        Bundle bundle = new Bundle();
+        Intent intent = new Intent();
+        bundle.putString(HomeFragment.EXTR_DEVICE_ID, selectedDevcie.getSerialNumber());
+        intent.putExtras(bundle);
+
+        intent.setClass(getContext(), cl);
+
+        if(cl == EditorDeviceInfoActivity.class && selectedDevcie != null) {
+            startActivityForResult(intent, HomeFragment.REQUEST_CODE_EDIT);
+        } else {
+            startActivity(intent);
         }
     }
 }

@@ -33,7 +33,9 @@ public class Commands {
 
     public static final byte CMD_GET_WARN_LIST = 0x15;
 
-    public static final byte CMD_MEASURE_HRATE = 0x11;
+    public static final byte CMD_MEASURE_HRATE = 0x17;
+
+    public static final byte CMD_HRATE_FROM_DEVICE = (byte)0xD1;
 
     public static final byte CMD_SOS = (byte)0x80;
 

@@ -164,8 +164,17 @@ public class SetDeviceInfoActivity extends AppCompatActivity {
     }
 
     private int getAge(String str) {
-        String temp[] = str.split(" ");
-        return Integer.parseInt(temp[0]);
+        Log.e(TAG, str + " " + str.length());
+        if(str.length() == 2)
+            return Integer.parseInt(str.substring(0, 1));
+
+        if(TextUtils.isDigitsOnly(str.substring(0, 3)))
+            return Integer.parseInt(str.substring(0, 3));
+        if(TextUtils.isDigitsOnly(str.substring(0, 2)))
+            return Integer.parseInt(str.substring(0, 2));
+        if(TextUtils.isDigitsOnly(str.substring(0, 1)))
+            return Integer.parseInt(str.substring(0, 1));
+        return 0;
     }
 
     private int getHeight(String str) {

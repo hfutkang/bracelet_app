@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import sctek.cn.ysbracelet.R;
 import sctek.cn.ysbracelet.adapters.DeviceListAdapter;
@@ -67,9 +68,14 @@ public class SearchDeviceActivity extends AppCompatActivity implements Bluetooth
 
     public final static int REQUEST_ENABLE_BLUETOOTH = 1;
     private final static int SEARCH_PERIOD = 5000;
-    public final static int DEVICE_BOND_BUTTON_CLICKED = 1;
+    public final static int DEVICE_BOND_BUTTON_CLICKED = 3;
     public final static int GET_DEVICE_ID_TIME_OUT = 2;
 
+    public final static boolean TEST = true;
+    private final static int TEST_DEVICE_COUNT = 6;
+
+    private final static String[] TEST_MACS = new String[]{"AA:CC:BB:3E:53:4F", "AA:CC:BB:3E:21:4F",
+            "AA:CC:BB:3E:DF:4F", "AA:CC:BB:3E:CC:4F", "AA:CC:BB:3E:CC:5F", "AA:CC:BB:3E:CC:6F"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,16 +88,18 @@ public class SearchDeviceActivity extends AppCompatActivity implements Bluetooth
 
         mDevices = new ArrayList<>();
 
-//        loadDevice();
-
         initElement();
 
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                startSearchDevice();
-            }
-        });
+        if(TEST) {
+            loadDevice();
+        } else {
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startSearchDevice();
+                }
+            }, 500);
+        }
 
     }
 
@@ -99,6 +107,8 @@ public class SearchDeviceActivity extends AppCompatActivity implements Bluetooth
     protected void onDestroy() {
         super.onDestroy();
         MyBluetoothGattCallBack.getInstance().setBleListener(null);
+        unregisterReceiver(mBroadcastReceiver);
+        mBroadcastReceiver = null;
     }
 
     @Override
@@ -146,11 +156,13 @@ public class SearchDeviceActivity extends AppCompatActivity implements Bluetooth
     @Override
     protected void onStop() {
         super.onStop();
-        unregisterReceiver(mBroadcastReceiver);
+        Log.e(TAG, "onStop");
     }
 
     public void onSearchButtonClicked(View v) {
         if(BleUtils.DEBUG) Log.e(TAG, "onSearchButtonClicked");
+        if(TEST)
+            return;
         startSearchDevice();
     }
 
@@ -225,17 +237,32 @@ public class SearchDeviceActivity extends AppCompatActivity implements Bluetooth
             switch (msg.what) {
                 case DEVICE_BOND_BUTTON_CLICKED:
                     mBindDevice = mDevices.get(msg.arg1);
-
-                    if(BleUtils.isConnected(SearchDeviceActivity.this, mBindDevice.mac))
-                        sendData(mBindDevice.mac);
-                    else
-                        BluetoothLeManager.getInstance().connect(SearchDeviceActivity.this, mBindDevice.mac);
-                    mProgressDialog.show();
-                    sendEmptyMessageDelayed(GET_DEVICE_ID_TIME_OUT, 5000);
-
+                    if(!TEST) {
+                        if (BleUtils.isConnected(SearchDeviceActivity.this, mBindDevice.mac))
+                            sendData(mBindDevice.mac);
+                        else
+                            BluetoothLeManager.getInstance().connect(SearchDeviceActivity.this, mBindDevice.mac);
+                        mProgressDialog.show();
+                        sendEmptyMessageDelayed(GET_DEVICE_ID_TIME_OUT, 5000);
+                    } else {
+                        Bundle bundle = new Bundle();
+                        bundle.putString(HomeFragment.EXTR_DEVICE_ID, mBindDevice.id);
+                        bundle.putString(HomeFragment.EXTR_DEVICE_MAC, mBindDevice.mac);
+                        Intent intent = new Intent(SearchDeviceActivity.this, SetDeviceInfoActivity.class);
+                        intent.putExtras(bundle);
+                        startActivityForResult(intent, HomeFragment.REQUEST_CODE_ADD);
+                        BluetoothLeManager.getInstance().disconnect(mBindDevice.mac);
+                    }
                     break;
                 case GET_DEVICE_ID_TIME_OUT:
                     mProgressDialog.cancel();
+                    break;
+                case Commands.CMD_GET_DEVICE_ID:
+                    if(msg.arg1 == BleDataSendThread.FAIL_SEND_DATA)
+                        Log.e(TAG, "send data fail");
+                    else if(msg.arg1 == BleDataSendThread.SUCCESS_SNED_DATA)
+                        Log.e(TAG, "send data success");
+                    break;
             }
         }
     };
@@ -252,6 +279,7 @@ public class SearchDeviceActivity extends AppCompatActivity implements Bluetooth
         Intent intent = new Intent(SearchDeviceActivity.this, SetDeviceInfoActivity.class);
         intent.putExtras(bundle);
         startActivityForResult(intent, HomeFragment.REQUEST_CODE_ADD);
+        BluetoothLeManager.getInstance().disconnect(mBindDevice.mac);
 
     }
 
@@ -275,27 +303,30 @@ public class SearchDeviceActivity extends AppCompatActivity implements Bluetooth
     }
 
     private void loadDevice() {
-        BleDevice d = new BleDevice();
-        d.mac = "AA:CC:BB:3E:53:4F";
-        d.id = "YS0000000001";
-        mDevices.add(d);
-        d = new BleDevice();
-        d.mac = "AA:CC:BB:3E:21:4F";
-        d.id = "YS0000000002";
-        mDevices.add(d);
-        d = new BleDevice();
-        d.mac = "AA:CC:BB:3E:DF:4F";
-        d.id = "YS0000000003";
-        mDevices.add(d);
-        d = new BleDevice();
-        d.mac = "AA:CC:BB:3E:CC:4F";
-        d.id = "YS0000000004";
-        mDevices.add(d);
+
+        int id = 0;
+        int deviceCount = 0;
+
+        Random random = new Random();
+        while (deviceCount < TEST_DEVICE_COUNT) {
+
+            id = random.nextInt(1000);
+            BleDevice d = new BleDevice();
+            d.id = id + "";
+            d.mac = TEST_MACS[deviceCount];
+
+            mDevices.add(d);
+
+            deviceCount++;
+
+        }
+
     }
 
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            Log.e(TAG, "onRecevie");
             if(BluetoothLeService.ACTION_CONNECTED.equals(intent.getAction())) {
                 String mac = intent.getStringExtra("mac");
                 if(mBindDevice == null)

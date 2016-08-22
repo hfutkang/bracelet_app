@@ -157,6 +157,7 @@ public class YsUser implements YsData{
         mDevicesManager.getDevices().clear();
         name = null;
         password = null;
+        lastSyncTime = "1970-01-01 00:00";
 
     }
 
@@ -263,6 +264,11 @@ public class YsUser implements YsData{
     }
 
     @Override
+    public void clearField() {
+        return;
+    }
+
+    @Override
     public Uri insert(ContentResolver cr) {
         Log.e(TAG, "insert");
         ContentValues values = new ContentValues();
@@ -302,5 +308,10 @@ public class YsUser implements YsData{
         return cr.delete(LocalDataContract.UserInfo.CONTENT_URI
                 , LocalDataContract.UserInfo.COLUMNS_NAME_NAME + "=" + "'" + name + "'"
                 , null);
+    }
+
+    @Override
+    public YsData clone() {
+        return getInstance();
     }
 }

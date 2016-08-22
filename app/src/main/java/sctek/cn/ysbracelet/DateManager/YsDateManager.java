@@ -130,9 +130,9 @@ public class YsDateManager {
     public int getMinutesOfDayFor(String date) throws ParseException{
 
         SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_DAY);
-        if(date.matches("^* \\d{2}:\\d{2}:\\d{2}]"))
+        if(date.matches(".{10} \\d{2}:\\d{2}")) {
             format = new SimpleDateFormat(DATE_FORMAT_SECOND);
-
+        }
         Date time = format.parse(date);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(time);
@@ -143,7 +143,7 @@ public class YsDateManager {
     public int getDayOfWeekFor(String date) throws ParseException {
 
         SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_DAY);
-        if(date.matches("^* \\d{2}:\\d{2}:\\d{2}]"))
+        if(date.matches(".{10} \\d{2}:\\d{2}"))
             format = new SimpleDateFormat(DATE_FORMAT_SECOND);
 
         Date time = format.parse(date);
@@ -160,7 +160,7 @@ public class YsDateManager {
     public int getDayOfMonthFor(String date) throws ParseException {
 
         SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_DAY);
-        if(date.matches("^* \\d{2}:\\d{2}:\\d{2}]"))
+        if(date.matches(".{10} \\d{2}:\\d{2}"))
             format = new SimpleDateFormat(DATE_FORMAT_SECOND);
 
         Date time = format.parse(date);
@@ -175,7 +175,7 @@ public class YsDateManager {
             return 0;
 
         SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_DAY);
-        if(date.matches("^* \\d{2}:\\d{2}:\\d{2}]"))
+        if(date.matches(".{10} \\d{2}:\\d{2}"))
             format = new SimpleDateFormat(DATE_FORMAT_SECOND);
 
         Date timeEnd = format.parse(date);
@@ -195,7 +195,7 @@ public class YsDateManager {
             return 0;
 
         SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_DAY);
-        if(date.matches("^* \\d{2}:\\d{2}:\\d{2}]"))
+        if(date.matches(".{10} \\d{2}:\\d{2}"))
             format = new SimpleDateFormat(DATE_FORMAT_SECOND);
 
         Date timeEnd = format.parse(date);
@@ -218,7 +218,7 @@ public class YsDateManager {
             return 0;
 
         SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT_DAY);
-        if(date.matches("^* \\d{2}:\\d{2}:\\d{2}]"))
+        if(date.matches(".{10} \\d{2}:\\d{2}"))
             format = new SimpleDateFormat(DATE_FORMAT_SECOND);
 
         int days = daysFromNowTo(date);

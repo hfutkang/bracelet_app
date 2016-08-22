@@ -1,6 +1,7 @@
 package sctek.cn.ysbracelet.activitys;
 
 import android.content.ContentResolver;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -68,11 +69,16 @@ public class PersonalHistorySportsActivity extends PersonalHistoryDataBaseActivi
                 , null
                 , LocalDataContract.Sports.COLUMNS_NAME_SPORTS_TIME + " desc");
 
+        SharedPreferences preferences = getSharedPreferences(PersonalLatestDataBaseActivity.PREFERENCE_NAME, MODE_PRIVATE);
+        int goal = preferences.getInt(deviceId + "_sports_goal", 0);
         while (cursor.moveToNext()) {
             SportsData data = new SportsData();
             data.runSteps = cursor.getInt(0);
             data.walkSteps = cursor.getInt(1);
             data.tempTime = cursor.getString(2);
+
+            data.goal = goal;
+
             records.add(data);
         }
         cursor.close();

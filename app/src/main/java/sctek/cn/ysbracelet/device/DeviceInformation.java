@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import sctek.cn.ysbracelet.ble.BleUtils;
+import sctek.cn.ysbracelet.devicedata.SportsData;
 import sctek.cn.ysbracelet.devicedata.YsData;
 import sctek.cn.ysbracelet.http.XmlNodes;
 import sctek.cn.ysbracelet.sqlite.LocalDataContract;
@@ -124,6 +125,19 @@ public class DeviceInformation implements YsData{
     }
 
     @Override
+    public void clearField() {
+        serialNumber = null;
+        name = null;
+        mac = null;
+        imageName = null;
+        sex = "Female";
+        age = 1;
+        weight = 75;
+        height = 10;
+        power = 100;
+    }
+
+    @Override
     public Uri insert(ContentResolver cr) {
         Log.e(TAG, "insert:" + serialNumber);
         ContentValues values = new ContentValues();
@@ -162,5 +176,15 @@ public class DeviceInformation implements YsData{
         return cr.delete(LocalDataContract.DeviceInfo.CONTENT_URI
                 , LocalDataContract.DeviceInfo.COLUMNS_NAME_SN + "=?"
                 , new String[]{serialNumber});
+    }
+
+    public YsData clone() {
+        DeviceInformation temp = null;
+        try {
+            temp = (DeviceInformation)super.clone();
+        }catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return temp;
     }
 }

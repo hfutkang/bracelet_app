@@ -46,6 +46,8 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
 
     private BluetoothLeService mBluetoothLeService;
 
+    private static final int HRATE_FROM_DEVICE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,12 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
         bindService(intent, mServiceConnection, Context.BIND_AUTO_CREATE);
 
         mac = YsUser.getInstance().getDevice(deviceId).mac;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbindService(mServiceConnection);
     }
 
     protected void initViewElement() {
@@ -110,7 +118,6 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
         else if(resCode == XmlNodes.RESPONSE_CODE_FAIL) {
             DialogUtils.makeToast(this, R.string.send_measure_command_fail);
         }
-
    }
 
     @Override
@@ -166,6 +173,9 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
         if(packet.cmd == Commands.CMD_MEASURE_HRATE) {
             DialogUtils.makeToast(PersonalHeartRateActivity.this, R.string.measure_in_progress);
         }
+        else if(packet.cmd == Commands.CMD_HRATE_FROM_DEVICE) {
+            mHandler.obtainMessage(HRATE_FROM_DEVICE, packet.data[1], 0).sendToTarget();
+        }
     }
 
     @Override
@@ -179,7 +189,7 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
     }
 
     private void measureHeartRate(String mac) {
-        BleData data = new BleData(Commands.CMD_MEASURE_HRATE, new byte[]{0x01}, mac);
+        BleData data = new BleData(Commands.CMD_MEASURE_HRATE, new byte[]{0x01, 0x01}, mac);
         BleDataSendThread dataSendThread = new BleDataSendThread(data, mHandler, null);
         dataSendThread.start();
     }
@@ -188,6 +198,11 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            switch (msg.what) {
+                case HRATE_FROM_DEVICE:
+                    rateTv.setText("" + msg.arg1);
+                    break;
+            }
         }
     };
 }

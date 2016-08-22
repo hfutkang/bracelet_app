@@ -41,6 +41,7 @@ public class HttpConnectionWorker extends Thread implements XmlContentHandler.Xm
     @Override
     public void run() {
         super.run();
+        Log.e(TAG, "thread id===========" + Thread.currentThread().getId());
         if(BleUtils.DEBUG) Log.e(TAG, "run");
         try {
             InputStream inputStream = mConnection.doRequest();
@@ -82,13 +83,14 @@ public class HttpConnectionWorker extends Thread implements XmlContentHandler.Xm
 
     @Override
     public void onGetData(YsData result) {
-        final YsData data = result;
+        final YsData data = result.clone();
         mHandler.post(new Runnable() {
             @Override
             public void run() {
                 mListener.onResult(data);
             }
         });
+
     }
 
     @Override

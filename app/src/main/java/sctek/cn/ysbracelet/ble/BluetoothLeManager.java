@@ -56,15 +56,24 @@ public class BluetoothLeManager {
         if(device == null)
             return false;
 
-        gatt = device.connectGatt(context.getApplicationContext(), true, MyBluetoothGattCallBack.getInstance());
+        gatt = device.connectGatt(context.getApplicationContext(), false, MyBluetoothGattCallBack.getInstance());
         mMacGattMaps.put(address, gatt);
         Log.e(TAG, "1111");
         return true;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
+    public static void disconnect(String addr) {
+        BluetoothGatt gatt = mMacGattMaps.get(addr);
+        if(gatt != null)
+            gatt.disconnect();
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static BluetoothGattCharacteristic getWriteCharacteristic(BluetoothGatt gatt) {
         BluetoothGattService gattService = gatt.getService(UUID.fromString(SERVICE_UUID));
+        if(gattService == null)
+            return null;
         return gattService.getCharacteristic(UUID.fromString(WRITE_CHARAC_UUID));
     }
 

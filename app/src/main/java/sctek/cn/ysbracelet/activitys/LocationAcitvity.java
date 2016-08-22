@@ -40,6 +40,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.CoordinateConverter;
 import com.github.gfranks.fab.menu.FloatingActionButton;
 import com.github.gfranks.fab.menu.FloatingActionsMenu;
 
@@ -103,6 +104,8 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
 
     private OverlaysManager mOverlaysManager;
 
+    private CoordinateConverter mCoordinateConverter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,6 +121,9 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
         mDevices = YsUser.getInstance().getDevices();
 
         mOverlaysManager = new OverlaysManager();
+
+        mCoordinateConverter = new CoordinateConverter();
+        mCoordinateConverter.from(CoordinateConverter.CoordType.GPS);
 
         initViewElement();
 
@@ -187,6 +193,7 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
             Cursor cursor = cr.query(LocalDataContract.Location.CONTENT_URI
                                         , projections
                                         , LocalDataContract.Location.COLUMNS_NAME_LOCATION_DEVICE + "=?"
+                                            + " and " + LocalDataContract.Location.COLUMNS_NAME_LOCATION_TYPE + "=" + "'gps'"
                                         , new String[]{d.serialNumber}
                                         , LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME + " desc limit 1");
             LatLng latLng;
@@ -196,17 +203,23 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
                 double latitude = cursor.getDouble(0);
                 double longitude = cursor.getDouble(1);
                 time = cursor.getString(2);
-                latLng = new LatLng(latitude, longitude);
+                LatLng ll = new LatLng(latitude, longitude);
+                Log.e(TAG, "lat:" + ll.latitude + " lon:" + ll.longitude);
+                latLng = mCoordinateConverter.coord(ll).convert();
+
             }
             else {
                 latLng = new LatLng(0, 0);
                 time = "";
+
             }
+
             MarkerOptions options = new MarkerOptions().position(latLng)
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.location_marker));
             Marker marker = (Marker)mBaiduMap.addOverlay(options);
             marker.setTitle(time);
             mOverlaysManager.addMarker(d.serialNumber, marker);
+
             cursor.close();
         }
     }
@@ -218,7 +231,8 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
                                         , LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME};
         String  where = LocalDataContract.Location.COLUMNS_NAME_LOCATION_DEVICE + "=?"
                 + " and " + LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME + " > " + currentDate
-                + " and " + LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME + " < " + mDateManager.getNextDate();
+                + " and " + LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME + " < " + mDateManager.getNextDate()
+                + " and " + LocalDataContract.Location.COLUMNS_NAME_LOCATION_TYPE + "=" + "'gps'";
 
         for(DeviceInformation d : mDevices) {
             Cursor cursor = cr.query(LocalDataContract.Location.CONTENT_URI
@@ -231,7 +245,10 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
                 double lat = cursor.getDouble(0);
                 double lon = cursor.getDouble(1);
                 LatLng latLng = new LatLng(lat, lon);
-                positions.add(latLng);
+
+                Log.e(TAG, "lat:" + latLng.latitude + " lon:" + latLng.longitude);
+
+                positions.add(mCoordinateConverter.coord(latLng).convert());
             }
             if(positions.size() < 2) {
                 positions.clear();
@@ -253,7 +270,8 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
                 , LocalDataContract.Location.COLUMNS_NAME_LOCATION_LONGITUDE};
         String  where = LocalDataContract.Location.COLUMNS_NAME_LOCATION_DEVICE + "=?"
                 + " and " + LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME + " > " + "'" + currentShowDate + "'"
-                + " and " + LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME + " < " + "'" + mDateManager.getNextDate() + "'";
+                + " and " + LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME + " < " + "'" + mDateManager.getNextDate() + "'"
+                + " and " + LocalDataContract.Location.COLUMNS_NAME_LOCATION_TYPE + "=" + "'gps'";
 
         Log.e(TAG, currentShowDate + " " + mDateManager.getNextDate());
         for(DeviceInformation d : mDevices) {
@@ -264,11 +282,11 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
                     , LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME + " asc");
             List<LatLng> positions = new ArrayList<>();
             while (cursor.moveToNext()) {
-                Log.e(TAG, "1");
                 double lat = cursor.getDouble(0);
                 double lon = cursor.getDouble(1);
                 LatLng latLng = new LatLng(lat, lon);
-                positions.add(latLng);
+                Log.e(TAG, "lat:" + latLng.latitude + " lon:" + latLng.longitude);
+                positions.add(mCoordinateConverter.coord(latLng).convert());
             }
             Log.e(TAG, positions.size() + "");
             if(positions.size() < 2) {
@@ -293,6 +311,7 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
         locationClient.registerLocationListener(new BDLocationListener() {
             @Override
             public void onReceiveLocation(BDLocation bdLocation) {
+                Log.e(TAG, "onReceiveLocation");
                 MyLocationData locationData = new MyLocationData.Builder()
                         .accuracy(bdLocation.getRadius())
                         .latitude(bdLocation.getLatitude())
@@ -466,10 +485,13 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
 
     @Override
     public void onResult(YsData result) {
-        PositionData data = (PositionData)result;
 
+        PositionData data = (PositionData)result;
+        if(data.type.equals("base"))
+            return;
         LatLng latLng = new LatLng(data.latitude, data.longitude);
-        mOverlaysManager.moveMarkerTo(data.deviceId, latLng);
+
+        mOverlaysManager.moveMarkerTo(data.deviceId, mCoordinateConverter.coord(latLng).convert());
         mOverlaysManager.setMarkerTitle(data.deviceId, data.tempTime);
 
         try {

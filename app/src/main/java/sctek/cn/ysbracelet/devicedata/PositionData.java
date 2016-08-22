@@ -40,10 +40,12 @@ public class PositionData implements YsData{
     @Override
     public void setField(String field, String value) {
         if(XmlNodes.PositionNodes.NODE_LATITUDE.equals(field)) {
-            latitude = Double.parseDouble(value);
+            latitude = parseLat(value);
+            Log.e(TAG, value + " " + latitude);
         }
         else if(XmlNodes.PositionNodes.NODE_LONGITUDE.equals(field)) {
-            longitude = Double.parseDouble(value);
+            longitude = parseLon(value);
+            Log.e(TAG, value + " " + longitude);
         }
         else if(XmlNodes.PositionNodes.NODE_TIME.equals(field)) {
             tempTime = value;
@@ -110,5 +112,88 @@ public class PositionData implements YsData{
                 , LocalDataContract.Location.COLUMNS_NAME_LOCATION_DEVICE + "=" + deviceId
                 + " AND " + LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME + "=" + tempTime
                 , null);
+    }
+
+    public double parseLat(String lat) {
+        Log.e(TAG, "----------" + lat);
+        if(lat.equals("0"))
+            return 0;
+
+        String seg1, seg2, seg3;
+        double latitude;
+        if(lat.substring(0,1) != "-") {
+            seg1 = lat.substring(0, 2);
+            seg2 = lat.substring(2, 4);
+            seg3 = lat.substring(4, 8);
+            latitude = Double.parseDouble(seg1)
+                    + Double.parseDouble(seg2)/60
+                    + Double.parseDouble(seg3)/600000;
+        }
+        else {
+            seg1 = lat.substring(1, 4);
+            seg2 = lat.substring(4, 6);
+            seg3 = lat.substring(6, 10);
+            latitude = -1*(Double.parseDouble(seg1)
+                    + Double.parseDouble(seg2)/60
+                    + Double.parseDouble(seg3)/600000);
+        }
+        return latitude;
+    }
+
+    public double parseLon(String lon) {
+        Log.e(TAG, "----------" + lon);
+        if(lon.equals("0"))
+            return 0;
+
+        String seg1, seg2, seg3;
+        double longitude;
+        if(lon.substring(0,1) != "-") {
+            seg1 = lon.substring(0, 3);
+            seg2 = lon.substring(3, 5);
+            seg3 = lon.substring(5, 9);
+            longitude = Double.parseDouble(seg1)
+                    + Double.parseDouble(seg2)/60
+                    + Double.parseDouble(seg3)/600000;
+        }
+        else {
+            seg1 = lon.substring(1, 4);
+            seg2 = lon.substring(4, 6);
+            seg3 = lon.substring(6, 10);
+            longitude = -1*(Double.parseDouble(seg1)
+                    + Double.parseDouble(seg2)/60
+                    + Double.parseDouble(seg3)/600000);
+        }
+        return longitude;
+    }
+
+    @Override
+    public void clearField() {
+        time = null;
+
+        deviceId = null;
+
+        longitude = 0;
+
+        latitude = 0;
+
+        mcc = 0;
+
+        mnc = 0;
+
+        lac = 0;
+
+        cid = 0;
+
+        type = null;
+    }
+
+    public YsData clone() {
+        PositionData temp = null;
+        try {
+            temp = (PositionData)super.clone();
+        }catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return temp;
     }
 }

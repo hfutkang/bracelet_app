@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -71,6 +72,7 @@ public class PersonalSleepAcitvity extends PersonalLatestDataBaseActivity {
 
             String tempStart = cursor.getString(4);
             String tempEnd = cursor.getString(5);
+            Log.e(TAG, deviceId + " S:" + tempStart + " E:" + tempEnd);
             String[] tempS = tempStart.split(" ");
             String[] tempE = tempEnd.split(" ");
 
@@ -149,7 +151,11 @@ public class PersonalSleepAcitvity extends PersonalLatestDataBaseActivity {
         View view = LayoutInflater.from(this).inflate(R.layout.goal_dialog_view, null);
         final EditText goalEt = (EditText)view.findViewById(R.id.goal_et);
 
-        goalEt.setText(goalTv.getText());
+        String goal = YsTextUtils.parseIntStr(goalTv.getText().toString());
+        if(goal == null)
+            goalEt.setText("0");
+        else
+            goalEt.setText(goal);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(view);
@@ -157,13 +163,18 @@ public class PersonalSleepAcitvity extends PersonalLatestDataBaseActivity {
         builder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String goal = goalEt.getText().toString();
-                if(goal.isEmpty())
-                    goal = "0";
-                int g = Integer.parseInt(goal);
-                SharedPreferences preferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
-                preferences.edit().putInt(deviceId + "_sleep_goal", g).commit();
-                goalTv.setText(YsTextUtils.parseHourForMinute(PersonalSleepAcitvity.this, g));
+                Log.e(TAG, "onOkButton clicked");
+                try {
+                    String goal = goalEt.getText().toString();
+                    if (goal.isEmpty())
+                        goal = "0";
+                    int g = Integer.parseInt(goal);
+                    SharedPreferences preferences = getSharedPreferences(PREFERENCE_NAME, MODE_PRIVATE);
+                    preferences.edit().putInt(deviceId + "_sleep_goal", g).commit();
+                    goalTv.setText(YsTextUtils.parseHourForMinute(PersonalSleepAcitvity.this, g));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
         builder.show();

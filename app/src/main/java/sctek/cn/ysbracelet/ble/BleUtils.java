@@ -62,6 +62,11 @@ public class BleUtils {
             return false;
         }
 
+        if(writeCharacteristic == null) {
+            Log.e(TAG,"writeCharacteristic not initialized !");
+            return false;
+        }
+
         if(qppData == null){
             Log.e(TAG,"qppData = null !");
             return false;
