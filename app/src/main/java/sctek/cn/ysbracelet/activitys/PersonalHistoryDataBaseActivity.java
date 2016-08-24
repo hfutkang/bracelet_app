@@ -1,27 +1,24 @@
 package sctek.cn.ysbracelet.activitys;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
+import android.app.LoaderManager;
+import android.content.Loader;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.BaseAdapter;
+import android.widget.CursorAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import sctek.cn.ysbracelet.R;
-import sctek.cn.ysbracelet.devicedata.YsData;
 import sctek.cn.ysbracelet.fragments.HomeFragment;
 
 /**
  * Created by kang on 16-4-6.
  */
-public abstract class PersonalHistoryDataBaseActivity extends AppCompatActivity {
+public abstract class PersonalHistoryDataBaseActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks{
 
     private final static String TAG = PersonalHistoryDataBaseActivity.class.getSimpleName();
 
@@ -33,9 +30,7 @@ public abstract class PersonalHistoryDataBaseActivity extends AppCompatActivity 
     protected ImageButton backIb;
     protected ImageButton actionIb;
 
-    protected BaseAdapter adapter;
-
-    protected List<YsData> records;
+    protected CursorAdapter adapter;
 
     protected String deviceId;
 
@@ -49,45 +44,8 @@ public abstract class PersonalHistoryDataBaseActivity extends AppCompatActivity 
 
         initViewElement();
 
-        new LoadDataAsyncTask().execute();
+        getLoaderManager().initLoader(0, null, this);
 
-    }
-
-    public class LoadDataAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        private ProgressDialog mProgressDialog;
-
-        public LoadDataAsyncTask() {
-            mProgressDialog = new ProgressDialog(PersonalHistoryDataBaseActivity.this);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            mProgressDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            loadData();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            if(mProgressDialog.isShowing())
-                mProgressDialog.dismiss();
-            if(records.size() == 0) {
-                emptyTv.setVisibility(View.VISIBLE);
-            }
-            else {
-                adapter.notifyDataSetChanged();
-            }
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-            super.onProgressUpdate(values);
-        }
     }
 
     protected void initViewElement(){
@@ -110,11 +68,25 @@ public abstract class PersonalHistoryDataBaseActivity extends AppCompatActivity 
     }
 
     private void initDataElement() {
-        records = new ArrayList<>();
         deviceId = getIntent().getStringExtra(HomeFragment.EXTR_DEVICE_ID);
     }
 
     protected abstract void setContentView();
 
-    protected abstract void loadData();
+    protected abstract Loader createLoader();
+
+    @Override
+    public Loader onCreateLoader(int id, Bundle args) {
+        return createLoader();
+    }
+
+    @Override
+    public void onLoadFinished(Loader loader, Object data) {
+        adapter.swapCursor((Cursor)data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {
+        adapter.swapCursor(null);
+    }
 }

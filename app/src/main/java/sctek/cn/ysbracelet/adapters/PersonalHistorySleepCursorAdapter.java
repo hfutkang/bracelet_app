@@ -1,6 +1,7 @@
 package sctek.cn.ysbracelet.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.CursorAdapter;
 import android.widget.TextView;
 
 import sctek.cn.ysbracelet.R;
+import sctek.cn.ysbracelet.activitys.PersonalLatestDataBaseActivity;
 import sctek.cn.ysbracelet.devicedata.SleepData;
 import sctek.cn.ysbracelet.utils.YsTextUtils;
 
@@ -19,8 +21,12 @@ public class PersonalHistorySleepCursorAdapter extends CursorAdapter {
 
     private final static String TAG = PersonalHistorySleepCursorAdapter.class.getSimpleName();
 
-    public PersonalHistorySleepCursorAdapter(Context context, Cursor c, boolean autoRequery) {
+    private int goal;
+
+    public PersonalHistorySleepCursorAdapter(Context context, Cursor c, boolean autoRequery, String deviceId) {
         super(context, c, autoRequery);
+        SharedPreferences preferences = context.getSharedPreferences(PersonalLatestDataBaseActivity.PREFERENCE_NAME, Context.MODE_PRIVATE);
+        int goal = preferences.getInt(deviceId + "_sleep_goal", 0);
 
     }
 
@@ -49,7 +55,7 @@ public class PersonalHistorySleepCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder holder = (ViewHolder) view.getTag();
-
+        holder.detailV.setVisibility(View.GONE);
         SleepData data = new SleepData();
         data.total = cursor.getInt(0);
         data.deep = cursor.getInt(1);
@@ -66,7 +72,7 @@ public class PersonalHistorySleepCursorAdapter extends CursorAdapter {
         holder.dayTv.setText(tempE[0]);
         holder.endTv.setText(tempE[1]);
 
-        holder.goalTv.setText(YsTextUtils.parseHourForMinute(context, data.goal));
+        holder.goalTv.setText(YsTextUtils.parseHourForMinute(context, goal));
 
         holder.totalTimeTv.setText(YsTextUtils.parseHourForMinute(context, data.total));
         holder.deepTv.setText(YsTextUtils.parseHourForMinute(context, data.deep));

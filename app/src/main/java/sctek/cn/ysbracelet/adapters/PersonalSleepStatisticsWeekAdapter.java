@@ -22,6 +22,8 @@ import sctek.cn.ysbracelet.sqlite.LocalDataContract;
  */
 public class PersonalSleepStatisticsWeekAdapter extends PersonalStatisticsBaseAdapter {
 
+    public final static String TAG = PersonalSleepStatisticsWeekAdapter.class.getSimpleName();
+
     public PersonalSleepStatisticsWeekAdapter(Context context, String device) {
         super(context, device);
         mDateManager = new YsDateManager(YsDateManager.DATE_FORMAT_DAY);
@@ -80,8 +82,8 @@ public class PersonalSleepStatisticsWeekAdapter extends PersonalStatisticsBaseAd
         cursor.close();
 
         LineDataSet dataSet = new LineDataSet(points, "data");
-        dataSet.setDrawValues(false);
-        dataSet.setDrawCircles(false);
+        dataSet.setDrawValues(true);
+        dataSet.setDrawCircles(true);
 
         List<String> xVals = getXValues(position);
         LineData lineData = new LineData(xVals, dataSet);

@@ -71,7 +71,7 @@ public class SearchDeviceActivity extends AppCompatActivity implements Bluetooth
     public final static int DEVICE_BOND_BUTTON_CLICKED = 3;
     public final static int GET_DEVICE_ID_TIME_OUT = 2;
 
-    public final static boolean TEST = true;
+    public final static boolean TEST = false;
     private final static int TEST_DEVICE_COUNT = 6;
 
     private final static String[] TEST_MACS = new String[]{"AA:CC:BB:3E:53:4F", "AA:CC:BB:3E:21:4F",

@@ -94,8 +94,8 @@ public class FamilyHRateStatisticsDayLvAdapter extends FamilyStatisticsBaseLvAda
         cursor.close();
 
         LineDataSet dataSet = new LineDataSet(points, "data");
-        dataSet.setDrawValues(false);
-        dataSet.setDrawCircles(false);
+        dataSet.setDrawValues(true);
+        dataSet.setDrawCircles(true);
 
         synchronized (lockObject) {
             if(xVals == null) {

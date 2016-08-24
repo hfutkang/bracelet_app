@@ -78,8 +78,8 @@ public class PersonalSleepStatisticsMonthAdapter extends PersonalStatisticsBaseA
         cursor.close();
 
         LineDataSet dataSet = new LineDataSet(points, "data");
-        dataSet.setDrawValues(false);
-        dataSet.setDrawCircles(false);
+        dataSet.setDrawValues(true);
+        dataSet.setDrawCircles(true);
 
         List<String> xVals = getXValues(position);
         LineData lineData = new LineData(xVals, dataSet);
