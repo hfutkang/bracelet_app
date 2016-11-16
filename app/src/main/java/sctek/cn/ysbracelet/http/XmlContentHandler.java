@@ -79,7 +79,6 @@ public class XmlContentHandler extends DefaultHandler {
 		if(localName.equals(XmlNodes.NODE_POSITION)
 				|| localName.equals(XmlNodes.NODE_HEARTRATE)
 				|| localName.equals(XmlNodes.NODE_SPORT)
-				|| localName.equals(XmlNodes.NODE_REGISTER)
 				|| localName.equals(XmlNodes.NODE_SLEEP)
 				|| localName.equals(XmlNodes.NODE_DEVICE)
 				|| localName.equals(XmlNodes.NODE_USERINFO)

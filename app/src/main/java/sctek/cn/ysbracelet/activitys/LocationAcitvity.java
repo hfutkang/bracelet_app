@@ -246,7 +246,7 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
                 double lon = cursor.getDouble(1);
                 LatLng latLng = new LatLng(lat, lon);
 
-                Log.e(TAG, "lat:" + latLng.latitude + " lon:" + latLng.longitude);
+                Log.e(TAG, "lat:" + latLng.latitude + " lon:" + latLng.longitude + "time:" + cursor.getString(2));
 
                 positions.add(mCoordinateConverter.coord(latLng).convert());
             }
@@ -267,7 +267,7 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
     private void loadPolylineOverlay() {
         ContentResolver cr = getContentResolver();
         String[] projections = new String[] {LocalDataContract.Location.COLUMNS_NAME_LOCATION_LATITUDE
-                , LocalDataContract.Location.COLUMNS_NAME_LOCATION_LONGITUDE};
+                , LocalDataContract.Location.COLUMNS_NAME_LOCATION_LONGITUDE, LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME};
         String  where = LocalDataContract.Location.COLUMNS_NAME_LOCATION_DEVICE + "=?"
                 + " and " + LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME + " > " + "'" + currentShowDate + "'"
                 + " and " + LocalDataContract.Location.COLUMNS_NAME_LOCATION_TIME + " < " + "'" + mDateManager.getNextDate() + "'"
@@ -285,7 +285,7 @@ public class LocationAcitvity extends AppCompatActivity implements HttpConnectio
                 double lat = cursor.getDouble(0);
                 double lon = cursor.getDouble(1);
                 LatLng latLng = new LatLng(lat, lon);
-                Log.e(TAG, "lat:" + latLng.latitude + " lon:" + latLng.longitude);
+                Log.e(TAG, cursor.getString(2) + " lat:" + mCoordinateConverter.coord(latLng).convert().latitude + " lon:" + mCoordinateConverter.coord(latLng).convert().longitude);
                 positions.add(mCoordinateConverter.coord(latLng).convert());
             }
             Log.e(TAG, positions.size() + "");

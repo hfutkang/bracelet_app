@@ -18,11 +18,6 @@
             android:layout_height="match_parent">
         </com.baidu.mapapi.map.MapView>
 
-        <include layout="@layout/date_picker_view"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_gravity="center_horizontal"/>
-
         <com.github.gfranks.fab.menu.FloatingActionButton
             android:id="@+id/refresh_fab"
             android:layout_width="wrap_content"
@@ -101,8 +96,12 @@
             android:layout_marginBottom="20dp"
             fab:dividerWidth="5dp"
             android:overScrollMode="never">
-
         </sctek.cn.ysbracelet.uiwidget.HorizontalListView>
+
+        <include layout="@layout/date_picker_view"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center_horizontal"/>
 
     </FrameLayout>
 

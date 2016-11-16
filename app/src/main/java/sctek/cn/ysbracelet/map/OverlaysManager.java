@@ -1,5 +1,7 @@
 package sctek.cn.ysbracelet.map;
 
+import android.util.Log;
+
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.Marker;
@@ -36,6 +38,7 @@ public class OverlaysManager {
     }
 
     public void moveMarkerTo(String device, LatLng latLng) {
+        Log.e(TAG, "marker position:" + latLng);
         deviceMarkerMap.get(device).setPosition(latLng);
     }
 

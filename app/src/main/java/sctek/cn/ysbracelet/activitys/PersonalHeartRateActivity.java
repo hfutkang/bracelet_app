@@ -47,6 +47,7 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
     private BluetoothLeService mBluetoothLeService;
 
     private static final int HRATE_FROM_DEVICE = 1;
+    private static final int START_MEASURE_HEART_RAT = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +150,7 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
                         UserManagerUtils.startMeasureHeartRate(deviceId, PersonalHeartRateActivity.this);
                     }
                     break;
+//                    UserManagerUtils.startMeasureHeartRate(deviceId, PersonalHeartRateActivity.this);
             }
         }
     };
@@ -158,7 +160,7 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
         public void onServiceConnected(ComponentName name, IBinder service) {
             if(BleUtils.DEBUG) Log.e(TAG, "onServiceConnected");
             MyBluetoothGattCallBack.getInstance().setBleListener(PersonalHeartRateActivity.this);
-            BluetoothLeManager.connect(PersonalHeartRateActivity.this, mac);
+            BluetoothLeManager.connect(PersonalHeartRateActivity.this, mac, false);
         }
 
         @Override
@@ -171,7 +173,7 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
     @Override
     public void onReceiveData(BlePacket packet) {
         if(packet.cmd == Commands.CMD_MEASURE_HRATE) {
-            DialogUtils.makeToast(PersonalHeartRateActivity.this, R.string.measure_in_progress);
+            mHandler.obtainMessage(START_MEASURE_HEART_RAT).sendToTarget();
         }
         else if(packet.cmd == Commands.CMD_HRATE_FROM_DEVICE) {
             mHandler.obtainMessage(HRATE_FROM_DEVICE, packet.data[1], 0).sendToTarget();
@@ -201,6 +203,9 @@ public class PersonalHeartRateActivity extends PersonalLatestDataBaseActivity im
             switch (msg.what) {
                 case HRATE_FROM_DEVICE:
                     rateTv.setText("" + msg.arg1);
+                    break;
+                case START_MEASURE_HEART_RAT:
+                    DialogUtils.makeToast(PersonalHeartRateActivity.this, R.string.measure_in_progress);
                     break;
             }
         }

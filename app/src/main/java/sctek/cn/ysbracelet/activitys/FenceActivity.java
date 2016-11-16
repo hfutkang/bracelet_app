@@ -296,7 +296,7 @@ public class FenceActivity extends AppCompatActivity {
     private void connectAllDevice() {
         List<DeviceInformation> devices = YsUser.getInstance().getDevices();
         for(DeviceInformation di : devices) {
-            BluetoothLeManager.getInstance().connect(this, di.getMac());
+            BluetoothLeManager.getInstance().connect(this, di.getMac(), true);
         }
     }
 

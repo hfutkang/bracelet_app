@@ -241,7 +241,7 @@ public class SearchDeviceActivity extends AppCompatActivity implements Bluetooth
                         if (BleUtils.isConnected(SearchDeviceActivity.this, mBindDevice.mac))
                             sendData(mBindDevice.mac);
                         else
-                            BluetoothLeManager.getInstance().connect(SearchDeviceActivity.this, mBindDevice.mac);
+                            BluetoothLeManager.getInstance().connect(SearchDeviceActivity.this, mBindDevice.mac, false);
                         mProgressDialog.show();
                         sendEmptyMessageDelayed(GET_DEVICE_ID_TIME_OUT, 5000);
                     } else {

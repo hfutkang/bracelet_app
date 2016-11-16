@@ -121,7 +121,7 @@ public class AlarmEditorActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        modeIndex = which;
+                        modeIndex = which + 1;
                     }
                 });
         builder.setPositiveButton(R.string.ok_label, new DialogInterface.OnClickListener() {

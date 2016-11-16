@@ -129,7 +129,7 @@ public class WarnActivity extends AppCompatActivity implements MyBluetoothGattCa
 
                 showProgressDialog();
                 mHandler.sendEmptyMessageDelayed(GET_WARN_LIST_TIME_OUT, 10000);
-                BluetoothLeManager.connect(WarnActivity.this, mac);
+                BluetoothLeManager.connect(WarnActivity.this, mac, false);
             }
         }
         else if(requestCode == ADD_TIMER_REQUEST && resultCode == RESULT_OK) {
@@ -180,7 +180,7 @@ public class WarnActivity extends AppCompatActivity implements MyBluetoothGattCa
                         getWarnList();
                     }
                     else {
-                        BluetoothLeManager.connect(WarnActivity.this, mac);
+                        BluetoothLeManager.connect(WarnActivity.this, mac, false);
                     }
                 }
             });

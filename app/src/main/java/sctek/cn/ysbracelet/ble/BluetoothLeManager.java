@@ -35,7 +35,7 @@ public class BluetoothLeManager {
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    public static boolean connect(Context context, String address) {
+    public static boolean connect(Context context, String address, boolean autoConnect) {
         Log.e(TAG, "connect " + address);
         BluetoothManager mBluetoothManager = (BluetoothManager)context.getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter mBluetoothAdapter = mBluetoothManager.getAdapter();
@@ -45,6 +45,7 @@ public class BluetoothLeManager {
         BluetoothGatt gatt = mMacGattMaps.get(address);
         if(gatt != null) {
             if(gatt.connect()) {
+                Log.e(TAG, "22222");
                 return true;
             } else {
                 return false;
@@ -56,7 +57,7 @@ public class BluetoothLeManager {
         if(device == null)
             return false;
 
-        gatt = device.connectGatt(context.getApplicationContext(), false, MyBluetoothGattCallBack.getInstance());
+        gatt = device.connectGatt(context.getApplicationContext(), autoConnect, MyBluetoothGattCallBack.getInstance());
         mMacGattMaps.put(address, gatt);
         Log.e(TAG, "1111");
         return true;
@@ -65,8 +66,10 @@ public class BluetoothLeManager {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
     public static void disconnect(String addr) {
         BluetoothGatt gatt = mMacGattMaps.get(addr);
-        if(gatt != null)
+        if(gatt != null) {
             gatt.disconnect();
+            mMacGattMaps.remove(addr);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
